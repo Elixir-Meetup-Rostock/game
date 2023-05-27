@@ -14,6 +14,7 @@ defmodule Game.Application do
       Game.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: Game.PubSub},
+      GameWeb.Presence,
       # Start Finch
       {Finch, name: Game.Finch},
       # Start the Endpoint (http/https)
