@@ -1,0 +1,11 @@
+<div id="lobby-index">
+  <h1>Lobby</h1>
+
+  <.simple_form for={@form} action={~p"/cursor"} method="get">
+    <.input field={@form[:name]} type="text" label="Name" required />
+
+    <:actions>
+      <.button>Join</.button>
+    </:actions>
+  </.simple_form>
+</div>
