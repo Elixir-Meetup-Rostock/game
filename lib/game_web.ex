@@ -83,6 +83,9 @@ defmodule GameWeb do
     quote do
       # HTML escaping functionality
       import Phoenix.HTML
+
+      import Extension.Phoenix.Socket
+
       # Core UI components and translation
       import GameWeb.CoreComponents
       import GameWeb.Gettext
