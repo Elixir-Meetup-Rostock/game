@@ -23,7 +23,7 @@ defmodule GameWeb.Router do
     get "/", PageController, :home
 
     live "/lobby", LobbyLive.Index, :index
-    live "/game", GameLive.Index, :index
+    live "/cursor", CursorLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
