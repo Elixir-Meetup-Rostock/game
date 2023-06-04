@@ -24,6 +24,7 @@ defmodule GameWeb.Router do
 
     live "/lobby", LobbyLive.Index, :index
     live "/cursor", CursorLive.Index, :index
+    live "/chat", ChatLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
