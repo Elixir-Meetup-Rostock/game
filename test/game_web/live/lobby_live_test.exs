@@ -4,10 +4,11 @@ defmodule GameWeb.LobbyLiveTest do
   import Phoenix.LiveViewTest
 
   describe "lobby" do
-    test "renders the page", %{conn: conn} do
-      {:ok, _lv, html} = conn |> live(~p"/lobby")
+    test "renders the page with a form", %{conn: conn} do
+      {:ok, lv, html} = conn |> live(~p"/lobby")
 
       assert html =~ "Lobby"
+      assert has_element?(lv, "form")
     end
 
     test "redirect to /cursor when name is set", %{conn: conn} do
