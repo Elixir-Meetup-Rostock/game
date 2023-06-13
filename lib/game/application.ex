@@ -15,6 +15,9 @@ defmodule Game.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Game.PubSub},
       GameWeb.Presence,
+
+      # Start player State GenServer
+      {Game.PlayerState, name: Game.PlayerState},
       # Start Finch
       {Finch, name: Game.Finch},
       # Start the Endpoint (http/https)

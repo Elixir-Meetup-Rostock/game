@@ -3,3 +3,11 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+.map {
+	background-image: url("/images/game_background.jpeg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 1920px;
+	height: 1209px;
+}
