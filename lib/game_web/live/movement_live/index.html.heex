@@ -1,14 +1,16 @@
 <div
 	class="w-full h-screen overflow-hidden relative bg-gray-600 flex justify-center items-center flex-col"
 >
+	<!-- game info view starts here -->
 	<%= if @player do %>
 		<p class="font-bold text-white text-3xl mb-5 ml-5 absolute bottom-0 left-0 z-20 bg-gray-600 px-4 py-2 rounded-md">
 		<%= @player.x %> -- <%= @player.y %>
 		</p>
 	<% else %>
+		<!-- loading spinner (not working yet) -->
 		<div class="spinner w-full h-full absolute"></div>
 	<% end %>
-	<!-- game starts here -->
+	<!-- game map view starts here -->
 	<div class="overflow-hidden w-full h-full flex items-start justify-start relative bg-gray-300"
 		phx-window-keydown="move"
 		id="game"
@@ -29,32 +31,31 @@
 					></div>
 				</div>
 			</div>
-		<div id="map" class="map relative z-0"
-			style={"background-position: calc(#{-@player.x}px + 50vw - 1.5rem)	calc(#{-@player.y}px + 50vh - 1.5rem);"}
-		>
-			<%= for player <- @players do %>
-				<%= if player.id != @socket.id do %>
-				<div class="w-12 h-12 absolute"
-					style={"left: calc(#{player.x}px - #{@player.x}px + 50vw - 1.5rem); top: calc(#{player.y}px - #{@player.y}px + 50vh - 1.5rem); color: #{player.color};"}
-					id={"#{@socket.id}"}
-				>
-				<!-- <div class="w-12 h-12 left-1/2 top-1/2 absolute -translate-x-1/2 -translate-y-1/2">-->
-					<img src="/images/player.png" class="w-full h-full object-contain" />
-					<p
-						class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white px-2 rounded-md shadow-md"
-						style={"color: #{player.color};"}
+			<div id="map" class="map relative z-0"
+				style={"background-position: calc(#{-@player.x}px + 50vw - 1.5rem)	calc(#{-@player.y}px + 50vh - 1.5rem);"}
+			>
+				<%= for player <- @players do %>
+					<%= if player.id != @socket.id do %>
+					<div class="w-12 h-12 absolute"
+						style={"left: calc(#{player.x}px - #{@player.x}px + 50vw - 1.5rem); top: calc(#{player.y}px - #{@player.y}px + 50vh - 1.5rem); color: #{player.color};"}
+						id={"#{@socket.id}"}
 					>
-						<%= player.name %>
-					</p>
-					<div class="absolute -top-1 w-full h-1 rounded-full bg-red-500">
-						<div class="h-full bg-green-500 rounded-full"
-							style={"width: #{player.hp}%;"}
-						></div>
+						<img src="/images/player.png" class="w-full h-full object-contain" />
+						<p
+							class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white px-2 rounded-md shadow-md"
+							style={"color: #{player.color};"}
+						>
+							<%= player.name %>
+						</p>
+						<div class="absolute -top-1 w-full h-1 rounded-full bg-red-500">
+							<div class="h-full bg-green-500 rounded-full"
+								style={"width: #{player.hp}%;"}
+							></div>
+						</div>
 					</div>
-				</div>
+					<% end %>
 				<% end %>
-			<% end %>
-		</div>
-			<% end %>
+			</div>
+		<% end %>
 	</div>
 </div>

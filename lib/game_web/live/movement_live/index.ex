@@ -70,10 +70,10 @@ defmodule GameWeb.MovementLive.Index do
 
   @impl true
   def handle_info(%{event: "presence_diff", payload: _payload}, socket) do
-    # {:ok, _} =
-    #   Presence.track(socket, socket.assigns.user_id, %{
-    #     online_at: inspect(System.system_time(:second))
-    #   })
+    {:ok, _} =
+      Presence.track(socket, socket.assigns.user_id, %{
+        online_at: inspect(System.system_time(:second))
+      })
 
     socket
     |> reply(:noreply)
@@ -87,14 +87,14 @@ defmodule GameWeb.MovementLive.Index do
 
   defp get_presence_meta({_user_id, %{metas: [meta | _]}}), do: meta
 
-  # defp update_presence(pid, topic, key, payload) do
-  #   metas =
-  #     Presence.get_by_key(topic, key)[:metas]
-  #     |> List.first()
-  #     |> Map.merge(payload)
+  defp update_presence(pid, topic, key, payload) do
+    metas =
+      Presence.get_by_key(topic, key)[:metas]
+      |> List.first()
+      |> Map.merge(payload)
 
-  #   Presence.update(pid, topic, key, metas)
-  # end
+    Presence.update(pid, topic, key, metas)
+  end
 
   defp getColor(name) do
     hue = name |> to_charlist() |> Enum.sum() |> rem(360)

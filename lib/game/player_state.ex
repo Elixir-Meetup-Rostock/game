@@ -54,6 +54,8 @@ defmodule Game.PlayerState do
     x_start = Enum.random(@x_min..div(@x_max, @movement_speed)) * @movement_speed
     y_start = Enum.random(@y_min..div(@y_max, @movement_speed)) * @movement_speed
 
+
+
     {:reply, :ok,
      Map.put(
        state,
@@ -76,8 +78,9 @@ defmodule Game.PlayerState do
 
   @impl true
   def handle_call({:move_player, player_id, key}, _from, state) do
-    player = Map.get(state.players, player_id)
-    new_player = get_new_position(player, key)
+    new_player =
+      Map.get(state.players, player_id)
+      |> get_new_position(key)
 
     Endpoint.broadcast(@moveTopic, "move", %{id: player_id, player: player})
 
