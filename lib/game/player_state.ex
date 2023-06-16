@@ -6,11 +6,6 @@ defmodule Game.PlayerState do
 
   @moveTopic "movement"
 
-  # @impl true
-  # def start_link(_opts) do
-  #   GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
-  # end
-
   # @moveTopic "movement"
   # @topic "players"
 
@@ -24,7 +19,6 @@ defmodule Game.PlayerState do
 
   # player stats
   @default_hp 100
-
 
   def start_link(_opts) do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
@@ -57,9 +51,22 @@ defmodule Game.PlayerState do
 
   @impl true
   def handle_call({:add_player, player_id, player_name}, _from, state) do
-    x_start = Enum.random(@x_min..@x_max)
-    y_start = Enum.random(@y_min..@y_max)
-    {:reply, :ok, Map.put(state, :players, Map.put(state.players, player_id, %{id: player_id, name: player_name, x: x_start, y: y_start, color: get_color(player_name), hp: @default_hp}))}
+    x_start = Enum.random(@x_min..div(@x_max, @movement_speed)) * @movement_speed
+    y_start = Enum.random(@y_min..div(@y_max, @movement_speed)) * @movement_speed
+
+    {:reply, :ok,
+     Map.put(
+       state,
+       :players,
+       Map.put(state.players, player_id, %{
+         id: player_id,
+         name: player_name,
+         x: x_start,
+         y: y_start,
+         color: get_color(player_name),
+         hp: @default_hp
+       })
+     )}
   end
 
   @impl true
@@ -88,7 +95,7 @@ defmodule Game.PlayerState do
   end
 
   defp get_new_position(player, "w") when player.y - @movement_speed >= @y_min do
-    %{player | y: (player.y - @movement_speed)}
+    %{player | y: player.y - @movement_speed}
   end
 
   defp get_new_position(player, "s") when player.y + @movement_speed <= @y_max do
@@ -102,11 +109,11 @@ defmodule Game.PlayerState do
   defp get_new_position(player, "d") when player.x + @movement_speed <= @x_max do
     %{player | x: player.x + @movement_speed}
   end
+
   defp get_new_position(player, _key), do: player
 
   defp get_color(name) do
     hue = name |> to_charlist() |> Enum.sum() |> rem(360)
     "hsl(#{hue}, 60%, 40%)"
   end
-
 end

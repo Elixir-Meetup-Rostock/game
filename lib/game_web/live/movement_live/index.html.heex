@@ -1,22 +1,22 @@
 <div
-	class="w-full h-screen relative bg-gray-600 flex justify-center items-center flex-col p-4"
+	class="w-full h-screen overflow-hidden relative bg-gray-600 flex justify-center items-center flex-col"
 >
-
-		<%= if @player do %>
-		<p class="font-bold text-white text-3xl mb-5">
+	<%= if @player do %>
+		<p class="font-bold text-white text-3xl mb-5 ml-5 absolute bottom-0 left-0 z-20 bg-gray-600 px-4 py-2 rounded-md">
 		<%= @player.x %> -- <%= @player.y %>
 		</p>
-		<% else %>
+	<% else %>
 		<div class="spinner w-full h-full absolute"></div>
 	<% end %>
-
 	<!-- game starts here -->
-	<div class="w-96 h-96 overflow-hidden relative bg-gray-300"
+	<div class="overflow-hidden w-full h-full flex items-start justify-start relative bg-gray-300"
 		phx-window-keydown="move"
+		id="game"
 	>
 		<%= if @player do %>
 			<div id="player" class="w-12 h-12 left-1/2 top-1/2 absolute -translate-x-1/2 -translate-y-1/2 z-10">
 				<img src="/images/player.png" class="w-full h-full object-contain" />
+				<div class="w-5 absolute bg-blue-400 rounded-full h-2 opacity-50 left-3 -bottom-0.5 -z-10"></div>
 				<p
 					class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white px-2 rounded-md shadow-md"
 					style={"color: black"}
@@ -30,12 +30,12 @@
 				</div>
 			</div>
 		<div id="map" class="map relative z-0"
-			style={"background-position: calc(#{-@player.x}px + (12rem - 24px)) calc(#{-@player.y}px + (12rem - 24px));"}
+			style={"background-position: calc(#{-@player.x}px + 50vw - 1.5rem)	calc(#{-@player.y}px + 50vh - 1.5rem);"}
 		>
 			<%= for player <- @players do %>
 				<%= if player.id != @socket.id do %>
-				<div class="player w-12 h-12 absolute"
-					style={"left: calc(#{player.x}px - #{@player.x}px + (12rem - 24px)); top: calc(#{player.y}px - #{@player.y}px + (12rem - 24px)); color: #{player.color};"}
+				<div class="w-12 h-12 absolute"
+					style={"left: calc(#{player.x}px - #{@player.x}px + 50vw - 1.5rem); top: calc(#{player.y}px - #{@player.y}px + 50vh - 1.5rem); color: #{player.color};"}
 					id={"#{@socket.id}"}
 				>
 				<!-- <div class="w-12 h-12 left-1/2 top-1/2 absolute -translate-x-1/2 -translate-y-1/2">-->
