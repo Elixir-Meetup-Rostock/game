@@ -70,10 +70,10 @@ defmodule GameWeb.MovementLive.Index do
 
   @impl true
   def handle_info(%{event: "presence_diff", payload: _payload}, socket) do
-    {:ok, _} =
-      Presence.track(socket, socket.assigns.user_id, %{
-        online_at: inspect(System.system_time(:second))
-      })
+    # {:ok, _} =
+    #   Presence.track(socket, socket.assigns.user_id, %{
+    #     online_at: inspect(System.system_time(:second))
+    #   })
 
     socket
     |> reply(:noreply)
