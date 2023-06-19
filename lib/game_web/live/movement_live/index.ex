@@ -4,7 +4,7 @@ defmodule GameWeb.MovementLive.Index do
   alias GameWeb.Endpoint
   alias GameWeb.Presence
 
-  alias Game.PlayerState
+  alias Game.GameState
 
   @moveTopic "movement"
   @topic "players"
@@ -14,7 +14,7 @@ defmodule GameWeb.MovementLive.Index do
     if connected?(socket) do
       meta = %{id: socket.id, name: name, color: getColor(name)}
       Presence.track(self(), @topic, socket.id, meta)
-      PlayerState.add_player(socket.id, name)
+      GameState.add_player(socket.id, name)
 
       Endpoint.subscribe(@topic)
       Endpoint.subscribe(@moveTopic)
@@ -23,15 +23,13 @@ defmodule GameWeb.MovementLive.Index do
     players_presence = list_presences(@topic)
 
     players =
-      PlayerState.list_players().players
-      |>  filter_players(players_presence)
+      GameState.list_players().players
+      |> filter_players(players_presence)
 
-      socket
-      |> assign(player: PlayerState.get_player(socket.id))
-      |> assign(players: players)
-      |> reply(:ok)
-
-
+    socket
+    |> assign(player: GameState.get_player(socket.id))
+    |> assign(players: players)
+    |> reply(:ok)
   end
 
   def mount(_params, _session, socket) do
@@ -45,10 +43,20 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   @impl true
-  def handle_event("move", %{"key" => key}, socket) do
-    PlayerState.move_player(socket.id, key)
+  def handle_event("keyDown", %{"key" => key} = _test, socket) do
+    GameState.start_move_player(socket.id, key)
 
-    player = PlayerState.get_player(socket.id)
+    player = GameState.get_player(socket.id)
+
+    socket
+    |> assign(player: player)
+    |> reply(:noreply)
+  end
+
+  def handle_event("keyUp", %{"key" => key} = _test, socket) do
+    GameState.stop_move_player(socket.id, key)
+
+    player = GameState.get_player(socket.id)
 
     socket
     |> assign(player: player)
@@ -60,15 +68,14 @@ defmodule GameWeb.MovementLive.Index do
     players_presence = list_presences(@topic)
 
     players =
-      PlayerState.list_players().players
-      |>  filter_players(players_presence)
+      GameState.list_players().players
+      |> filter_players(players_presence)
 
     socket
     |> assign(players: players)
     |> reply(:noreply)
   end
 
-  @impl true
   def handle_info(%{event: "presence_diff", payload: _payload}, socket) do
     # {:ok, _} =
     #   Presence.track(socket, socket.assigns.user_id, %{

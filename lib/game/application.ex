@@ -17,7 +17,7 @@ defmodule Game.Application do
       GameWeb.Presence,
 
       # Start player State GenServer
-      {Game.PlayerState, name: Game.PlayerState},
+      {Game.GameState, name: Game.GameState},
       # Start Finch
       {Finch, name: Game.Finch},
       # Start the Endpoint (http/https)

@@ -1,4 +1,4 @@
-defmodule Game.PlayerState do
+defmodule Game.GameState do
   # implement genserver here
   use GenServer
 
@@ -36,6 +36,14 @@ defmodule Game.PlayerState do
     GenServer.call(__MODULE__, {:move_player, player_id, key})
   end
 
+  def start_move_player(player_id, key) do
+    GenServer.call(__MODULE__, {:start_move_player, player_id, key})
+  end
+
+  def stop_move_player(player_id, key) do
+    GenServer.call(__MODULE__, {:stop_move_player, player_id, key})
+  end
+
   def list_players() do
     GenServer.call(__MODULE__, :list_players)
   end
@@ -46,6 +54,8 @@ defmodule Game.PlayerState do
 
   @impl true
   def init(:ok) do
+    :timer.send_interval(2000, self(), :tick)
+
     {:ok, %{players: %{}}}
   end
 
@@ -64,7 +74,8 @@ defmodule Game.PlayerState do
          x: x_start,
          y: y_start,
          color: get_color(player_name),
-         hp: @default_hp
+         hp: @default_hp,
+         keys: %{down: false, up: false, left: false, right: false}
        })
      )}
   end
@@ -87,6 +98,26 @@ defmodule Game.PlayerState do
     {:reply, :ok, Map.put(state, :players, Map.put(state.players, player_id, new_player))}
   end
 
+  def handle_call({:start_move_player, player_id, key}, _from, state) do
+    new_val = Map.new([{key, true}])
+
+    state.players
+    |> Map.get(player_id)
+    |> update_in(:keys, &Map.merge(&1, new_val))
+    |> Map.get(:keys)
+    |> IO.inspect(label: "start_move_player")
+  end
+
+  def handle_call({:stop_move_player, player_id, key}, _from, state) do
+    new_val = Map.new([{key, false}])
+
+    state.players
+    |> Map.get(player_id)
+    |> update_in(:keys, &Map.merge(&1, new_val))
+    |> Map.get(:keys)
+    |> IO.inspect(label: "stop_move_player")
+  end
+
   @impl true
   def handle_call(:list_players, _from, state) do
     {:reply, state, state}
@@ -95,6 +126,23 @@ defmodule Game.PlayerState do
   @impl true
   def handle_call({:get_player, player_id}, _from, state) do
     {:reply, Map.get(state.players, player_id), state}
+  end
+
+  @impl true
+  def handle_info(:tick, state) do
+    tick()
+    {:noreply, state}
+  end
+
+  def tick() do
+    IO.puts("tick")
+
+    # PSEUDOCODE (möchtegern):
+    # gehe durch alle verbundene player
+    # schaue bei jedem einzelnen player, ob ein key aktuell runter gedrückt ist
+    # wenn dem so ist:
+    #   - addiere "schrittweite" auf aktuelle player-position
+    # broadcaste alle neuen positionen herum
   end
 
   defp get_new_position(player, "w") when player.y - @movement_speed >= @y_min do
