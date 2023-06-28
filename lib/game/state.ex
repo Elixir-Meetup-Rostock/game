@@ -1,4 +1,11 @@
 defmodule Game.State do
+  @moduledoc """
+  The state of the game.
+
+  Does the game-tick and handles all state e.g. players, map, items.
+  Calculates changes and invokes updates (if needed) on each tick.
+  """
+
   # implement genserver here
   use GenServer
 
