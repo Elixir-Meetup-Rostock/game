@@ -4,7 +4,7 @@ defmodule GameWeb.MovementLive.Index do
   alias GameWeb.Endpoint
   alias GameWeb.Presence
 
-  alias Game.GameState
+  alias Game.State
 
   @moveTopic "movement"
   @topic "players"
@@ -14,7 +14,7 @@ defmodule GameWeb.MovementLive.Index do
     if connected?(socket) do
       meta = %{id: socket.id, name: name, color: getColor(name)}
       Presence.track(self(), @topic, socket.id, meta)
-      GameState.add_player(socket.id, name)
+      State.add_player(socket.id, name)
 
       Endpoint.subscribe(@topic)
       Endpoint.subscribe(@moveTopic)
@@ -23,11 +23,11 @@ defmodule GameWeb.MovementLive.Index do
     players_presence = list_presences(@topic)
 
     players =
-      GameState.list_players().players
+      State.list_players().players
       |> filter_players(players_presence)
 
     socket
-    |> assign(player: GameState.get_player(socket.id))
+    |> assign(player: State.get_player(socket.id))
     |> assign(players: players)
     |> reply(:ok)
   end
@@ -44,9 +44,9 @@ defmodule GameWeb.MovementLive.Index do
 
   @impl true
   def handle_event("keyDown", %{"key" => key} = _test, socket) do
-    GameState.start_move_player(socket.id, key)
+    State.start_move_player(socket.id, key)
 
-    player = GameState.get_player(socket.id)
+    player = State.get_player(socket.id)
 
     socket
     |> assign(player: player)
@@ -54,9 +54,9 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   def handle_event("keyUp", %{"key" => key} = _test, socket) do
-    GameState.stop_move_player(socket.id, key)
+    State.stop_move_player(socket.id, key)
 
-    player = GameState.get_player(socket.id)
+    player = State.get_player(socket.id)
 
     socket
     |> assign(player: player)
@@ -68,7 +68,7 @@ defmodule GameWeb.MovementLive.Index do
     players_presence = list_presences(@topic)
 
     players =
-      GameState.list_players().players
+      State.list_players().players
       |> filter_players(players_presence)
 
     socket

@@ -1,4 +1,4 @@
-defmodule Game.GameState do
+defmodule Game.State do
   # implement genserver here
   use GenServer
 
