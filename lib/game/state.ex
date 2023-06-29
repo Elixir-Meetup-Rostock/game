@@ -6,10 +6,11 @@ defmodule Game.State do
   Calculates changes and invokes updates (if needed) on each tick.
   """
 
-  # implement genserver here
   use GenServer
 
   alias GameWeb.Endpoint
+
+  @tick_speed 2000
 
   @moveTopic "movement"
 
@@ -27,8 +28,27 @@ defmodule Game.State do
   # player stats
   @default_hp 100
 
-  def start_link(_opts) do
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+  def start_link(opts \\ []) do
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+  end
+
+  @impl true
+  def init(_opts) do
+    :timer.send_interval(@tick_speed, self(), :tick)
+
+    {:ok, %{players: %{}}}
+  end
+
+  @impl true
+  def handle_info(:tick, state) do
+    # TODO
+    # - for each (connected) player
+    #   - check if key is pressed
+    #     - true: add "speed" to position
+    #     - false: skip
+    # - broadcast all player positions
+
+    {:noreply, state}
   end
 
   def add_player(player_id, player_name) do
@@ -57,13 +77,6 @@ defmodule Game.State do
 
   def get_player(player_id) do
     GenServer.call(__MODULE__, {:get_player, player_id})
-  end
-
-  @impl true
-  def init(:ok) do
-    :timer.send_interval(2000, self(), :tick)
-
-    {:ok, %{players: %{}}}
   end
 
   @impl true
@@ -133,23 +146,6 @@ defmodule Game.State do
   @impl true
   def handle_call({:get_player, player_id}, _from, state) do
     {:reply, Map.get(state.players, player_id), state}
-  end
-
-  @impl true
-  def handle_info(:tick, state) do
-    tick()
-    {:noreply, state}
-  end
-
-  def tick() do
-    IO.puts("tick")
-
-    # PSEUDOCODE (möchtegern):
-    # gehe durch alle verbundene player
-    # schaue bei jedem einzelnen player, ob ein key aktuell runter gedrückt ist
-    # wenn dem so ist:
-    #   - addiere "schrittweite" auf aktuelle player-position
-    # broadcaste alle neuen positionen herum
   end
 
   defp get_new_position(player, "w") when player.y - @movement_speed >= @y_min do
