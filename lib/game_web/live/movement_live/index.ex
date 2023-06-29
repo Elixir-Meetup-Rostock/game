@@ -86,6 +86,20 @@ defmodule GameWeb.MovementLive.Index do
     |> reply(:noreply)
   end
 
+  defp get_key_action("ArrowUp"), do: :up
+  defp get_key_action("ArrowLeft"), do: :left
+  defp get_key_action("ArrowRight"), do: :right
+  defp get_key_action("ArrowDown"), do: :down
+
+  defp get_key_action("w"), do: :up
+  defp get_key_action("a"), do: :left
+  defp get_key_action("d"), do: :right
+  defp get_key_action("s"), do: :down
+
+  defp get_key_action(" "), do: :space
+
+  defp get_key_action(_key), do: nil
+
   defp list_presences(topic) do
     topic
     |> Presence.list()
