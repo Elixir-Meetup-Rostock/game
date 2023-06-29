@@ -36,12 +36,6 @@ defmodule GameWeb.MovementLive.Index do
     socket |> redirect(to: ~p"/lobby") |> reply(:ok)
   end
 
-  defp filter_players(player_map, active_players) do
-    active_players
-    |> Enum.map(& &1.id)
-    |> Enum.map(fn id -> Map.get(player_map, id) end)
-  end
-
   @impl true
   def handle_event("keyDown", %{"key" => key}, socket) do
     State.start_move_player(socket.id, key)
@@ -99,6 +93,12 @@ defmodule GameWeb.MovementLive.Index do
   defp get_key_action(" "), do: :space
 
   defp get_key_action(_key), do: nil
+
+  defp filter_players(player_map, active_players) do
+    active_players
+    |> Enum.map(& &1.id)
+    |> Enum.map(fn id -> Map.get(player_map, id) end)
+  end
 
   defp list_presences(topic) do
     topic
