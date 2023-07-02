@@ -59,16 +59,12 @@ defmodule Game.State do
     GenServer.call(__MODULE__, {:remove_player, player_id})
   end
 
-  def player_start_action(_player_id, _action) do
-    # player_id
-    # |> get_player()
-    # |> update_player(action, :start)
+  def player_start_action(action, player_id) do
+    GenServer.cast(__MODULE__, {:start_move_player, player_id, action})
   end
 
-  def player_stop_action(_player_id, _action) do
-    # player_id
-    # |> get_player()
-    # |> update_player(action, :stop)
+  def player_stop_action(action, player_id) do
+    GenServer.cast(__MODULE__, {:stop_move_player, player_id, action})
   end
 
   def move_player(player_id, key) do
@@ -89,6 +85,23 @@ defmodule Game.State do
 
   def get_player(player_id) do
     GenServer.call(__MODULE__, {:get_player, player_id})
+  end
+
+  @impl true
+  def handle_cast({:start_move_player, _player_id, _action}, state) do
+    # player_id
+    # |> get_player()
+    # |> update_player(action, :start)
+
+    {:noreply, state}
+  end
+
+  def handle_cast({:stop_move_player, _player_id, _action}, state) do
+    # player_id
+    # |> get_player()
+    # |> update_player(action, :stop)
+
+    {:noreply, state}
   end
 
   @impl true
@@ -130,25 +143,25 @@ defmodule Game.State do
     {:reply, :ok, Map.put(state, :players, Map.put(state.players, player_id, new_player))}
   end
 
-  def handle_call({:start_move_player, player_id, key}, _from, state) do
-    new_val = Map.new([{key, true}])
+  # def handle_call({:start_move_player, player_id, key}, _from, state) do
+  # new_val = Map.new([{key, true}])
 
-    state.players
-    |> Map.get(player_id)
-    # |> update_in(:keys, &Map.merge(&1, new_val))
-    |> Map.get(:keys)
-    |> IO.inspect(label: "start_move_player")
-  end
+  # state.players
+  # |> Map.get(player_id)
+  # |> update_in(:keys, &Map.merge(&1, new_val))
+  # |> Map.get(:keys)
+  # |> IO.inspect(label: "start_move_player")
+  # end
 
-  def handle_call({:stop_move_player, player_id, key}, _from, state) do
-    new_val = Map.new([{key, false}])
+  # def handle_call({:stop_move_player, _player_id, key}, _from, state) do
+  # new_val = Map.new([{key, false}])
 
-    state.players
-    |> Map.get(player_id)
-    # |> update_in(:keys, &Map.merge(&1, new_val))
-    |> Map.get(:keys)
-    |> IO.inspect(label: "stop_move_player")
-  end
+  # state.players
+  # |> Map.get(player_id)
+  # |> update_in(:keys, &Map.merge(&1, new_val))
+  # |> Map.get(:keys)
+  # |> IO.inspect(label: "stop_move_player")
+  # end
 
   @impl true
   def handle_call(:list_players, _from, state) do

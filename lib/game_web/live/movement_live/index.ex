@@ -38,24 +38,21 @@ defmodule GameWeb.MovementLive.Index do
 
   @impl true
   def handle_event("keyDown", %{"key" => key}, socket) do
-    _action = get_key_action(key)
-    # State.player_start_action(action, socket.id)
-
-    # player = State.get_player(socket.id)
+    key |> get_key_action() |> State.player_start_action(socket.id)
 
     socket
-    # |> assign(player: player)
     |> reply(:noreply)
   end
 
   def handle_event("keyUp", %{"key" => key}, socket) do
-    _action = get_key_action(key)
-    # State.player_stop_action(action, socket.id)
-
-    # player = State.get_player(socket.id)
+    key |> get_key_action() |> State.player_stop_action(socket.id)
 
     socket
-    # |> assign(player: player)
+    |> reply(:noreply)
+  end
+
+  def handle_event("click", _params, socket) do
+    socket
     |> reply(:noreply)
   end
 
