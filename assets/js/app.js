@@ -22,7 +22,7 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
-let hooks = {};
+let hooks = {}
 
 hooks.cursorMove = {
   mounted() {
@@ -30,12 +30,31 @@ hooks.cursorMove = {
       const x = (e.pageX / window.innerWidth) * 100; // in %
       const y = (e.pageY / window.innerHeight) * 100; // in %
       this.pushEvent("cursor-move", { x, y });
-    });
-  },
-};
+    })
+  }
+}
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {hooks: hooks, params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {
+  hooks: hooks, 
+  params: {_csrf_token: csrfToken},
+  metadata: {
+    click: (e, el) => {
+      return {
+        altKey: e.altKey,
+        clientX: e.clientX,
+        clientY: e.clientY
+      }
+    },
+    keydown: (e, el) => {
+      return {
+        key: e.key,
+        metaKey: e.metaKey,
+        repeat: e.repeat
+      }
+    }
+  }
+})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
