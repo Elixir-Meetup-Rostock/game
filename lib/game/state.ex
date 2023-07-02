@@ -123,7 +123,7 @@ defmodule Game.State do
 
     state.players
     |> Map.get(player_id)
-    |> update_in(:keys, &Map.merge(&1, new_val))
+    # |> update_in(:keys, &Map.merge(&1, new_val))
     |> Map.get(:keys)
     |> IO.inspect(label: "start_move_player")
   end
@@ -133,7 +133,7 @@ defmodule Game.State do
 
     state.players
     |> Map.get(player_id)
-    |> update_in(:keys, &Map.merge(&1, new_val))
+    # |> update_in(:keys, &Map.merge(&1, new_val))
     |> Map.get(:keys)
     |> IO.inspect(label: "stop_move_player")
   end
