@@ -59,6 +59,18 @@ defmodule Game.State do
     GenServer.call(__MODULE__, {:remove_player, player_id})
   end
 
+  def player_start_action(_player_id, _action) do
+    # player_id
+    # |> get_player()
+    # |> update_player(action, :start)
+  end
+
+  def player_stop_action(_player_id, _action) do
+    # player_id
+    # |> get_player()
+    # |> update_player(action, :stop)
+  end
+
   def move_player(player_id, key) do
     GenServer.call(__MODULE__, {:move_player, player_id, key})
   end
