@@ -1,8 +1,12 @@
 <div
+  id="game"
   class="relative flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-gray-600"
   phx-window-keydown="keyDown"
   phx-window-keyup="keyUp"
 >
+  <div id="game-canvas-wrap" class="absolute inset-0 bg-red">
+    <canvas id="game-canvas"></canvas>
+  </div>
   <div
     id="game-hud"
     class="absolute bottom-0 left-0 right-0 z-50 px-2 py-1 text-white bg-orange-500"
@@ -13,7 +17,7 @@
   </div>
 
   <div
-    id="game"
+    id="game-div"
     class="relative flex items-start justify-start w-full h-full overflow-hidden bg-gray-300"
     phx-click="click"
   >
@@ -44,14 +48,11 @@
           <%= if player.id != @socket.id do %>
             <div
               class="absolute w-12 h-12"
-              style={"left: calc(#{player.x}px - #{@player.x}px + 50vw - 1.5rem); top: calc(#{player.y}px - #{@player.y}px + 50vh - 1.5rem); color: #{player.color};"}
+              style={"left: calc(#{player.x}px - #{@player.x}px + 50vw - 1.5rem); top: calc(#{player.y}px - #{@player.y}px + 50vh - 1.5rem)"}
               id={"#{@socket.id}"}
             >
               <img src="/images/player.png" class="object-contain w-full h-full" />
-              <p
-                class="absolute px-2 -translate-x-1/2 bg-white rounded-md shadow-md -top-8 left-1/2"
-                style={"color: #{player.color};"}
-              >
+              <p class="absolute px-2 -translate-x-1/2 bg-white rounded-md shadow-md -top-8 left-1/2">
                 <%= player.name %>
               </p>
               <div class="absolute w-full h-1 bg-red-500 rounded-full -top-1">

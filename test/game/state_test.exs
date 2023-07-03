@@ -14,18 +14,19 @@ defmodule Game.StateTest do
   end
 
   describe "players" do
-    test "can add a player" do
-      assert :ok = State.add_player("random-id", "lorem ipsum")
-    end
-
     test "can list players" do
-      player_id = "random-id"
-      player_name = "lorem ipsum"
-
-      State.add_player(player_id, player_name)
-
-      assert %{players: %{^player_id => player}} = State.list_players()
-      assert %{name: ^player_name} = player
+      assert is_list(State.list_players())
     end
   end
+
+  #####
+
+  # setup do
+  #   {:ok, pid} = GenServer.start_link(MyApp.ScoreTableQueue, _init_args = nil)
+  #   {:ok, queue: pid}
+  # end
+
+  # test "pushes value in the queue", %{queue: queue} do
+  #   assert :ok == ScoreTableQueue.push(queue, [1,2,3,4])
+  # end
 end

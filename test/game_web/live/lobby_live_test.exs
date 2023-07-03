@@ -1,9 +1,9 @@
 defmodule GameWeb.LobbyLiveTest do
-  use GameWeb.ConnCase
+  use GameWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
 
-  describe "lobby" do
+  describe "lobby_live" do
     test "renders the page with a form", %{conn: conn} do
       {:ok, lv, html} = conn |> live(~p"/lobby")
 

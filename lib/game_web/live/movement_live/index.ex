@@ -1,34 +1,25 @@
 defmodule GameWeb.MovementLive.Index do
   use GameWeb, :live_view
 
+  alias Game.State
   alias GameWeb.Endpoint
   alias GameWeb.Presence
 
-  alias Game.State
-
-  @moveTopic "movement"
-  @topic "players"
+  @topic_presence "player_presence"
+  @topic_update "players_update"
 
   @impl true
   def mount(%{"user" => %{"name" => name}}, _session, socket) do
     if connected?(socket) do
-      meta = %{id: socket.id, name: name, color: getColor(name)}
-      Presence.track(self(), @topic, socket.id, meta)
-      State.add_player(socket.id, name)
+      data = %{name: name}
+      Presence.track(self(), @topic_presence, socket.id, data)
 
-      Endpoint.subscribe(@topic)
-      Endpoint.subscribe(@moveTopic)
+      Endpoint.subscribe(@topic_update)
     end
-
-    players_presence = list_presences(@topic)
-
-    players =
-      State.list_players().players
-      |> filter_players(players_presence)
 
     socket
     |> assign(player: State.get_player(socket.id))
-    |> assign(players: players)
+    |> assign(players: list_other_players(socket.id))
     |> reply(:ok)
   end
 
@@ -57,26 +48,21 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   @impl true
-  def handle_info(%{event: "move", payload: %{id: _id, player: _player}}, socket) do
-    players_presence = list_presences(@topic)
-
-    players =
-      State.list_players().players
-      |> filter_players(players_presence)
-
+  def handle_info({:join, _id, _player}, socket) do
     socket
-    |> assign(players: players)
+    |> assign(players: list_other_players(socket.id))
     |> reply(:noreply)
   end
 
-  def handle_info(%{event: "presence_diff", payload: _payload}, socket) do
-    # {:ok, _} =
-    #   Presence.track(socket, socket.assigns.user_id, %{
-    #     online_at: inspect(System.system_time(:second))
-    #   })
-
+  def handle_info({:leave, _id, nil}, socket) do
     socket
+    |> assign(players: list_other_players(socket.id))
     |> reply(:noreply)
+  end
+
+  defp list_other_players(id) do
+    State.list_players()
+    |> Enum.reject(&(&1.id === id))
   end
 
   defp get_key_action("ArrowUp"), do: :up
@@ -92,32 +78,4 @@ defmodule GameWeb.MovementLive.Index do
   defp get_key_action(" "), do: :space
 
   defp get_key_action(_key), do: nil
-
-  defp filter_players(player_map, active_players) do
-    active_players
-    |> Enum.map(& &1.id)
-    |> Enum.map(fn id -> Map.get(player_map, id) end)
-  end
-
-  defp list_presences(topic) do
-    topic
-    |> Presence.list()
-    |> Enum.map(&get_presence_meta/1)
-  end
-
-  defp get_presence_meta({_user_id, %{metas: [meta | _]}}), do: meta
-
-  defp update_presence(pid, topic, key, payload) do
-    metas =
-      Presence.get_by_key(topic, key)[:metas]
-      |> List.first()
-      |> Map.merge(payload)
-
-    Presence.update(pid, topic, key, metas)
-  end
-
-  defp getColor(name) do
-    hue = name |> to_charlist() |> Enum.sum() |> rem(360)
-    "hsl(#{hue}, 60%, 40%)"
-  end
 end

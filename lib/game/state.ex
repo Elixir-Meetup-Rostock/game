@@ -26,9 +26,6 @@ defmodule Game.State do
   @y_min 0
   @y_max 1209
 
-  # player stats
-  @default_hp 100
-
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
 
@@ -49,19 +46,29 @@ defmodule Game.State do
     #   - check if key is pressed
     #     - true: add "speed" to position
     #     - false: skip
-    # - broadcast all player positions
+    # - for each arrows
+    #   - calculate new positions
+    # ##### if all movements habve been caculated ####
+    # - collision check
+    # - broadcast new positions
 
     {:noreply, state}
   end
 
-  def add_player(player_id, player_name) do
-    GenServer.call(__MODULE__, {:add_player, player_id, player_name})
-
-    # Players.add_player(player_id, player_name)
+  def list_players() do
+    Players.list_players()
   end
 
-  def remove_player(player_id) do
-    GenServer.call(__MODULE__, {:remove_player, player_id})
+  def get_player(id) do
+    Players.get_player(id)
+  end
+
+  def add_player(id, data) do
+    Players.add_player(id, data)
+  end
+
+  def remove_player(id) do
+    Players.remove_player(id)
   end
 
   def player_start_action(action, player_id) do
@@ -84,14 +91,6 @@ defmodule Game.State do
     GenServer.call(__MODULE__, {:stop_move_player, player_id, key})
   end
 
-  def list_players() do
-    GenServer.call(__MODULE__, :list_players)
-  end
-
-  def get_player(player_id) do
-    GenServer.call(__MODULE__, {:get_player, player_id})
-  end
-
   @impl true
   def handle_cast({:start_move_player, _player_id, _action}, state) do
     # player_id
@@ -107,32 +106,6 @@ defmodule Game.State do
     # |> update_player(action, :stop)
 
     {:noreply, state}
-  end
-
-  @impl true
-  def handle_call({:add_player, player_id, player_name}, _from, state) do
-    x_start = Enum.random(@x_min..div(@x_max, @movement_speed)) * @movement_speed
-    y_start = Enum.random(@y_min..div(@y_max, @movement_speed)) * @movement_speed
-
-    {:reply, :ok,
-     Map.put(
-       state,
-       :players,
-       Map.put(state.players, player_id, %{
-         id: player_id,
-         name: player_name,
-         x: x_start,
-         y: y_start,
-         color: get_color(player_name),
-         hp: @default_hp,
-         keys: %{down: false, up: false, left: false, right: false}
-       })
-     )}
-  end
-
-  @impl true
-  def handle_call({:remove_player, player_id}, _from, state) do
-    {:reply, :ok, Map.put(state, :players, Map.delete(state.players, player_id))}
   end
 
   @impl true
@@ -196,8 +169,8 @@ defmodule Game.State do
 
   defp get_new_position(player, _key), do: player
 
-  defp get_color(name) do
-    hue = name |> to_charlist() |> Enum.sum() |> rem(360)
-    "hsl(#{hue}, 60%, 40%)"
-  end
+  # defp get_color(name) do
+  #   hue = name |> to_charlist() |> Enum.sum() |> rem(360)
+  #   "hsl(#{hue}, 60%, 40%)"
+  # end
 end
