@@ -3,7 +3,7 @@ defmodule Game.StateTest do
 
   alias Game.State
 
-  describe "GenServer is automaticly started" do
+  describe "GenServer is automatically started" do
     test "has a pid and is running" do
       pid = Process.whereis(State)
 

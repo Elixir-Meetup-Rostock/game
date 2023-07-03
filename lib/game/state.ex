@@ -8,6 +8,7 @@ defmodule Game.State do
 
   use GenServer
 
+  alias Game.State.Players
   alias GameWeb.Endpoint
 
   @tick_speed 2000
@@ -30,6 +31,8 @@ defmodule Game.State do
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+
+    Players.start()
   end
 
   @impl true
@@ -53,6 +56,8 @@ defmodule Game.State do
 
   def add_player(player_id, player_name) do
     GenServer.call(__MODULE__, {:add_player, player_id, player_name})
+
+    # Players.add_player(player_id, player_name)
   end
 
   def remove_player(player_id) do
