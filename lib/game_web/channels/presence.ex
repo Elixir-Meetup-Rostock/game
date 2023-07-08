@@ -15,12 +15,12 @@ defmodule GameWeb.Presence do
     {:ok, %{}}
   end
 
-  def handle_metas(_topic, %{joins: joins, leaves: leaves}, _presences, state) do
-    for {id, presence} <- joins do
-      meta = presence |> get_presence_meta()
-
-      State.add_player(id, meta)
-    end
+  def handle_metas(_topic, %{joins: _joins, leaves: leaves}, _presences, state) do
+    # for {id, presence} <- joins do
+    #  meta = presence |> get_presence_meta()
+    #
+    #  State.add_player(id, meta)
+    # end
 
     for {id, _presence} <- leaves do
       State.remove_player(id)
@@ -29,5 +29,5 @@ defmodule GameWeb.Presence do
     {:ok, state}
   end
 
-  defp get_presence_meta(%{metas: [meta | _]}), do: meta
+  # defp get_presence_meta(%{metas: [meta | _]}), do: meta
 end

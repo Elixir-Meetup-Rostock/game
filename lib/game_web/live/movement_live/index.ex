@@ -14,6 +14,8 @@ defmodule GameWeb.MovementLive.Index do
       data = %{name: name}
       Presence.track(self(), @topic_presence, socket.id, data)
 
+      State.add_player(socket.id, data)
+
       Endpoint.subscribe(@topic_update)
     end
 
