@@ -1,68 +1,21 @@
-<div
-  id="game"
-  class="relative flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-gray-600"
-  phx-window-keydown="keyDown"
-  phx-window-keyup="keyUp"
->
-  <div id="game-canvas-wrap" class="absolute inset-0 bg-red">
-    <canvas id="game-canvas"></canvas>
-  </div>
+<div id="game" class="absolute inset-0" phx-window-keydown="keyDown" phx-window-keyup="keyUp">
+  <canvas
+    id="game-canvas"
+    class="w-full h-full bg-orange-600"
+    phx-update="ignore"
+    phx-hook="gameCanvas"
+    phx-click="click"
+    data-player={Jason.encode!(@player)}
+    data-players={Jason.encode!(@players)}
+  >
+  </canvas>
+
   <div
     id="game-hud"
     class="absolute bottom-0 left-0 right-0 z-50 px-2 py-1 text-white bg-orange-500"
   >
     <%= if @player do %>
       <%= @player.x %> / <%= @player.y %>
-    <% end %>
-  </div>
-
-  <div
-    id="game-div"
-    class="relative flex items-start justify-start w-full h-full overflow-hidden bg-gray-300"
-    phx-click="click"
-  >
-    <%= if @player do %>
-      <div
-        id="player"
-        class="absolute z-10 w-12 h-12 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2"
-      >
-        <img src="/images/player.png" class="object-contain w-full h-full" />
-        <div class="w-5 absolute bg-blue-400 rounded-full h-2 opacity-50 left-3 -bottom-0.5 -z-10">
-        </div>
-        <p
-          class="absolute px-2 -translate-x-1/2 bg-white rounded-md shadow-md -top-8 left-1/2"
-          style="color: black"
-        >
-          you
-        </p>
-        <div class="absolute w-full h-1 bg-red-500 rounded-full -top-1">
-          <div class="h-full bg-green-500 rounded-full" style="width: 100%;"></div>
-        </div>
-      </div>
-      <div
-        id="map"
-        class="relative z-0 map"
-        style={"background-position: calc(#{-@player.x}px + 50vw - 1.5rem)	calc(#{-@player.y}px + 50vh - 1.5rem);"}
-      >
-        <%= for player <- @players do %>
-          <%= if player.id != @socket.id do %>
-            <div
-              class="absolute w-12 h-12"
-              style={"left: calc(#{player.x}px - #{@player.x}px + 50vw - 1.5rem); top: calc(#{player.y}px - #{@player.y}px + 50vh - 1.5rem)"}
-              id={"#{@socket.id}"}
-            >
-              <img src="/images/player.png" class="object-contain w-full h-full" />
-              <p class="absolute px-2 -translate-x-1/2 bg-white rounded-md shadow-md -top-8 left-1/2">
-                <%= player.name %>
-              </p>
-              <div class="absolute w-full h-1 bg-red-500 rounded-full -top-1">
-                <div class="h-full bg-green-500 rounded-full" style={"width: #{player.hp}%;"}>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
     <% end %>
   </div>
 </div>

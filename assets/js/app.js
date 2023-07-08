@@ -22,6 +22,8 @@ import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+import Canvas from "./canvas"
+
 let hooks = {}
 
 hooks.cursorMove = {
@@ -31,6 +33,23 @@ hooks.cursorMove = {
       const y = (e.pageY / window.innerHeight) * 100; // in %
       this.pushEvent("cursor-move", { x, y });
     })
+  }
+}
+
+hooks.gameCanvas = {
+  mounted() {
+    const node = this.el
+    const player = JSON.parse(node.dataset.player);
+    const players = JSON.parse(node.dataset.players);
+
+    this.canvas = new Canvas(node, player, players)
+  },
+  updated() {
+    const node = this.el
+    const player = JSON.parse(node.dataset.player);
+    const players = JSON.parse(node.dataset.players);
+
+    this.canvas.setPlayers(player, players)
   }
 }
 

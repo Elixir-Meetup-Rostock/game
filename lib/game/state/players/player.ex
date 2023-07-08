@@ -2,10 +2,11 @@ defmodule Game.State.Players.Player do
   @moduledoc """
 
   """
+  @derive Jason.Encoder
 
   @enforce_keys [:id, :name, :x, :y]
 
-  defstruct [:id, :name, :data, x: 0, y: 0, hp: 100]
+  defstruct [:id, :name, x: 0, y: 0, hp: 100]
 
   @type t :: %__MODULE__{}
 
