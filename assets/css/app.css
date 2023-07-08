@@ -3,36 +3,3 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
-
-.map {
-	background-image: url("/images/game_background.jpeg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	width: 1920px;
-	height: 1209px;
-}
-
-/* scale game class based on screen size */
-@media (max-width: 2560px) {
-	#game-div {
-		transform: scale(2.1);
-	}
-}
-
-@media (max-width: 1920px) {
-	#game-div {
-		transform: scale(1.8);
-	}
-}
-
-@media (max-width: 1280px) {
-	#game-div {
-		transform: scale(1.5);
-	}
-}
-
-@media (max-width: 960px) {
-	#game-div {
-		transform: scale(1);
-	}
-}
