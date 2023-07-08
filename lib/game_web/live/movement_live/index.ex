@@ -30,6 +30,11 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   @impl true
+  def handle_event("click", _params, socket) do
+    socket
+    |> reply(:noreply)
+  end
+
   def handle_event("keyDown", %{"key" => key}, socket) do
     key |> get_key_action() |> State.player_start_action(socket.id)
 
@@ -40,11 +45,6 @@ defmodule GameWeb.MovementLive.Index do
   def handle_event("keyUp", %{"key" => key}, socket) do
     key |> get_key_action() |> State.player_stop_action(socket.id)
 
-    socket
-    |> reply(:noreply)
-  end
-
-  def handle_event("click", _params, socket) do
     socket
     |> reply(:noreply)
   end

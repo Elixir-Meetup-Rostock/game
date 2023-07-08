@@ -16,16 +16,16 @@ defmodule Game.State.Players do
 
   def stop, do: Agent.stop(__MODULE__)
 
-  def list_players() do
+  def list() do
     Agent.get(__MODULE__, & &1)
     |> Map.values()
   end
 
-  def get_player(id) do
+  def get(id) do
     Agent.get(__MODULE__, &Map.get(&1, id))
   end
 
-  def add_player(id, %{name: name} = _data) do
+  def add(id, %{name: name} = _data) do
     player = %Player{id: id, name: name, x: 0, y: 0}
 
     Agent.update(__MODULE__, &Map.put(&1, id, player))
@@ -35,11 +35,19 @@ defmodule Game.State.Players do
     player
   end
 
-  def remove_player(id) do
+  def remove(id) do
     Agent.update(__MODULE__, &Map.delete(&1, id))
 
     PubSub.broadcast(Game.PubSub, @topic_update, {:leave, id, nil})
 
+    :ok
+  end
+
+  def start_action(_id, _action) do
+    :ok
+  end
+
+  def stop_action(_id, _action) do
     :ok
   end
 end

@@ -19,10 +19,10 @@ defmodule Game.State.PlayersTest do
       player1 = %{id: "random-id-1", name: "lorem ipsum 1"}
       player2 = %{id: "random-id-2", name: "lorem ipsum 2"}
 
-      Players.add_player(player1.id, player1)
-      Players.add_player(player2.id, player2)
+      Players.add(player1.id, player1)
+      Players.add(player2.id, player2)
 
-      player_list = Players.list_players()
+      player_list = Players.list()
 
       assert is_list(player_list)
 
@@ -35,7 +35,7 @@ defmodule Game.State.PlayersTest do
       player_name = "lorem ipsum"
 
       assert %Player{id: ^player_id, name: ^player_name} =
-               Players.add_player(player_id, %{id: player_id, name: player_name})
+               Players.add(player_id, %{id: player_id, name: player_name})
     end
   end
 end
