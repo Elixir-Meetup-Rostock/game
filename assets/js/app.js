@@ -50,6 +50,14 @@ hooks.gameCanvas = {
     const players = JSON.parse(node.dataset.players);
 
     this.canvas.setPlayers(player, players)
+
+    if (this.canvas.animationFrameId) {
+      window.cancelAnimationFrame(this.canvas.animationFrameId);
+    }
+
+    this.animationFrameId = window.requestAnimationFrame(() => {
+      this.canvas.draw()
+    })
   }
 }
 

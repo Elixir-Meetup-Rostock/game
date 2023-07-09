@@ -8,16 +8,36 @@ export default class Canvas {
     this.player = player
     this.players = players
 
-    window.addEventListener("resize", _e => { this.resize() })
+    this.animationFrameId = undefined
 
+    window.addEventListener("resize", _e => { this.resize() })
     this.resize()
   }
+
+  setPlayers(player, players) {
+    this.player = player
+    this.players = players
+  }
+
   resize() {
     this.canvas.height = window.innerHeight
     this.canvas.width = window.innerWidth
 
+    // this.canvas.width = window.innerWidth * ratio
+    // this.canvas.height = window.innerHeight * ratio
+    // this.canvas.style.width = `${window.innerWidth}px`
+    // this.canvas.style.height = `${window.innerHeight}px`
+
     this.draw()
   }
+
+  clear() {
+    console.log("clear")
+
+    this.canvas.width = this.canvas.width // clears the canvas
+    // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
+  }
+
   draw() {
     console.log("draw")
 
@@ -26,28 +46,22 @@ export default class Canvas {
     this.drawPlayer()
     this.drawPlayers()
   }
-  clear() {
-    console.log("clear")
 
-    this.canvas.width = this.canvas.width // clears the canvas
-    // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
-  }
-  setPlayers(player, players) {
-    this.player = player
-    this.players = players
-  }
   drawPlayer() {
     console.log("drawPlayer")
 
-    // this.player.x
-    // this.player.y
+    const playerImg = new Image();
+    playerImg.src = "./images/player.png"
+    playerImg.onload = () => {
+      this.context.drawImage(playerImg, 100, 100, 100, 100);
+    }
 
     let halfHeight = this.canvas.height / 2
     let halfWidth = this.canvas.width / 2
     let smallerHalf = Math.min(halfHeight, halfWidth)
 
     // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.context.fillStyle = "rgba(128, 0, 255, 1)"
+    this.context.fillStyle = "rgba(128, 0, 255, 0.5)"
     this.context.beginPath()
     this.context.arc(
       halfWidth,
@@ -57,8 +71,8 @@ export default class Canvas {
       2 * Math.PI
     )
     this.context.fill()
-
   }
+
   drawPlayers() {
     console.log("drawPlayers")
 
