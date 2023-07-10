@@ -43,11 +43,25 @@ defmodule Game.State.Players do
     :ok
   end
 
-  def start_action(_id, _action) do
-    :ok
+  def set_action(id, action, status) do
+    player = id |> get() |> Player.set_action(action, status)
+
+    Agent.update(__MODULE__, &Map.put(&1, id, player))
   end
 
-  def stop_action(_id, _action) do
+  def tick() do
+    # move players
+
+    player =
+      list()
+      |> List.first(%Player{id: "test", name: "test"})
+
+    %{x: x, y: y} = player
+
+    updated_player = %{player | x: x + 1, y: y + 1}
+
+    Agent.update(__MODULE__, &Map.put(&1, player.id, updated_player))
+
     :ok
   end
 end

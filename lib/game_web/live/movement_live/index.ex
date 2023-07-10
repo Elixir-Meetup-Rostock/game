@@ -7,6 +7,7 @@ defmodule GameWeb.MovementLive.Index do
 
   @topic_presence "player_presence"
   @topic_update "players_update"
+  @topic_tick "tick"
 
   @impl true
   def mount(%{"user" => %{"name" => name}}, _session, socket) do
@@ -17,6 +18,7 @@ defmodule GameWeb.MovementLive.Index do
       State.add_player(socket.id, data)
 
       Endpoint.subscribe(@topic_update)
+      Endpoint.subscribe(@topic_tick)
     end
 
     socket
@@ -36,14 +38,14 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   def handle_event("keyDown", %{"key" => key}, socket) do
-    key |> get_key_action() |> State.player_start_action(socket.id)
+    key |> get_key_action() |> State.set_player_action(true, socket.id)
 
     socket
     |> reply(:noreply)
   end
 
   def handle_event("keyUp", %{"key" => key}, socket) do
-    key |> get_key_action() |> State.player_stop_action(socket.id)
+    key |> get_key_action() |> State.set_player_action(false, socket.id)
 
     socket
     |> reply(:noreply)
@@ -58,6 +60,13 @@ defmodule GameWeb.MovementLive.Index do
 
   def handle_info({:leave, _id, nil}, socket) do
     socket
+    |> assign(players: list_other_players(socket.id))
+    |> reply(:noreply)
+  end
+
+  def handle_info(:tick, socket) do
+    socket
+    |> assign(player: State.get_player(socket.id))
     |> assign(players: list_other_players(socket.id))
     |> reply(:noreply)
   end

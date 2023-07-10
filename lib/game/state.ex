@@ -9,20 +9,10 @@ defmodule Game.State do
   use GenServer
 
   alias Game.State.Players
-  # alias GameWeb.Endpoint
+  alias Phoenix.PubSub
 
-  @tick_speed 2000
-
-  # @moveTopic "movement"
-  # @topic "players"
-
-  # @movement_speed 10
-
-  # boundaries for map
-  # @x_min 0
-  # @x_max 1920
-  # @y_min 0
-  # @y_max 1209
+  @tick_speed 16
+  @topic_tick "tick"
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
@@ -32,6 +22,7 @@ defmodule Game.State do
 
   @impl true
   def init(_opts) do
+    # Process.send_after(self(), :tick, @tick_speed)
     :timer.send_interval(@tick_speed, self(), :tick)
 
     {:ok, %{players: %{}}}
@@ -39,16 +30,9 @@ defmodule Game.State do
 
   @impl true
   def handle_info(:tick, state) do
-    # TODO
-    # - for each (connected) player
-    #   - check if key is pressed
-    #     - true: add "speed" to position
-    #     - false: skip
-    # - for each arrows
-    #   - calculate new positions
-    # ##### if all movements habve been caculated ####
-    # - collision check
-    # - broadcast new positions
+    Players.tick()
+
+    PubSub.broadcast(Game.PubSub, @topic_tick, :tick)
 
     {:noreply, state}
   end
@@ -69,12 +53,8 @@ defmodule Game.State do
     Players.remove(id)
   end
 
-  def player_start_action(action, id) do
-    Players.start_action(id, action)
-  end
-
-  def player_stop_action(action, id) do
-    Players.stop_action(id, action)
+  def set_player_action(action, status, id) do
+    Players.set_action(id, action, status)
   end
 
   # @impl true

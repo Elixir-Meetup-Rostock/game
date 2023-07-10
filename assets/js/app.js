@@ -38,6 +38,8 @@ hooks.cursorMove = {
 
 hooks.gameCanvas = {
   mounted() {
+    this.j = 0
+
     const node = this.el
     const player = JSON.parse(node.dataset.player);
     const players = JSON.parse(node.dataset.players);
@@ -45,19 +47,20 @@ hooks.gameCanvas = {
     this.canvas = new Canvas(node, player, players)
   },
   updated() {
+    this.j++;
+    if (this.j % 5 === 0) {
+      this.j = 0;
+      let now = performance.now();
+      this.canvas.ups = 1 / ((now - (this.upsNow || now)) / 5000);
+      this.upsNow = now;
+    }
+
     const node = this.el
     const player = JSON.parse(node.dataset.player);
     const players = JSON.parse(node.dataset.players);
 
     this.canvas.setPlayers(player, players)
-
-    if (this.canvas.animationFrameId) {
-      window.cancelAnimationFrame(this.canvas.animationFrameId);
-    }
-
-    this.animationFrameId = window.requestAnimationFrame(() => {
-      this.canvas.draw()
-    })
+    this.canvas.drawFrame()
   }
 }
 

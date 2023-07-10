@@ -1,7 +1,7 @@
 <div id="game" class="absolute inset-0" phx-window-keydown="keyDown" phx-window-keyup="keyUp">
   <canvas
     id="game-canvas"
-    class="w-full h-full bg-orange-300"
+    class="w-full h-full"
     phx-update="ignore"
     phx-hook="gameCanvas"
     phx-click="click"
@@ -14,8 +14,10 @@
     id="game-hud"
     class="absolute bottom-0 left-0 right-0 z-50 px-2 py-1 text-white bg-orange-500"
   >
-    <%= if @player do %>
-      <%= @player.x %> / <%= @player.y %>
-    <% end %>
+    <span id="game-hud-position">
+      <%= if @player do %>
+        <%= @player.x %> / <%= @player.y %>
+      <% end %>
+    </span>
   </div>
 </div>

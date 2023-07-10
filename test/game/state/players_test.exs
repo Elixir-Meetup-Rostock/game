@@ -4,6 +4,11 @@ defmodule Game.State.PlayersTest do
   alias Game.State.Players
   alias Game.State.Players.Player
 
+  @id1 "random-id-1"
+  @name1 "lorem ipsum 1"
+  @id2 "random-id-2"
+  @name2 "lorem ipsum 2"
+
   describe "Agent is automatically started" do
     test "has a pid and is running" do
       pid = Process.whereis(Players)
@@ -16,26 +21,28 @@ defmodule Game.State.PlayersTest do
 
   describe "players" do
     test "can list players" do
-      player1 = %{id: "random-id-1", name: "lorem ipsum 1"}
-      player2 = %{id: "random-id-2", name: "lorem ipsum 2"}
-
-      Players.add(player1.id, player1)
-      Players.add(player2.id, player2)
+      Players.add(@id1, %{name: @name1})
+      Players.add(@id2, %{name: @name2})
 
       player_list = Players.list()
 
       assert is_list(player_list)
-
-      assert player_list |> Enum.find(&(&1.id === player1.id))
-      assert player_list |> Enum.find(&(&1.id === player2.id))
+      assert player_list |> Enum.find(&(&1.id === @id1))
+      assert player_list |> Enum.find(&(&1.id === @id2))
     end
 
-    test "add a player returns player" do
-      player_id = "random-id"
-      player_name = "lorem ipsum"
+    test "add player returns added player" do
+      assert %Player{id: @id1, name: @name1} = Players.add(@id1, %{name: @name1})
+    end
 
-      assert %Player{id: ^player_id, name: ^player_name} =
-               Players.add(player_id, %{id: player_id, name: player_name})
+    test "can set & unset action" do
+      Players.add(@id1, %{name: @name1})
+
+      Players.set_action(@id1, :up, true)
+      assert %Player{actions: %{up: true}} = Players.get(@id1)
+
+      Players.set_action(@id1, :up, false)
+      assert %Player{actions: %{up: false}} = Players.get(@id1)
     end
   end
 end
