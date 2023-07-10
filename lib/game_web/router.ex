@@ -24,7 +24,6 @@ defmodule GameWeb.Router do
 
     live "/lobby", LobbyLive.Index, :index
     live "/cursor", CursorLive.Index, :index
-    live "/chat", ChatLive.Index, :index
 
     live "/movement", MovementLive.Index, :index
   end
