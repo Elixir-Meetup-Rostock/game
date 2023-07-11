@@ -1,0 +1,58 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  OTP_VERSION: "26"
+  ELIXIR_VERSION: "1.15"
+
+jobs:
+  build_test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ env.OTP_VERSION }}
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+
+      - name: Cache deps & build
+        uses: actions/cache@v3
+        with:
+          path: |
+            _build
+            deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('**.ex', '**.exs', '**.heex') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-
+            ${{ runner.os }}-mix-
+
+      - name: Install Dependencies
+        run: mix deps.get
+
+      - name: Build App
+        run: MIX_ENV=prod && mix compile
+
+      - name: Run Tests
+        run: mix test
