@@ -1,5 +1,7 @@
 # Game
 
+[![Test](https://github.com/Elixir-Meetup-Rostock/game/actions/workflows/test.yml/badge.svg)](https://github.com/Elixir-Meetup-Rostock/game/actions/workflows/test.yml)
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
