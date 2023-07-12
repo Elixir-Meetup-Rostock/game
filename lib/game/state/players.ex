@@ -50,18 +50,12 @@ defmodule Game.State.Players do
   end
 
   def tick() do
-    # move players
+    Agent.update(__MODULE__, &tick_players/1)
+  end
 
-    player =
-      list()
-      |> List.first(%Player{id: "test", name: "test"})
-
-    %{x: x, y: y} = player
-
-    updated_player = %{player | x: x + 1, y: y + 1}
-
-    Agent.update(__MODULE__, &Map.put(&1, player.id, updated_player))
-
-    :ok
+  defp tick_players(players) do
+    players
+    |> Enum.map(fn {id, player} -> {id, Player.tick(player)} end)
+    |> Map.new()
   end
 end

@@ -45,4 +45,18 @@ defmodule Game.State.PlayersTest do
       assert %Player{actions: %{up: false}} = Players.get(@id1)
     end
   end
+
+  describe "tick" do
+    test "update player positions" do
+      Players.add(@id1, %{name: @name1})
+      %{speed: speed} = Players.add(@id2, %{name: @name2})
+
+      Players.set_action(@id2, :down, true)
+
+      Players.tick()
+
+      assert %Player{x: 0, y: 0} = Players.get(@id1)
+      assert %Player{x: 0, y: ^speed} = Players.get(@id2)
+    end
+  end
 end

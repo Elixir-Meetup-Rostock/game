@@ -16,7 +16,7 @@ defmodule Game.State.Players.PlayerTest do
                x: 0,
                y: 0,
                hp: 100,
-               speed: 10,
+               speed: 1,
                actions: actions
              } = player
 

@@ -54,6 +54,7 @@ export default class Canvas {
 
     this.canvas.width = this.canvas.width // clears the canvas
     // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
+    // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
   drawFrame() {
@@ -71,6 +72,38 @@ export default class Canvas {
   draw() {
     if (this.log) console.log("draw")
 
+    this.clear()
+
+    this.drawMap()
+    this.drawPlayer()
+    // this.drawPlayers()
+    this.drawFps()
+  }
+
+  drawMap() {
+    // this.player.x
+    // this.player.y
+
+    this.context.drawImage(this.mapImg, -this.player.x, -this.player.y, this.canvas.width, this.canvas.height);
+  }
+
+  drawPlayer() {
+    if (this.log) console.log("drawPlayer")
+
+    const halfHeight = this.canvas.height / 2
+    const halfWidth = this.canvas.width / 2
+
+    const imgHeight = 50
+    const imgWidth = 50
+
+    this.context.drawImage(this.playerImg, halfWidth - (imgWidth / 2), halfHeight - (imgHeight / 2), imgWidth, imgHeight)
+  }
+
+  drawPlayers() {
+    if (this.log) console.log("drawPlayers")
+  }
+
+  drawFps() {
     this.i++;
     if (this.i % 5 === 0) {
       this.i = 0;
@@ -78,37 +111,6 @@ export default class Canvas {
       this.fps = 1 / ((now - (this.fpsNow || now)) / 5000);
       this.fpsNow = now;
     }
-
-    this.clear()
-
-    this.drawMap()
-    this.drawPlayer()
-    // this.drawPlayers()
-  }
-
-  drawMap() {
-    this.context.drawImage(this.mapImg, 0, 0, this.canvas.width, this.canvas.height);
-  }
-
-  drawPlayer() {
-    if (this.log) console.log("drawPlayer")
-
-    const x = this.player.x + 100
-    const y = this.player.y + 100
-
-    this.context.drawImage(this.playerImg, x - 25, y - 25, 50, 50);
-
-    // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.context.strokeStyle = "rgba(128, 0, 255, 0.5)"
-    this.context.beginPath()
-    this.context.arc(
-      x,
-      y,
-      32,
-      0,
-      2 * Math.PI
-    )
-    this.context.stroke()
 
     this.context.textBaseline = "top";
     this.context.font = "20pt monospace";
@@ -119,9 +121,5 @@ export default class Canvas {
     this.context.fillStyle = "black";
     this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 20, 110);
     this.context.fillText(`Server FPS: ${Math.round(this.ups)}`, 20, 140);
-  }
-
-  drawPlayers() {
-    if (this.log) console.log("drawPlayers")
   }
 }
