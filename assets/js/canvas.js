@@ -79,7 +79,7 @@ export default class Canvas {
 
     this.drawMap()
     this.drawPlayer()
-    // this.drawPlayers()
+    this.drawPlayers()
     this.drawFps()
   }
 
@@ -104,6 +104,23 @@ export default class Canvas {
 
   drawPlayers() {
     if (this.log) console.log("drawPlayers")
+
+    this.players.map((player) => { this.drawOtherPlayer(player) })
+  }
+
+  drawOtherPlayer({ x, y }) {
+    if (this.log) console.log("drawOtherPlayer")
+
+    const halfHeight = this.canvas.height / 2
+    const halfWidth = this.canvas.width / 2
+
+    const p_x = halfWidth - this.player.x + x
+    const p_y = halfHeight - this.player.y + y
+
+    const imgHeight = 50
+    const imgWidth = 50
+
+    this.context.drawImage(this.playerImg, p_x - (imgWidth / 2), p_y - (imgHeight / 2), imgWidth, imgHeight)
   }
 
   drawFps() {
