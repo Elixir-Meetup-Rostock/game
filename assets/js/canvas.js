@@ -18,18 +18,21 @@ export default class Canvas {
 
     this.mapImg = new Image();
     this.mapImg.src = "./images/game_background.jpeg"
-    this.mapImg.onload = () => {
-      // loaded = true
+    this.mapImg.onload = (elem) => {
+      if (this.playerImg.complete === true) {
+        this.resize()
+      }
     }
 
     this.playerImg = new Image();
     this.playerImg.src = "./images/player.png"
     this.playerImg.onload = () => {
-      // loaded = true
+      if (this.mapImg.complete === true) {
+        this.resize()
+      }
     }
 
     window.addEventListener("resize", _e => { this.resize() })
-    this.resize()
   }
 
   setPlayers(player, players) {
