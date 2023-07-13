@@ -84,9 +84,6 @@ export default class Canvas {
   }
 
   drawMap() {
-    // this.player.x
-    // this.player.y
-
     this.context.drawImage(this.mapImg, -this.player.x, -this.player.y, this.canvas.width, this.canvas.height);
   }
 
