@@ -9,6 +9,7 @@ defmodule Game.State do
   use GenServer
 
   alias Game.State.Players
+  alias Game.State.Projectiles
   alias Phoenix.PubSub
 
   @tick_speed 16
@@ -17,6 +18,7 @@ defmodule Game.State do
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
 
+    Projectiles.start()
     Players.start()
   end
 
@@ -29,6 +31,7 @@ defmodule Game.State do
 
   @impl true
   def handle_info(:tick, state) do
+    Projectiles.tick()
     Players.tick()
 
     PubSub.broadcast(Game.PubSub, @topic_tick, :tick)

@@ -9,7 +9,7 @@ defmodule Game.State.PlayersTest do
   @id2 "random-id-2"
   @name2 "lorem ipsum 2"
 
-  describe "Agent is automatically started" do
+  describe "players Agent is automatically started" do
     test "has a pid and is running" do
       pid = Process.whereis(Players)
 
@@ -19,7 +19,7 @@ defmodule Game.State.PlayersTest do
     end
   end
 
-  describe "players" do
+  describe "players state" do
     test "can list players" do
       Players.add(@id1, %{name: @name1})
       Players.add(@id2, %{name: @name2})
@@ -46,7 +46,7 @@ defmodule Game.State.PlayersTest do
     end
   end
 
-  describe "tick" do
+  describe "players tick" do
     test "update player positions" do
       Players.add(@id1, %{name: @name1})
       %{speed: speed} = Players.add(@id2, %{name: @name2})

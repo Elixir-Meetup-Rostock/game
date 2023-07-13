@@ -1,5 +1,7 @@
 "use strict";
 
+import Projectile from "./canvas/projectile"
+
 export default class Canvas {
   constructor(node, player, players) {
     this.log = false
@@ -9,6 +11,8 @@ export default class Canvas {
 
     this.player = player
     this.players = players
+
+    this.projectiles = [new Projectile()]
 
     this.animationFrameId = undefined
 
@@ -78,6 +82,7 @@ export default class Canvas {
     this.clear()
 
     this.drawMap()
+    this.drawProjectiles()
     this.drawPlayer()
     this.drawPlayers()
     this.drawFps()
@@ -85,6 +90,10 @@ export default class Canvas {
 
   drawMap() {
     this.context.drawImage(this.mapImg, -this.player.x, -this.player.y, this.canvas.width, this.canvas.height);
+  }
+
+  drawProjectiles() {
+    this.context.drawImage(this.projectiles[0].canvas, 300, 300);
   }
 
   drawPlayer() {

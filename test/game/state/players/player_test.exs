@@ -10,15 +10,8 @@ defmodule Game.State.Players.PlayerTest do
     test "has nessessary fields" do
       player = %Player{id: @id, name: @name}
 
-      assert %Game.State.Players.Player{
-               id: @id,
-               name: @name,
-               x: 0,
-               y: 0,
-               hp: 100,
-               speed: 1,
-               actions: actions
-             } = player
+      assert %Player{id: @id, name: @name, x: 0, y: 0, hp: 100, speed: 1, actions: actions} =
+               player
 
       assert Map.keys(actions) === [:up, :down, :left, :right, :space]
     end
