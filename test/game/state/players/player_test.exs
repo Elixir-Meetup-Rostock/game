@@ -42,20 +42,6 @@ defmodule Game.State.Players.PlayerTest do
 
       assert %{actions: %{space: true}} = Player.set_action(player, :space, true)
     end
-
-    test "setting opposite action will reset both actions" do
-      player = %Player{id: @id, name: @name}
-
-      %{actions: actions} =
-        player
-        |> Player.set_action(:up, true)
-        |> Player.set_action(:left, true)
-        |> Player.set_action(:right, true)
-        |> Player.set_action(:down, true)
-        |> Player.set_action(:space, true)
-
-      assert %{up: false, left: false, right: false, down: false, space: true} = actions
-    end
   end
 
   describe "player tick" do
@@ -63,6 +49,16 @@ defmodule Game.State.Players.PlayerTest do
       player = %Player{id: @id, name: @name}
 
       assert %{x: 0, y: 0} = Player.tick(player)
+    end
+
+    test "no position update on tick, if opposite action is true" do
+      player = %Player{id: @id, name: @name}
+
+      player_y = player |> Player.set_action(:up, true) |> Player.set_action(:down, true)
+      player_x = player |> Player.set_action(:left, true) |> Player.set_action(:right, true)
+
+      assert %{x: 0, y: 0} = Player.tick(player_y)
+      assert %{x: 0, y: 0} = Player.tick(player_x)
     end
 
     test "update position on tick, when action is true" do
