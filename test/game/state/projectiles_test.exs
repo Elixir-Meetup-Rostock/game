@@ -35,27 +35,39 @@ defmodule Game.State.ProjectilesTest do
     end
   end
 
-  # describe "projectiles tick" do
-  #   test "update projectile positions" do
-  #     Projectiles.add(@id1, %{x_vector: 0, y_vector: 0})
-  #     %{speed: speed} = Projectiles.add(@id2, %{x_vector: 10, y_vector: 10})
+  describe "projectiles tick" do
+    test "decrease projectile range" do
+      %{range: start_range} = Projectiles.add(@id1, %{x_vector: 10, y_vector: 10})
 
-  #     Projectiles.tick()
+      Projectiles.tick()
 
-  #     projectiles_list = Projectiles.list()
+      assert %Projectile{range: end_range} = Projectiles.list() |> Enum.find(&(&1.id === @id1))
+      assert end_range < start_range
+    end
 
-  #     assert %Projectile{x: 0, y: 0} = Enum.find(projectiles_list, &(&1.id === @id1))
-  #     assert %Projectile{x: ^speed, y: ^speed} = Enum.find(projectiles_list, &(&1.id === @id2))
-  #   end
+    test "remove projectiles with no range left" do
+      %{range: range} = Projectiles.add(@id1, %{x_vector: 10, y_vector: 10})
 
-  #   test "decrease projectile range" do
-  #     %{range: range} = Projectiles.add(@id1, %{x_vector: 10, y_vector: 10})
+      1..range
+      |> Enum.each(fn _x -> Projectiles.tick() end)
 
-  #     Projectiles.tick()
+      assert Projectiles.list() |> Enum.find(&(&1.id === @id1))
 
-  #     projectiles_list = Projectiles.list()
+      Projectiles.tick()
 
-  #     refute %Projectile{range: ^range} = Enum.find(projectiles_list, &(&1.id === @id1))
-  #   end
-  # end
+      refute Projectiles.list() |> Enum.find(&(&1.id === @id1))
+    end
+
+    # test "update projectile positions" do
+    #   Projectiles.add(@id1, %{x_vector: 0, y_vector: 0})
+    #   %{speed: speed} = Projectiles.add(@id1, %{x_vector: 10, y_vector: 10})
+
+    #   Projectiles.tick()
+
+    #   projectiles_list = Projectiles.list()
+
+    #   assert %Projectile{x: 0, y: 0} = Enum.find(projectiles_list, &(&1.id === @id1))
+    #   assert %Projectile{x: ^speed, y: ^speed} = Enum.find(projectiles_list, &(&1.id === @id2))
+    # end
+  end
 end

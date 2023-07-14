@@ -38,8 +38,13 @@ defmodule Game.State.Projectiles do
 
   defp tick_projectiles(projectiles) do
     projectiles
-    # remove projectiles that have no range left
+    |> remove_projectiles_with_no_range_left()
     |> Enum.map(fn {id, projectile} -> {id, Projectile.tick(projectile)} end)
     |> Map.new()
+  end
+
+  defp remove_projectiles_with_no_range_left(projectiles) do
+    projectiles
+    |> Enum.reject(fn {_id, %{range: range}} -> range === 0 end)
   end
 end
