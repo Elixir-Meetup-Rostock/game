@@ -34,6 +34,15 @@ defmodule Game.State do
     Projectiles.tick()
     Players.tick()
 
+    # probably not where we should do this
+    Players.list()
+    |> Game.Engine.detect_collisions()
+    |> case do
+      nil -> nil
+      # IO.inspect(col)
+      _col -> :coll
+    end
+
     PubSub.broadcast(Game.PubSub, @topic_tick, :tick)
 
     {:noreply, state}
