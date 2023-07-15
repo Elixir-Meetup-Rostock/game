@@ -58,4 +58,8 @@ defmodule Game.State do
   def set_player_action(action, status, id) do
     Players.set_action(id, action, status)
   end
+
+  def add_projectile(id, data) do
+    Projectiles.add(id, data)
+  end
 end
