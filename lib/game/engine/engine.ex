@@ -2,8 +2,32 @@ defmodule Game.Engine do
   @moduledoc """
   The Engine performs operations on the game state. Probably badly named and in the wrong place.
   """
-  @type game_object :: %{x: integer(), y: integer()}
+  @type game_object :: %{x: integer(), y: integer(), __struct__: atom(), id: integer()}
 
+  @doc """
+  Detects all collisions between game objects in the given list. Game objects can be any structs with an id and x/y coordinates.
+  Mixing different game object structs (e.g. players and projectiles) is not a problem. Returns a map of all collisions for each
+  game object. Game objects are represented as are tuples of the struct type and its id. e.g. `{Player, 2}`
+  That means that ids should be unique per type of game object you are working with, but can be repeated between different types.
+
+  ## Examples
+      iex> defmodule Player do
+             defstruct x: nil, y: nil, id: nil
+           end
+      iex> game_objects = [
+              %Player{id: 1, x: 100, y: 100},
+              %Player{id: 2, x: 120, y: 120},
+              %Player{id: 3, x: 80, y: 80},
+              %Player{id: 4, x: 120, y: 140}
+           ]
+      iex> detect_collisions(game_objects)
+      %{
+        {Player, 1} => [{Player, 3}, {Player, 2}],
+        {Player, 2} => [{Player, 4}, {Player, 1}],
+        {Player, 3} => [{Player, 1}],
+        {Player, 4} => [{Player, 2}]
+      }
+  """
   @spec detect_collisions(list(game_object())) ::
           nil
           | %{
