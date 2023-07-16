@@ -13,7 +13,7 @@ defmodule Game.State.Players.PlayerTest do
       assert %Player{id: @id, name: @name, x: 0, y: 0, hp: 100, speed: 1, actions: actions} =
                player
 
-      assert Map.keys(actions) === [:up, :down, :left, :right, :space]
+      assert Enum.sort(Map.keys(actions)) === Enum.sort([:up, :down, :left, :right, :space])
     end
   end
 
