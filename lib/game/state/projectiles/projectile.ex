@@ -1,6 +1,6 @@
 defmodule Game.State.Projectiles.Projectile do
   @moduledoc """
-
+  This is the projectile itself with it's current state and specific actions.
   """
 
   alias Extension.Movement

@@ -9,7 +9,7 @@ defmodule GameWeb.CursorLive.Index do
   @impl true
   def mount(%{"user" => %{"name" => name}}, _session, socket) do
     if connected?(socket) do
-      meta = %{id: socket.id, name: name, color: getColor(name)}
+      meta = %{id: socket.id, name: name, color: get_color(name)}
       Presence.track(self(), @topic, socket.id, meta)
 
       Endpoint.subscribe(@topic)
@@ -41,7 +41,7 @@ defmodule GameWeb.CursorLive.Index do
   end
 
   def handle_info(:after_join, socket) do
-    IO.inspect("after_join")
+    # IO.inspect("after_join")
 
     # {:ok, _} =
     #   Presence.track(socket, socket.assigns.user_id, %{
@@ -69,7 +69,7 @@ defmodule GameWeb.CursorLive.Index do
     Presence.update(pid, topic, key, metas)
   end
 
-  defp getColor(name) do
+  defp get_color(name) do
     hue = name |> to_charlist() |> Enum.sum() |> rem(360)
     "hsl(#{hue}, 60%, 40%)"
   end

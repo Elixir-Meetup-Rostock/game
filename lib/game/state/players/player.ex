@@ -1,6 +1,6 @@
 defmodule Game.State.Players.Player do
   @moduledoc """
-
+  This is the player itself with it's current state and specific actions.
   """
 
   @enforce_keys [:id, :name]
