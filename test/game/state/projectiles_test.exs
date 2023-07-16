@@ -48,12 +48,10 @@ defmodule Game.State.ProjectilesTest do
     test "remove projectiles with no range left" do
       %{range: range} = Projectiles.add(@id1, %{x_vector: 10, y_vector: 10})
 
-      1..range
-      |> Enum.each(fn _x -> Projectiles.tick() end)
-
       assert Projectiles.list() |> Enum.find(&(&1.id === @id1))
 
-      Projectiles.tick()
+      ticks = range + 1
+      Enum.each(1..ticks, fn _x -> Projectiles.tick() end)
 
       refute Projectiles.list() |> Enum.find(&(&1.id === @id1))
     end

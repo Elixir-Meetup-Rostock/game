@@ -3,6 +3,8 @@ defmodule Game.State.Projectiles.Projectile do
 
   """
 
+  alias Extension.Movement
+
   @enforce_keys [:id]
 
   @derive Jason.Encoder
@@ -20,10 +22,11 @@ defmodule Game.State.Projectiles.Projectile do
 
   def tick(%__MODULE__{speed: 0} = projectile), do: projectile
 
-  def tick(%__MODULE__{speed: _speed, range: range} = projectile) do
-    # new_x = 10
-    # new_y = 10
+  def tick(%__MODULE__{x: x, y: y, x_vector: xv, y_vector: yv, speed: s, range: r} = projectile) do
+    # IO.inspect({x, y})
 
-    %{projectile | range: range - 1}
+    {new_x, new_y} = Movement.move({x, y}, {xv, yv}, s)
+
+    %{projectile | x: new_x, y: new_y, range: r - 1}
   end
 end

@@ -33,6 +33,8 @@ defmodule GameWeb.MovementLive.Index do
 
   @impl true
   def handle_event("click", _params, socket) do
+    # State.add_projectile("random_id", %{x_vector: 300, y_vector: 50})
+
     socket
     |> reply(:noreply)
   end
