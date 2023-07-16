@@ -41,10 +41,11 @@ hooks.gameCanvas = {
     this.j = 0
 
     const node = this.el
+    const projectiles = JSON.parse(node.dataset.projectiles);
     const player = JSON.parse(node.dataset.player);
     const players = JSON.parse(node.dataset.players);
 
-    this.canvas = new Canvas(node, player, players)
+    this.canvas = new Canvas(node, projectiles, player, players)
   },
   updated() {
     this.j++;
@@ -56,9 +57,11 @@ hooks.gameCanvas = {
     }
 
     const node = this.el
+    const projectiles = JSON.parse(node.dataset.projectiles);
     const player = JSON.parse(node.dataset.player);
     const players = JSON.parse(node.dataset.players);
 
+    this.canvas.setProjectiles(projectiles)
     this.canvas.setPlayers(player, players)
     this.canvas.drawFrame()
   }

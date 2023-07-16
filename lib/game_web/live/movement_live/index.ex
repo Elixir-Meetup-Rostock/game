@@ -22,6 +22,7 @@ defmodule GameWeb.MovementLive.Index do
     end
 
     socket
+    |> assign(projectiles: State.list_projectiles())
     |> assign(player: State.get_player(socket.id))
     |> assign(players: list_other_players(socket.id))
     |> reply(:ok)
@@ -33,7 +34,7 @@ defmodule GameWeb.MovementLive.Index do
 
   @impl true
   def handle_event("click", _params, socket) do
-    # State.add_projectile("random_id", %{x_vector: 300, y_vector: 50})
+    State.add_projectile("random_id", %{x_vector: 500, y_vector: 300})
 
     socket
     |> reply(:noreply)
@@ -68,6 +69,7 @@ defmodule GameWeb.MovementLive.Index do
 
   def handle_info(:tick, socket) do
     socket
+    |> assign(projectiles: State.list_projectiles())
     |> assign(player: State.get_player(socket.id))
     |> assign(players: list_other_players(socket.id))
     |> reply(:noreply)

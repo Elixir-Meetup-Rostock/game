@@ -1,7 +1,7 @@
 export default class Projectile {
-  constructor() {
-    this.x = 0
-    this.y = 0
+  constructor(x, y) {
+    this.x = x
+    this.y = y
 
     this.canvas = document.createElement("canvas")
     this.canvas.width = 16
@@ -12,10 +12,10 @@ export default class Projectile {
     this.draw()
   }
 
-  setPosition(x, y) {
-    this.x = x
-    this.y = y
-  }
+  // setPosition(x, y) {
+  //   this.x = x
+  //   this.y = y
+  // }
 
   draw() {
     // this.context.save()

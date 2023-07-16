@@ -3,16 +3,16 @@
 import Projectile from "./canvas/projectile"
 
 export default class Canvas {
-  constructor(node, player, players) {
+  constructor(node, projectiles, player, players) {
     this.log = false
 
     this.canvas = node
     this.context = this.canvas.getContext("2d")
 
+    this.projectiles = projectiles
+
     this.player = player
     this.players = players
-
-    this.projectiles = [new Projectile()]
 
     this.animationFrameId = undefined
 
@@ -37,6 +37,10 @@ export default class Canvas {
     }
 
     window.addEventListener("resize", _e => { this.resize() })
+  }
+
+  setProjectiles(projectiles) {
+    this.projectiles = projectiles
   }
 
   setPlayers(player, players) {
@@ -93,7 +97,12 @@ export default class Canvas {
   }
 
   drawProjectiles() {
-    this.context.drawImage(this.projectiles[0].canvas, 300, 300);
+    if (this.log) console.log("drawProjectiles")
+
+    this.projectiles.map(({ x, y }) => {
+      const projectile = new Projectile(x, y)
+      this.context.drawImage(projectile.canvas, x, y)
+    })
   }
 
   drawPlayer() {
