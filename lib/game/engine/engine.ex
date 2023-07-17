@@ -2,7 +2,14 @@ defmodule Game.Engine do
   @moduledoc """
   The Engine performs operations on the game state. Probably badly named and in the wrong place.
   """
-  @type game_object :: %{x: integer(), y: integer(), __struct__: atom(), id: integer()}
+  @type game_object :: %{
+          x: integer(),
+          y: integer(),
+          __struct__: atom(),
+          id: integer() | String.t()
+        }
+
+  @type go_ref :: {atom(), integer() | String.t()}
 
   @doc """
   Detects all collisions between game objects in the given list. Game objects can be any structs with an id and x/y coordinates.
@@ -28,11 +35,7 @@ defmodule Game.Engine do
         {Player, 4} => [{Player, 2}]
       }
   """
-  @spec detect_collisions(list(game_object())) ::
-          nil
-          | %{
-              {atom(), integer()} => list({atom(), integer()})
-            }
+  @spec detect_collisions(list(game_object())) :: %{go_ref() => list(go_ref())} | nil
   def detect_collisions(game_objects) do
     collisions = game_objects |> detect_collisions(%{})
     if Enum.empty?(collisions), do: nil, else: collisions
