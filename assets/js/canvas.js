@@ -22,7 +22,7 @@ export default class Canvas {
 
     this.mapImg = new Image();
     this.mapImg.src = "./images/game_background.jpeg"
-    this.mapImg.onload = (elem) => {
+    this.mapImg.onload = () => {
       if (this.playerImg.complete === true) {
         this.resize()
       }

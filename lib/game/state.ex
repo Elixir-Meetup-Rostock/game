@@ -25,7 +25,7 @@ defmodule Game.State do
   def init(_opts) do
     :timer.send_interval(@tick_speed, self(), :tick)
 
-    {:ok, %{players: %{}}}
+    {:ok, %{}}
   end
 
   @impl true
