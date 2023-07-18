@@ -16,14 +16,14 @@ defmodule Game.State do
   @topic_tick "tick"
 
   def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
-
     Projectiles.start()
     Players.start()
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
   @impl true
   def init(_opts) do
+    IO.inspect("init!")
     :timer.send_interval(@tick_speed, self(), :tick)
 
     {:ok, %{players: %{}}}
