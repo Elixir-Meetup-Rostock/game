@@ -23,7 +23,6 @@ defmodule Game.State do
 
   @impl true
   def init(_opts) do
-    IO.inspect("init!")
     :timer.send_interval(@tick_speed, self(), :tick)
 
     {:ok, %{players: %{}}}
