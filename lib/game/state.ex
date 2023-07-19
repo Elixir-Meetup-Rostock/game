@@ -71,7 +71,9 @@ defmodule Game.State do
     Projectiles.list()
   end
 
-  def add_projectile(player_id, data) do
-    Projectiles.add(player_id, data)
+  def add_projectile(player_id, vector) do
+    %{id: id, x: x, y: y} = get_player(player_id)
+
+    Projectiles.add(id, {x, y}, vector)
   end
 end

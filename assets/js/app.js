@@ -73,10 +73,13 @@ let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   metadata: {
     click: (e, el) => {
+      const centerX = Math.round(e.target.width / 2)
+      const centerY = Math.round(e.target.height / 2)
+
       return {
         altKey: e.altKey,
-        clientX: e.clientX,
-        clientY: e.clientY
+        xPos: e.offsetX - centerX,
+        yPos: e.offsetY - centerY
       }
     },
     keydown: (e, el) => {

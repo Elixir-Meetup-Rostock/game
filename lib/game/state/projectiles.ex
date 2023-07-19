@@ -19,9 +19,17 @@ defmodule Game.State.Projectiles do
     |> Map.values()
   end
 
-  def add(player_id, %{x_vector: xv, y_vector: yv} = _data) do
+  def add(player_id, {x, y}, {xv, yv}) do
     uuid = UUID.generate()
-    projectile = %Projectile{id: uuid, player_id: player_id, x_vector: xv, y_vector: yv}
+
+    projectile = %Projectile{
+      id: uuid,
+      player_id: player_id,
+      x: x,
+      y: y,
+      x_vector: xv,
+      y_vector: yv
+    }
 
     Agent.update(__MODULE__, &Map.put(&1, uuid, projectile))
 

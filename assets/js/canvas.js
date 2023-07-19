@@ -99,9 +99,15 @@ export default class Canvas {
   drawProjectiles() {
     if (this.log) console.log("drawProjectiles")
 
+    const halfHeight = this.canvas.height / 2
+    const halfWidth = this.canvas.width / 2
+
     this.projectiles.map(({ x, y }) => {
+      const p_x = halfWidth - this.player.x + x
+      const p_y = halfHeight - this.player.y + y
+
       const projectile = new Projectile(x, y)
-      this.context.drawImage(projectile.canvas, x, y)
+      this.context.drawImage(projectile.canvas, p_x, p_y)
     })
   }
 
