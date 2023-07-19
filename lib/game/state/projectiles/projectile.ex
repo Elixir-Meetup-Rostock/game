@@ -5,11 +5,12 @@ defmodule Game.State.Projectiles.Projectile do
 
   alias Extension.Movement
 
-  @enforce_keys [:id]
+  @enforce_keys [:id, :player_id]
 
   @derive Jason.Encoder
   defstruct [
     :id,
+    :player_id,
     x: 0,
     y: 0,
     x_vector: 0,

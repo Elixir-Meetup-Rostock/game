@@ -5,6 +5,7 @@ defmodule Game.State.Projectiles do
 
   use Agent
 
+  alias Ecto.UUID
   alias Game.State.Projectiles.Projectile
 
   def start do
@@ -18,10 +19,11 @@ defmodule Game.State.Projectiles do
     |> Map.values()
   end
 
-  def add(id, %{x_vector: x, y_vector: y} = _data) do
-    projectile = %Projectile{id: id, x_vector: x, y_vector: y}
+  def add(player_id, %{x_vector: xv, y_vector: yv} = _data) do
+    uuid = UUID.generate()
+    projectile = %Projectile{id: uuid, player_id: player_id, x_vector: xv, y_vector: yv}
 
-    Agent.update(__MODULE__, &Map.put(&1, id, projectile))
+    Agent.update(__MODULE__, &Map.put(&1, uuid, projectile))
 
     projectile
   end

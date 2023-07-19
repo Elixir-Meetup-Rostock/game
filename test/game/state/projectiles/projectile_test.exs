@@ -1,16 +1,19 @@
 defmodule Game.State.Projectiles.ProjectileTest do
   use Game.DataCase, async: true
 
+  alias Ecto.UUID
   alias Game.State.Projectiles.Projectile
 
-  @id "random-id"
+  @player_id "random-id"
 
   describe "Projectile fields" do
     test "has nessessary fields" do
-      projectile = %Projectile{id: @id, x_vector: 10, y_vector: 20}
+      uuid = UUID.generate()
+      projectile = %Projectile{id: uuid, player_id: @player_id, x_vector: 10, y_vector: 20}
 
-      assert %Projectile{id: @id, x: 0, y: 0, x_vector: 10, y_vector: 20, speed: _, range: _} =
-               projectile
+      assert %Projectile{id: ^uuid, player_id: @player_id} = projectile
+      assert %Projectile{x: 0, y: 0, x_vector: 10, y_vector: 20} = projectile
+      assert %Projectile{speed: _, range: _} = projectile
     end
   end
 end
