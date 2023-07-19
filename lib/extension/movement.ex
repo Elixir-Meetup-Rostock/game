@@ -3,6 +3,7 @@ defmodule Extension.Movement do
   Calculates the new position from current position, move vector & speed
   """
 
+  def move(position, {0, 0}, _), do: position
   def move(position, _vector, 0), do: position
 
   def move({x, y} = _position, vector, speed) do

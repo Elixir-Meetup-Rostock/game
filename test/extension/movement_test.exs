@@ -15,6 +15,10 @@ defmodule Extension.MovementTest do
       assert Movement.get_angle({1, -1}, :deg) == -45
     end
 
+    test "it doesn't move with vector {0, 0}" do
+      assert {0, 0} = Movement.move({0, 0}, {0, 0}, 10)
+    end
+
     test "it doesn't move without speed" do
       assert {0, 0} = Movement.move({0, 0}, {1, 1}, 0)
     end
