@@ -3,8 +3,10 @@
 import Projectile from "./canvas/projectile"
 
 export default class Canvas {
-  constructor(node, projectiles, player, players) {
+  constructor(node, sprites, projectiles, player, players) {
     this.log = false
+
+    this.sprites = sprites
 
     this.canvas = node
     this.context = this.canvas.getContext("2d")
@@ -20,23 +22,11 @@ export default class Canvas {
     this.fps = 0
     this.ups = 0
 
-    this.mapImg = new Image();
-    this.mapImg.src = "./images/sprites/game_background.jpeg"
-    this.mapImg.onload = () => {
-      if (this.playerImg.complete === true) {
-        this.resize()
-      }
-    }
-
-    this.playerImg = new Image();
-    this.playerImg.src = "./images/sprites/player.png"
-    this.playerImg.onload = () => {
-      if (this.mapImg.complete === true) {
-        this.resize()
-      }
-    }
+    this.mapImg = this.sprites["map"]
+    this.playerImg = this.sprites["player"]
 
     window.addEventListener("resize", _e => { this.resize() })
+    this.resize()
   }
 
   setProjectiles(projectiles) {

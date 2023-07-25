@@ -61,7 +61,7 @@ hooks.gameCanvas = {
     const player = JSON.parse(node.dataset.player);
     const players = JSON.parse(node.dataset.players);
 
-    this.canvas = new Canvas(node, projectiles, player, players)
+    this.canvas = new Canvas(node, window.sprites, projectiles, player, players)
   },
   updated() {
     this.j++;

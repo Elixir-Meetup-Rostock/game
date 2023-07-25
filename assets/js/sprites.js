@@ -11,6 +11,7 @@ export default class Sprites {
         if (++loadedImages >= totalImages) { callback(this.images) }
       }
       img.src = file
+      // img.complete
 
       this.images[key] = img
     })
