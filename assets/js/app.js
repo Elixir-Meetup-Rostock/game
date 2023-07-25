@@ -23,6 +23,12 @@ import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 import Canvas from "./canvas"
+import Sprites from "./sprites"
+
+const sprites = [
+  { key: "map", file: "/images/game_background.jpeg" },
+  { key: "player", file: "/images/player.png" }
+]
 
 let hooks = {}
 
@@ -38,6 +44,12 @@ hooks.cursorMove = {
 
 hooks.gameCanvas = {
   mounted() {
+    const onSpritesLoaded = (sprites) => {
+      this.sprites = sprites
+    }
+
+    new Sprites(sprites, onSpritesLoaded)
+
     this.j = 0
 
     const node = this.el
