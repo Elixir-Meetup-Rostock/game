@@ -1,5 +1,14 @@
 <div id="game" class="absolute inset-0" phx-window-keydown="keyDown" phx-window-keyup="keyUp">
+  <div
+    :if={!@loaded}
+    id="game-loading"
+    class="relative text-lg text-center -translate-y-1/2 top-1/2"
+  >
+    LOADING
+  </div>
+  <div id="game-sprites" phx-hook="gameSprites" data-sprites={Jason.encode!(@sprites)}></div>
   <canvas
+    :if={@loaded}
     id="game-canvas"
     class="w-full h-full"
     phx-update="ignore"
@@ -10,7 +19,6 @@
     data-players={Jason.encode!(@players)}
   >
   </canvas>
-
   <div
     id="game-hud"
     class="absolute bottom-0 left-0 right-0 z-50 px-2 py-1 text-white bg-orange-500"

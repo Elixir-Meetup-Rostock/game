@@ -15,13 +15,23 @@ defmodule GameWeb.MovementLiveTest do
   end
 
   describe "movement_live" do
-    test "renders the page with canvas", %{conn: conn} do
+    test "renders the page with loading screen", %{conn: conn} do
       params = %{user: %{name: "Lorem Ipsum"}}
 
       {:ok, lv, html} = conn |> live(~p"/movement?#{params}")
 
-      assert html =~ ~s(<canvas id="game-canvas")
-      assert has_element?(lv, "canvas#game-canvas")
+      assert html =~ ~s(<div id="game-loading")
+      assert has_element?(lv, "div#game-loading")
+    end
+
+    test "show canvas when loading is completed", %{conn: conn} do
+      params = %{user: %{name: "Lorem Ipsum"}}
+
+      {:ok, lv, _html} = conn |> live(~p"/movement?#{params}")
+
+      assert lv
+             |> element("#game-sprites")
+             |> render_hook(:sprites_loaded, %{}) =~ ~s(<canvas id="game-canvas")
     end
 
     test "redirect if user is not present", %{conn: conn} do

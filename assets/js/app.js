@@ -25,11 +25,6 @@ import topbar from "../vendor/topbar"
 import Canvas from "./canvas"
 import Sprites from "./sprites"
 
-const sprites = [
-  { key: "map", file: "/images/game_background.jpeg" },
-  { key: "player", file: "/images/player.png" }
-]
-
 let hooks = {}
 
 hooks.cursorMove = {
@@ -42,14 +37,23 @@ hooks.cursorMove = {
   }
 }
 
-hooks.gameCanvas = {
+hooks.gameSprites = {
   mounted() {
     const onSpritesLoaded = (sprites) => {
-      this.sprites = sprites
+      window.sprites = sprites
+
+      this.pushEvent("sprites_loaded")
     }
 
-    new Sprites(sprites, onSpritesLoaded)
+    const node = this.el
+    const sprites = JSON.parse(node.dataset.sprites);
 
+    new Sprites(sprites, onSpritesLoaded)
+  }
+}
+
+hooks.gameCanvas = {
+  mounted() {
     this.j = 0
 
     const node = this.el

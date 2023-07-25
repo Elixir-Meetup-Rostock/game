@@ -1,6 +1,7 @@
 defmodule GameWeb.MovementLive.Index do
   use GameWeb, :live_view
 
+  alias Game.Map, as: GameMap
   alias Game.State
   alias GameWeb.Endpoint
   alias GameWeb.Presence
@@ -22,6 +23,8 @@ defmodule GameWeb.MovementLive.Index do
     end
 
     socket
+    |> assign(loaded: false)
+    |> assign(sprites: GameMap.list_sprites())
     |> assign(projectiles: State.list_projectiles())
     |> assign(player: State.get_player(socket.id))
     |> assign(players: list_other_players(socket.id))
@@ -33,6 +36,12 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   @impl true
+  def handle_event("sprites_loaded", _params, socket) do
+    socket
+    |> assign(loaded: true)
+    |> reply(:noreply)
+  end
+
   def handle_event("click", %{"xPos" => x, "yPos" => y}, socket) do
     %{id: player_id} = socket.assigns.player
 
