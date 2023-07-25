@@ -1,7 +1,7 @@
 defmodule Game.EngineTest do
   use Game.DataCase, async: true
-  alias Game.Engine
 
+  alias Game.Engine
   alias Game.State.Players.Player
 
   test "can detect collision between two players" do
