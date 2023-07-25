@@ -21,7 +21,7 @@ export default class Canvas {
     this.ups = 0
 
     this.mapImg = new Image();
-    this.mapImg.src = "./images/game_background.jpeg"
+    this.mapImg.src = "./images/sprites/game_background.jpeg"
     this.mapImg.onload = () => {
       if (this.playerImg.complete === true) {
         this.resize()
@@ -29,7 +29,7 @@ export default class Canvas {
     }
 
     this.playerImg = new Image();
-    this.playerImg.src = "./images/player.png"
+    this.playerImg.src = "./images/sprites/player.png"
     this.playerImg.onload = () => {
       if (this.mapImg.complete === true) {
         this.resize()

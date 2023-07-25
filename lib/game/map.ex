@@ -3,10 +3,12 @@ defmodule Game.Map do
   Holds all information about the map and it's tiles.
   """
 
+  @sprites_dir "/images/sprites"
+
   def list_sprites() do
     [
-      %{key: "map", file: "/images/game_background.jpeg"},
-      %{key: "player", file: "/images/player.png"}
+      %{key: "map", file: "#{@sprites_dir}/game_background.jpeg"},
+      %{key: "player", file: "#{@sprites_dir}/player.png"}
     ]
   end
 end
