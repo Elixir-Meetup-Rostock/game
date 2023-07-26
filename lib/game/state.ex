@@ -33,6 +33,7 @@ defmodule Game.State do
   def handle_info(:tick, state) do
     Projectiles.tick()
     Players.tick(list_obstacles())
+    process_hits()
 
     PubSub.broadcast(Game.PubSub, @topic_tick, :tick)
 
@@ -71,5 +72,22 @@ defmodule Game.State do
 
   def list_obstacles() do
     Players.list() ++ Obstacles.list()
+  end
+
+  def process_hits() do
+    hits = Game.Engine.detect_hits(Projectiles.list(), Players.list())
+
+    for {_hitter, hits} <- hits do
+      case hits do
+        [] -> nil
+        hits -> hits |> Enum.each(&puts_if_not_test("hit on " <> inspect(&1)))
+      end
+    end
+  end
+
+  defp puts_if_not_test(str) do
+    if Mix.env() != :test do
+      IO.puts(str)
+    end
   end
 end

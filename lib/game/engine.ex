@@ -77,7 +77,7 @@ defmodule Game.Engine do
   def detect_collisions_for_go(go, game_objects) do
     game_objects
     |> Enum.reduce([], fn x, acc ->
-      if collides?(go, x), do: [{x.__struct__, x.id} | acc], else: acc
+      if collides?(go, x), do: [go_to_ref(x) | acc], else: acc
     end)
   end
 
@@ -90,7 +90,16 @@ defmodule Game.Engine do
     square_distance < (2 * @radius) ** 2
   end
 
-  defp add_collision(acc, %{__struct__: type1, id: id1}, %{__struct__: type2, id: id2}) do
-    acc |> Map.update({type1, id1}, [{type2, id2}], &[{type2, id2} | &1])
+  defp add_collision(acc, go1, go2) do
+    acc |> Map.update(go_to_ref(go1), [go_to_ref(go2)], &[go_to_ref(go2) | &1])
   end
+
+  @spec detect_hits(list(game_object()), list(game_object())) :: %{go_ref() => list(go_ref())}
+  def detect_hits(hitters, targets) do
+    hitters
+    |> Enum.map(fn hitter -> {go_to_ref(hitter), detect_collisions_for_go(hitter, targets)} end)
+    |> Map.new()
+  end
+
+  def go_to_ref(%{__struct__: type, id: id}), do: {type, id}
 end
