@@ -53,9 +53,31 @@ defmodule Game.State.PlayersTest do
 
       Players.set_action(@id2, :down, true)
 
-      Players.tick()
+      Players.tick([])
 
       assert %Player{x: 0, y: 0} = Players.get(@id1)
+      assert %Player{x: 0, y: ^speed} = Players.get(@id2)
+    end
+
+    test "don't move if obstacle is in the way" do
+      Players.add(@id1, %{name: @name1, y: 40})
+      Players.add(@id2, %{name: @name2})
+
+      Players.set_action(@id2, :down, true)
+
+      Players.tick(Players.list())
+      assert %Player{x: 0, y: 40} = Players.get(@id1)
+      assert %Player{x: 0, y: 0} = Players.get(@id2)
+    end
+
+    test "moving away from obstacle is fine" do
+      Players.add(@id1, %{name: @name1, y: 40})
+      %{speed: speed} = Players.add(@id2, %{name: @name2})
+
+      Players.set_action(@id2, :up, true)
+      speed = speed * -1
+      Players.tick(Players.list())
+      assert %Player{x: 0, y: 40} = Players.get(@id1)
       assert %Player{x: 0, y: ^speed} = Players.get(@id2)
     end
   end

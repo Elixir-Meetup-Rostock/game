@@ -26,8 +26,11 @@ defmodule Game.State.Players do
     Agent.get(__MODULE__, &Map.get(&1, id))
   end
 
-  def add(id, %{name: name} = _data) do
-    player = %Player{id: id, name: name, x: 0, y: 0}
+  def add(id, data) do
+    player =
+      data
+      |> Map.put(:id, id)
+      |> then(&struct(Player, &1))
 
     Agent.update(__MODULE__, &Map.put(&1, id, player))
 
