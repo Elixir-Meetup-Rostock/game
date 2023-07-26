@@ -57,6 +57,8 @@ defmodule Game.Engine do
     |> Enum.reduce(%{}, fn x, acc -> collide(go, x, acc) end)
   end
 
+  defp collide(go1, go1, acc), do: acc
+
   defp collide(go1, go2, acc) do
     if collides?(go1, go2) do
       acc
@@ -67,7 +69,21 @@ defmodule Game.Engine do
     end
   end
 
+  @doc """
+  Detects all collisons ofthe given game object with game objects in the given list. Will not report collisions with itself.
+  Returns a list of game object reference tuples or an empty list if no collisions were detected.
+  """
+  @spec detect_collisions_for_go(game_object(), list(game_object())) :: any
+  def detect_collisions_for_go(go, game_objects) do
+    game_objects
+    |> Enum.reduce([], fn x, acc ->
+      if collides?(go, x), do: [{x.__struct__, x.id} | acc], else: acc
+    end)
+  end
+
   @radius 20
+  defp collides?(%{__struct__: s, id: id}, %{__struct__: s, id: id}), do: false
+
   defp collides?(%{x: x1, y: y1}, %{x: x2, y: y2}) do
     square_distance = (x1 - x2) ** 2 + (y1 - y2) ** 2
 
