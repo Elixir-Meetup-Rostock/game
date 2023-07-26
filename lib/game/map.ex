@@ -11,4 +11,16 @@ defmodule Game.Map do
       %{key: "player", file: "#{@sprites_dir}/player.png"}
     ]
   end
+
+  def get_board() do
+    [
+      [1, 1, 1, 1, 1, 1, 1],
+      [1, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1],
+      [1, 1, 1, 1, 1, 1, 1]
+    ]
+  end
 end
