@@ -7,7 +7,8 @@ defmodule Game.Board do
 
   def list_sprites() do
     [
-      %{key: "map", file: "#{@sprites_dir}/game_background.jpeg"},
+      # %{key: "map", file: "#{@sprites_dir}/game_background.jpeg"},
+      %{key: "map", file: "#{@sprites_dir}/demo-sprite.png.png"},
       %{key: "player", file: "#{@sprites_dir}/player.png"}
     ]
   end
