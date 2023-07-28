@@ -10,6 +10,7 @@ defmodule Game.State do
 
   alias Game.State.Players
   alias Game.State.Projectiles
+  alias Game.State.Obstacles
   alias Phoenix.PubSub
 
   @tick_speed 16
@@ -31,16 +32,8 @@ defmodule Game.State do
   @impl true
   def handle_info(:tick, state) do
     Projectiles.tick()
-    Players.tick()
-
-    # probably not where we should do this
-    Players.list()
-    |> Game.Engine.detect_collisions()
-    |> case do
-      nil -> nil
-      # IO.inspect(col)
-      _col -> :coll
-    end
+    Players.tick(list_obstacles())
+    process_hits()
 
     PubSub.broadcast(Game.PubSub, @topic_tick, :tick)
 
@@ -75,5 +68,26 @@ defmodule Game.State do
     %{id: id, x: x, y: y} = get_player(player_id)
 
     Projectiles.add(id, {x, y}, vector)
+  end
+
+  def list_obstacles() do
+    Players.list() ++ Obstacles.list()
+  end
+
+  def process_hits() do
+    hits = Game.Engine.detect_hits(Projectiles.list(), Players.list())
+
+    for {_hitter, hits} <- hits do
+      case hits do
+        [] -> nil
+        hits -> hits |> Enum.each(&puts_if_not_test("hit on " <> inspect(&1)))
+      end
+    end
+  end
+
+  defp puts_if_not_test(str) do
+    if Mix.env() != :test do
+      IO.puts(str)
+    end
   end
 end

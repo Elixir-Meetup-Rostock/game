@@ -38,4 +38,28 @@ defmodule Game.EngineTest do
 
     assert nil == Engine.detect_collisions(game_objects)
   end
+
+  test "distance_increasing?/3 determines that an object is moving away" do
+    game_objects = [
+      %Player{id: 2, x: 10, y: 10, name: "some player"},
+      %Player{id: 3, x: 15, y: 15, name: "some other player"}
+    ]
+
+    old_pos = %Player{id: 1, x: 9, y: 10, name: "the real player"}
+    new_pos = %Player{id: 1, x: 8, y: 10, name: "the real player"}
+
+    assert Engine.distance_increasing?(game_objects, old_pos, new_pos)
+  end
+
+  test "distance_increasing?/3 determines that an object is getting closer to one element" do
+    game_objects = [
+      %Player{id: 2, x: 10, y: 10, name: "some player"},
+      %Player{id: 3, x: 15, y: 15, name: "some other player"}
+    ]
+
+    old_pos = %Player{id: 1, x: 9, y: 11, name: "the real player"}
+    new_pos = %Player{id: 1, x: 9, y: 10, name: "the real player"}
+
+    refute Engine.distance_increasing?(game_objects, old_pos, new_pos)
+  end
 end

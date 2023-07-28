@@ -6,6 +6,7 @@ defmodule Game.State.Players do
   use Agent
 
   alias Game.State.Players.Player
+  alias Game.Engine
   alias Phoenix.PubSub
 
   @topic_update "players_update"
@@ -25,8 +26,11 @@ defmodule Game.State.Players do
     Agent.get(__MODULE__, &Map.get(&1, id))
   end
 
-  def add(id, %{name: name} = _data) do
-    player = %Player{id: id, name: name, x: 0, y: 0}
+  def add(id, data) do
+    player =
+      data
+      |> Map.put(:id, id)
+      |> then(&struct(Player, &1))
 
     Agent.update(__MODULE__, &Map.put(&1, id, player))
 
@@ -49,13 +53,17 @@ defmodule Game.State.Players do
     Agent.update(__MODULE__, &Map.put(&1, id, player))
   end
 
-  def tick() do
-    Agent.update(__MODULE__, &tick_players/1)
+  @doc """
+  Updates all players, handling movement. Takes a list of movement blocking colliders
+  """
+  @spec tick(list(Engine.game_object())) :: :ok
+  def tick(colliders) do
+    Agent.update(__MODULE__, fn state -> tick_players(state, colliders) end)
   end
 
-  defp tick_players(players) do
+  defp tick_players(players, colliders) do
     players
-    |> Enum.map(fn {id, player} -> {id, Player.tick(player)} end)
+    |> Enum.map(fn {id, player} -> {id, Player.tick(player, colliders)} end)
     |> Map.new()
   end
 end
