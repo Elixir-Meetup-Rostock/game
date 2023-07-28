@@ -1,4 +1,4 @@
-defmodule Game.Map do
+defmodule Game.Board do
   @moduledoc """
   Holds all information about the map and it's tiles.
   """
@@ -12,7 +12,7 @@ defmodule Game.Map do
     ]
   end
 
-  def get_board() do
+  def get_map() do
     [
       [1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 1],
