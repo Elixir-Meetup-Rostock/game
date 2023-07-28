@@ -3,6 +3,8 @@ defmodule Game.State.Players.Player do
   This is the player itself with it's current state and specific actions.
   """
 
+  alias Game.Engine
+
   @enforce_keys [:id, :name]
 
   @derive Jason.Encoder
@@ -51,14 +53,13 @@ defmodule Game.State.Players.Player do
   defp move_x(player), do: player
   defp maybe_move(desired_state, desired_state, _colliders), do: desired_state
 
-  defp maybe_move(desired_state, old_state, colliders) do
-    Game.Engine.detect_collisions_for_go(desired_state, colliders)
+  defp maybe_move(desired, old, colliders) do
+    Engine.detect_collisions_for_go(desired, colliders)
     |> case do
-      [] -> desired_state
-      _ -> old_state
+      [] -> desired
+      colls -> if Engine.distance_increasing?(colls, old, desired), do: desired, else: old
     end
   end
-
   # defp get_color(name) do
   #   hue = name |> to_charlist() |> Enum.sum() |> rem(360)
   #   "hsl(#{hue}, 60%, 40%)"

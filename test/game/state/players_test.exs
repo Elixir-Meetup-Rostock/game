@@ -80,5 +80,16 @@ defmodule Game.State.PlayersTest do
       assert %Player{x: 0, y: 40} = Players.get(@id1)
       assert %Player{x: 0, y: ^speed} = Players.get(@id2)
     end
+
+    test "can move away when stuck in an object" do
+      Players.add(@id1, %{name: @name1, y: 20})
+      %{speed: speed} = Players.add(@id2, %{name: @name2})
+
+      Players.set_action(@id2, :up, true)
+      speed = speed * -1
+      Players.tick(Players.list())
+      assert %Player{x: 0, y: 20} = Players.get(@id1)
+      assert %Player{x: 0, y: ^speed} = Players.get(@id2)
+    end
   end
 end
