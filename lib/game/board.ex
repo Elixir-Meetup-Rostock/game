@@ -5,6 +5,7 @@ defmodule Game.Board do
 
   alias Game.Board.Map
   alias Game.Board.Tile
+  alias Game.State
 
   @sprites_dir "/images/sprites"
 
@@ -25,5 +26,10 @@ defmodule Game.Board do
   defp get_tiles({y, row}) do
     row
     |> Enum.with_index(fn _type, x -> %Tile{x: x, y: y} end)
+  end
+
+  def list_other_players(id) do
+    State.list_players()
+    |> Enum.reject(&(&1.id === id))
   end
 end

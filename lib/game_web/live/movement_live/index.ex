@@ -28,7 +28,7 @@ defmodule GameWeb.MovementLive.Index do
     |> assign(board: Board.get_map())
     |> assign(projectiles: State.list_projectiles())
     |> assign(player: State.get_player(socket.id))
-    |> assign(players: list_other_players(socket.id))
+    |> assign(players: Board.list_other_players(socket.id))
     |> reply(:ok)
   end
 
@@ -69,13 +69,13 @@ defmodule GameWeb.MovementLive.Index do
   @impl true
   def handle_info({:join, _id, _player}, socket) do
     socket
-    |> assign(players: list_other_players(socket.id))
+    |> assign(players: Board.list_other_players(socket.id))
     |> reply(:noreply)
   end
 
   def handle_info({:leave, _id, nil}, socket) do
     socket
-    |> assign(players: list_other_players(socket.id))
+    |> assign(players: Board.list_other_players(socket.id))
     |> reply(:noreply)
   end
 
@@ -83,13 +83,8 @@ defmodule GameWeb.MovementLive.Index do
     socket
     |> assign(projectiles: State.list_projectiles())
     |> assign(player: State.get_player(socket.id))
-    |> assign(players: list_other_players(socket.id))
+    |> assign(players: Board.list_other_players(socket.id))
     |> reply(:noreply)
-  end
-
-  defp list_other_players(id) do
-    State.list_players()
-    |> Enum.reject(&(&1.id === id))
   end
 
   defp get_key_action("ArrowUp"), do: :up

@@ -3,6 +3,12 @@ defmodule Game.BoardTest do
 
   alias Game.Board
   alias Game.Board.Tile
+  alias Game.State.Players
+
+  @id1 "random-id-1"
+  @name1 "lorem ipsum 1"
+  @id2 "random-id-2"
+  @name2 "lorem ipsum 2"
 
   describe "board" do
     test "can list sprites" do
@@ -17,6 +23,17 @@ defmodule Game.BoardTest do
 
       assert is_list(tile_list)
       assert Enum.all?(tile_list, &match?(%Tile{}, &1))
+    end
+
+    test "can list other players" do
+      Players.add(@id1, %{name: @name1})
+      Players.add(@id2, %{name: @name2})
+
+      other_players = Board.list_other_players(@id1)
+
+      refute other_players |> Enum.find(&(&1.id === @id1))
+
+      assert other_players |> Enum.find(&(&1.id === @id2))
     end
   end
 end
