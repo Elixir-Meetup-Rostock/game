@@ -60,6 +60,7 @@ defmodule Game.State.Players.Player do
       colls -> if Engine.distance_increasing?(colls, old, desired), do: desired, else: old
     end
   end
+
   # defp get_color(name) do
   #   hue = name |> to_charlist() |> Enum.sum() |> rem(360)
   #   "hsl(#{hue}, 60%, 40%)"
