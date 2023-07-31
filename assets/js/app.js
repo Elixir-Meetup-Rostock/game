@@ -37,16 +37,17 @@ hooks.cursorMove = {
   }
 }
 
-hooks.gameSprites = {
+hooks.gameAssets = {
   mounted() {
     const onSpritesLoaded = (sprites) => {
       window.sprites = sprites
 
-      this.pushEvent("sprites_loaded")
+      this.pushEvent("assets_loaded")
     }
 
     const node = this.el
     const sprites = JSON.parse(node.dataset.sprites)
+    // const tiles = JSON.parse(node.dataset.tiles)
 
     new Sprites(sprites, onSpritesLoaded)
   }

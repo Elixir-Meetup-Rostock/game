@@ -37,7 +37,7 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   @impl true
-  def handle_event("sprites_loaded", _params, socket) do
+  def handle_event("assets_loaded", _params, socket) do
     socket
     |> assign(loaded: true)
     |> reply(:noreply)

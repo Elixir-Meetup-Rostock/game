@@ -30,8 +30,8 @@ defmodule GameWeb.MovementLiveTest do
       {:ok, lv, _html} = conn |> live(~p"/movement?#{params}")
 
       assert lv
-             |> element("#game-sprites")
-             |> render_hook(:sprites_loaded, %{}) =~ ~s(<canvas id="game-canvas")
+             |> element("#game-assets")
+             |> render_hook(:assets_loaded, %{}) =~ ~s(<canvas id="game-canvas")
     end
 
     test "redirect if user is not present", %{conn: conn} do
