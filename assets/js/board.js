@@ -67,7 +67,7 @@ export default class Board {
     if (this.log) console.log("drawFrame")
 
     if (this.animationFrameId) {
-      window.cancelAnimationFrame(this.animationFrameId);
+      window.cancelAnimationFrame(this.animationFrameId)
     }
 
     this.animationFrameId = window.requestAnimationFrame(() => {
@@ -143,20 +143,20 @@ export default class Board {
   drawFps() {
     this.i++;
     if (this.i % 5 === 0) {
-      this.i = 0;
-      let now = performance.now();
-      this.fps = 1 / ((now - (this.fpsNow || now)) / 5000);
-      this.fpsNow = now;
+      this.i = 0
+      let now = performance.now()
+      this.fps = 1 / ((now - (this.fpsNow || now)) / 5000)
+      this.fpsNow = now
     }
 
-    this.context.textBaseline = "top";
-    this.context.font = "20pt monospace";
-    this.context.fillStyle = "#dddddd";
-    this.context.beginPath();
-    this.context.rect(10, 100, 250, 80);
-    this.context.fill();
-    this.context.fillStyle = "black";
-    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 20, 110);
-    this.context.fillText(`Server FPS: ${Math.round(this.ups)}`, 20, 140);
+    this.context.textBaseline = "top"
+    this.context.font = "20pt monospace"
+    this.context.fillStyle = "#dddddd"
+    this.context.beginPath()
+    this.context.rect(10, 100, 250, 80)
+    this.context.fill()
+    this.context.fillStyle = "black"
+    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 20, 110)
+    this.context.fillText(`Server FPS: ${Math.round(this.ups)}`, 20, 140)
   }
 }

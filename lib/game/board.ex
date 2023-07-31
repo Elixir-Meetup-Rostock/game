@@ -3,7 +3,7 @@ defmodule Game.Board do
   Holds all information about the board including the map and it's tiles.
   """
 
-  alias Game.Board.Map
+  alias Game.Board.Map, as: BoardMap
   alias Game.Board.Tile
   alias Game.State
 
@@ -17,28 +17,32 @@ defmodule Game.Board do
     ]
   end
 
-  def unique_tiles() do
-    get_tiles()
-    |> Enum.uniq_by(fn %{sprite: sprite, sprite_x: x, sprite_y: y} -> {sprite, x, y} end)
+  def list_tiles() do
+    %{
+      0 => %Tile{id: 0, sprite: "map", sprite_x: 216, sprite_y: 12},
+      1 => %Tile{id: 1, sprite: "map", sprite_x: 216, sprite_y: 108}
+    }
   end
 
-  def get_tiles() do
-    Map.get()
-    |> Enum.with_index(fn row, y -> get_tiles({y, row}) end)
+  def list_tiles_as_list() do
+    list_tiles() |> Enum.map(fn {_, tile} -> tile end)
+  end
+
+  def find_tile(id), do: Map.get(list_tiles(), id)
+
+  def get() do
+    BoardMap.get()
+    |> Enum.with_index(fn row, y -> get({y, row}) end)
     |> List.flatten()
   end
 
-  defp get_tiles({y, row}) do
+  defp get({y, row}) do
     row
-    |> Enum.with_index(fn type, x -> get_tile(x, y, type) end)
+    |> Enum.with_index(fn id, x -> get(id, x, y) end)
   end
 
-  defp get_tile(x, y, 0) do
-    %Tile{x: x, y: y, sprite: "map", sprite_x: 216, sprite_y: 12}
-  end
-
-  defp get_tile(x, y, 1) do
-    %Tile{x: x, y: y, sprite: "map", sprite_x: 216, sprite_y: 108}
+  defp get(id, x, y) do
+    find_tile(id) |> Map.merge(%{x: x, y: y})
   end
 
   def list_other_players(id) do

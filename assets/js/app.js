@@ -47,9 +47,14 @@ hooks.gameAssets = {
 
     const node = this.el
     const sprites = JSON.parse(node.dataset.sprites)
-    // const tiles = JSON.parse(node.dataset.tiles)
+    const tiles = JSON.parse(node.dataset.tiles)
 
     new Sprites(sprites, onSpritesLoaded)
+
+    // tiles.map(({ tile }) => {
+    // console.log(tile)
+    // const tile = new Tile(sprite, this.tileSize, sprite_x, sprite_y)
+    // })
   }
 }
 

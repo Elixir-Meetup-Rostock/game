@@ -8,9 +8,9 @@ defmodule Game.Board.TileTest do
 
   describe "tile fields" do
     test "has nessessary fields" do
-      tile = %Tile{x: @x, y: @y, sprite: "map"}
+      tile = %Tile{id: 0, sprite: "map", sprite_x: @x, sprite_y: @y}
 
-      assert %Tile{x: @x, y: @y, sprite: "map", sprite_x: 0, sprite_y: 0} = tile
+      assert %Tile{id: 0, sprite: "map", sprite_x: @x, sprite_y: @y, x: 0, y: 0} = tile
     end
   end
 end

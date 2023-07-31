@@ -3,15 +3,16 @@ defmodule Game.Board.Tile do
   Represents a tile, that can be drawn on a board
   """
 
-  @enforce_keys [:x, :y, :sprite]
+  @enforce_keys [:id, :sprite, :sprite_x, :sprite_y]
 
   @derive Jason.Encoder
 
   defstruct [
-    :x,
-    :y,
+    :id,
     :sprite,
-    sprite_x: 0,
-    sprite_y: 0
+    :sprite_x,
+    :sprite_y,
+    x: 0,
+    y: 0
   ]
 end
