@@ -1,18 +1,22 @@
 "use strict";
 
-import Projectile from "./canvas/projectile"
+import Projectile from "./board/projectile"
+import Tile from "./board/tile"
 
-export default class Canvas {
-  constructor(node, sprites, projectiles, player, players) {
+export default class Board {
+  constructor(node, sprites, tiles, projectiles, player, players) {
     this.log = false
 
-    this.sprites = sprites
+    this.tileSize = 32
+    // this.tileSize = 16
 
     this.canvas = node
     this.context = this.canvas.getContext("2d")
 
-    this.projectiles = projectiles
+    this.sprites = sprites
 
+    this.tiles = tiles
+    this.projectiles = projectiles
     this.player = player
     this.players = players
 
@@ -21,9 +25,6 @@ export default class Canvas {
     this.i = 0
     this.fps = 0
     this.ups = 0
-
-    this.mapImg = this.sprites["map"]
-    this.playerImg = this.sprites["player"]
 
     window.addEventListener("resize", _e => { this.resize() })
     this.resize()
@@ -42,6 +43,9 @@ export default class Canvas {
     this.canvas.height = window.innerHeight
     this.canvas.width = window.innerWidth
 
+    this.halfHeight = this.canvas.height / 2
+    this.halfWidth = this.canvas.width / 2
+
     // this.canvas.width = window.innerWidth * ratio
     // this.canvas.height = window.innerHeight * ratio
     // this.canvas.style.width = `${window.innerWidth}px`
@@ -54,6 +58,7 @@ export default class Canvas {
     if (this.log) console.log("clear")
 
     this.canvas.width = this.canvas.width // clears the canvas
+
     // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
     // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
@@ -76,41 +81,33 @@ export default class Canvas {
     this.clear()
 
     this.drawMap()
-    this.drawProjectiles()
     this.drawPlayer()
     this.drawPlayers()
+    this.drawProjectiles()
     this.drawFps()
   }
 
   drawMap() {
-    this.context.drawImage(this.mapImg, -this.player.x, -this.player.y, this.canvas.width, this.canvas.height);
-  }
+    if (this.log) console.log("drawMap")
 
-  drawProjectiles() {
-    if (this.log) console.log("drawProjectiles")
+    this.tiles.map(({ x, y }) => {
+      const sprite = this.sprites["map"]
+      const tile = new Tile(sprite, this.tileSize, 216, 12)
 
-    const halfHeight = this.canvas.height / 2
-    const halfWidth = this.canvas.width / 2
+      const xPos = this.halfWidth - this.player.x + (x * this.tileSize)
+      const yPos = this.halfHeight - this.player.y + (y * this.tileSize)
 
-    this.projectiles.map(({ x, y }) => {
-      const p_x = halfWidth - this.player.x + x
-      const p_y = halfHeight - this.player.y + y
-
-      const projectile = new Projectile(x, y)
-      this.context.drawImage(projectile.canvas, p_x, p_y)
+      this.context.drawImage(tile, xPos, yPos, this.tileSize, this.tileSize)
     })
   }
 
   drawPlayer() {
     if (this.log) console.log("drawPlayer")
 
-    const halfHeight = this.canvas.height / 2
-    const halfWidth = this.canvas.width / 2
+    const xPos = this.halfWidth - (this.tileSize / 2)
+    const yPos = this.halfHeight - (this.tileSize / 2)
 
-    const imgHeight = 50
-    const imgWidth = 50
-
-    this.context.drawImage(this.playerImg, halfWidth - (imgWidth / 2), halfHeight - (imgHeight / 2), imgWidth, imgHeight)
+    this.context.drawImage(this.sprites["player"], xPos, yPos, this.tileSize, this.tileSize)
   }
 
   drawPlayers() {
@@ -122,16 +119,25 @@ export default class Canvas {
   drawOtherPlayer({ x, y }) {
     if (this.log) console.log("drawOtherPlayer")
 
-    const halfHeight = this.canvas.height / 2
-    const halfWidth = this.canvas.width / 2
+    const p_x = this.halfWidth - this.player.x + x
+    const p_y = this.halfHeight - this.player.y + y
 
-    const p_x = halfWidth - this.player.x + x
-    const p_y = halfHeight - this.player.y + y
+    const xPos = p_x - (this.tileSize / 2)
+    const yPos = p_y - (this.tileSize / 2)
 
-    const imgHeight = 50
-    const imgWidth = 50
+    this.context.drawImage(this.sprites["player"], xPos, yPos, this.tileSize, this.tileSize)
+  }
 
-    this.context.drawImage(this.playerImg, p_x - (imgWidth / 2), p_y - (imgHeight / 2), imgWidth, imgHeight)
+  drawProjectiles() {
+    if (this.log) console.log("drawProjectiles")
+
+    this.projectiles.map(({ x, y }) => {
+      const p_x = this.halfWidth - this.player.x + x
+      const p_y = this.halfHeight - this.player.y + y
+
+      const projectile = new Projectile(x, y)
+      this.context.drawImage(projectile.canvas, p_x, p_y)
+    })
   }
 
   drawFps() {

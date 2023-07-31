@@ -12,9 +12,9 @@
     id="game-canvas"
     class="w-full h-full"
     phx-update="ignore"
-    phx-hook="gameCanvas"
+    phx-hook="gameDraw"
     phx-click="click"
-    data-board={Jason.encode!(@board)}
+    data-tiles={Jason.encode!(@tiles)}
     data-projectiles={Jason.encode!(@projectiles)}
     data-player={Jason.encode!(@player)}
     data-players={Jason.encode!(@players)}

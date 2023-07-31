@@ -25,7 +25,7 @@ defmodule GameWeb.MovementLive.Index do
     socket
     |> assign(loaded: false)
     |> assign(sprites: Board.list_sprites())
-    |> assign(board: Board.get_map())
+    |> assign(tiles: Board.get_tiles())
     |> assign(projectiles: State.list_projectiles())
     |> assign(player: State.get_player(socket.id))
     |> assign(players: Board.list_other_players(socket.id))

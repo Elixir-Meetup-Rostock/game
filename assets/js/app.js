@@ -22,7 +22,7 @@ import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
-import Canvas from "./canvas"
+import Board from "./board"
 import Sprites from "./sprites"
 
 let hooks = {}
@@ -30,9 +30,9 @@ let hooks = {}
 hooks.cursorMove = {
   mounted() {
     document.addEventListener("mousemove", (e) => {
-      const x = (e.pageX / window.innerWidth) * 100; // in %
-      const y = (e.pageY / window.innerHeight) * 100; // in %
-      this.pushEvent("cursor-move", { x, y });
+      const x = (e.pageX / window.innerWidth) * 100 // in %
+      const y = (e.pageY / window.innerHeight) * 100 // in %
+      this.pushEvent("cursor-move", { x, y })
     })
   }
 }
@@ -46,40 +46,42 @@ hooks.gameSprites = {
     }
 
     const node = this.el
-    const sprites = JSON.parse(node.dataset.sprites);
+    const sprites = JSON.parse(node.dataset.sprites)
 
     new Sprites(sprites, onSpritesLoaded)
   }
 }
 
-hooks.gameCanvas = {
+hooks.gameDraw = {
   mounted() {
     this.j = 0
 
     const node = this.el
-    const projectiles = JSON.parse(node.dataset.projectiles);
-    const player = JSON.parse(node.dataset.player);
-    const players = JSON.parse(node.dataset.players);
+    const tiles = JSON.parse(node.dataset.tiles)
+    const projectiles = JSON.parse(node.dataset.projectiles)
+    const player = JSON.parse(node.dataset.player)
+    const players = JSON.parse(node.dataset.players)
 
-    this.canvas = new Canvas(node, window.sprites, projectiles, player, players)
+    this.board = new Board(node, window.sprites, tiles, projectiles, player, players)
   },
   updated() {
-    this.j++;
+    this.j++
     if (this.j % 5 === 0) {
-      this.j = 0;
-      let now = performance.now();
-      this.canvas.ups = 1 / ((now - (this.upsNow || now)) / 5000);
-      this.upsNow = now;
+      this.j = 0
+      let now = performance.now()
+      this.board.ups = 1 / ((now - (this.upsNow || now)) / 5000)
+      this.upsNow = now
     }
 
     const node = this.el
-    const projectiles = JSON.parse(node.dataset.projectiles);
-    const player = JSON.parse(node.dataset.player);
-    const players = JSON.parse(node.dataset.players);
+    // const tiles = JSON.parse(node.dataset.tiles)
+    const projectiles = JSON.parse(node.dataset.projectiles)
+    const player = JSON.parse(node.dataset.player)
+    const players = JSON.parse(node.dataset.players)
 
-    this.canvas.setProjectiles(projectiles)
-    this.canvas.setPlayers(player, players)
-    this.canvas.drawFrame()
+    this.board.setProjectiles(projectiles)
+    this.board.setPlayers(player, players)
+    this.board.drawFrame()
   }
 }
 
