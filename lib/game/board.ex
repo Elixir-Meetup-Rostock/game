@@ -17,6 +17,11 @@ defmodule Game.Board do
     ]
   end
 
+  def unique_tiles() do
+    get_tiles()
+    |> Enum.uniq_by(fn %{sprite: sprite, sprite_x: x, sprite_y: y} -> {sprite, x, y} end)
+  end
+
   def get_tiles() do
     Map.get()
     |> Enum.with_index(fn row, y -> get_tiles({y, row}) end)
@@ -25,7 +30,15 @@ defmodule Game.Board do
 
   defp get_tiles({y, row}) do
     row
-    |> Enum.with_index(fn _type, x -> %Tile{x: x, y: y} end)
+    |> Enum.with_index(fn type, x -> get_tile(x, y, type) end)
+  end
+
+  defp get_tile(x, y, 0) do
+    %Tile{x: x, y: y, sprite: "map", sprite_x: 216, sprite_y: 12}
+  end
+
+  defp get_tile(x, y, 1) do
+    %Tile{x: x, y: y, sprite: "map", sprite_x: 216, sprite_y: 108}
   end
 
   def list_other_players(id) do

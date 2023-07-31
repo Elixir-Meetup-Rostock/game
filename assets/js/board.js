@@ -90,9 +90,9 @@ export default class Board {
   drawMap() {
     if (this.log) console.log("drawMap")
 
-    this.tiles.map(({ x, y }) => {
+    this.tiles.map(({ x, y, sprite_x, sprite_y }) => {
       const sprite = this.sprites["map"]
-      const tile = new Tile(sprite, this.tileSize, 216, 12)
+      const tile = new Tile(sprite, this.tileSize, sprite_x, sprite_y)
 
       const xPos = this.halfWidth - this.player.x + (x * this.tileSize)
       const yPos = this.halfHeight - this.player.y + (y * this.tileSize)

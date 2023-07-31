@@ -6,7 +6,12 @@
   >
     LOADING
   </div>
-  <div id="game-assets" phx-hook="gameAssets" data-sprites={Jason.encode!(@sprites)} data-tiles={}>
+  <div
+    id="game-assets"
+    phx-hook="gameAssets"
+    data-sprites={Jason.encode!(@sprites)}
+    data-tiles={Jason.encode!(@tiles)}
+  >
   </div>
   <canvas
     :if={@loaded}
@@ -15,7 +20,7 @@
     phx-update="ignore"
     phx-hook="gameDraw"
     phx-click="click"
-    data-tiles={Jason.encode!(@tiles)}
+    data-board={Jason.encode!(@board)}
     data-projectiles={Jason.encode!(@projectiles)}
     data-player={Jason.encode!(@player)}
     data-players={Jason.encode!(@players)}

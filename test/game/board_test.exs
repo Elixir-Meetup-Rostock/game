@@ -18,6 +18,19 @@ defmodule Game.BoardTest do
       assert %{key: "map", file: _} = Enum.find(sprite_list, &(&1.key === "map"))
     end
 
+    test "can list unique tiles" do
+      tile_list = Board.unique_tiles()
+
+      assert is_list(tile_list)
+
+      unique_tiles =
+        tile_list
+        |> Enum.group_by(&{&1.sprite, &1.sprite_x, &1.sprite_y})
+        |> Map.to_list()
+
+      assert Enum.all?(unique_tiles, &match?({{_sprite, _x, _y}, [_tile]}, &1))
+    end
+
     test "can get board as list of tiles" do
       tile_list = Board.get_tiles()
 

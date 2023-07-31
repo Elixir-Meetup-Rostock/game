@@ -58,12 +58,12 @@ hooks.gameDraw = {
     this.j = 0
 
     const node = this.el
-    const tiles = JSON.parse(node.dataset.tiles)
+    const board = JSON.parse(node.dataset.board)
     const projectiles = JSON.parse(node.dataset.projectiles)
     const player = JSON.parse(node.dataset.player)
     const players = JSON.parse(node.dataset.players)
 
-    this.board = new Board(node, window.sprites, tiles, projectiles, player, players)
+    this.board = new Board(node, window.sprites, board, projectiles, player, players)
   },
   updated() {
     this.j++
@@ -75,7 +75,7 @@ hooks.gameDraw = {
     }
 
     const node = this.el
-    // const tiles = JSON.parse(node.dataset.tiles)
+    // const board = JSON.parse(node.dataset.board)
     const projectiles = JSON.parse(node.dataset.projectiles)
     const player = JSON.parse(node.dataset.player)
     const players = JSON.parse(node.dataset.players)
