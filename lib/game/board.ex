@@ -1,27 +1,29 @@
 defmodule Game.Board do
   @moduledoc """
-  Holds all information about the map and it's tiles.
+  Holds all information about the board including the map and it's tiles.
   """
+
+  alias Game.Board.Map
+  alias Game.Board.Tile
 
   @sprites_dir "/images/sprites"
 
   def list_sprites() do
     [
       # %{key: "map", file: "#{@sprites_dir}/game_background.jpeg"},
-      %{key: "map", file: "#{@sprites_dir}/demo-sprite.png.png"},
+      %{key: "map", file: "#{@sprites_dir}/demo-sprite.png"},
       %{key: "player", file: "#{@sprites_dir}/player.png"}
     ]
   end
 
-  def get_map() do
-    [
-      [1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1, 1, 1]
-    ]
+  def get_tiles() do
+    Map.get()
+    |> Enum.with_index(fn row, y -> get_tiles({y, row}) end)
+    |> List.flatten()
+  end
+
+  defp get_tiles({y, row}) do
+    row
+    |> Enum.with_index(fn _type, x -> %Tile{x: x, y: y} end)
   end
 end

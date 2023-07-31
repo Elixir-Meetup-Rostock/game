@@ -2,10 +2,9 @@ defmodule Game.BoardTest do
   use Game.DataCase, async: true
 
   alias Game.Board
+  alias Game.Board.Tile
 
-  @rock 1
-
-  describe "map" do
+  describe "board" do
     test "can list sprites" do
       sprite_list = Board.list_sprites()
 
@@ -13,21 +12,11 @@ defmodule Game.BoardTest do
       assert %{key: "map", file: _} = Enum.find(sprite_list, &(&1.key === "map"))
     end
 
-    test "can get board as a list of lists" do
-      board = Board.get_map()
+    test "can get board as list of tiles" do
+      tile_list = Board.get_tiles()
 
-      assert is_list(board)
-      assert Enum.all?(board, &is_list/1)
-    end
-
-    test "all outside layers are rock" do
-      board = Board.get_map()
-
-      assert Enum.all?(board, fn line -> List.first(line) === @rock end)
-      assert Enum.all?(board, fn line -> List.last(line) === @rock end)
-
-      assert List.first(board) |> Enum.all?(&(&1 === @rock))
-      assert List.last(board) |> Enum.all?(&(&1 === @rock))
+      assert is_list(tile_list)
+      assert Enum.all?(tile_list, &match?(%Tile{}, &1))
     end
   end
 end
