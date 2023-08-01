@@ -24,6 +24,7 @@ import topbar from "../vendor/topbar"
 
 import Board from "./board"
 import Sprites from "./sprites"
+import Tile from "./board/tile"
 
 let hooks = {}
 
@@ -40,7 +41,9 @@ hooks.cursorMove = {
 hooks.gameAssets = {
   mounted() {
     const onSpritesLoaded = (sprites) => {
-      window.sprites = sprites
+      window.tiles = tiles.reduce((acc, { id, size, sprite, sprite_x, sprite_y }) => {
+        return { ...acc, [id]: new Tile(sprites[sprite], size, sprite_x, sprite_y) }
+      }, {})
 
       this.pushEvent("assets_loaded")
     }
@@ -50,11 +53,6 @@ hooks.gameAssets = {
     const tiles = JSON.parse(node.dataset.tiles)
 
     new Sprites(sprites, onSpritesLoaded)
-
-    // tiles.map(({ tile }) => {
-    // console.log(tile)
-    // const tile = new Tile(sprite, this.tileSize, sprite_x, sprite_y)
-    // })
   }
 }
 
@@ -68,7 +66,7 @@ hooks.gameDraw = {
     const player = JSON.parse(node.dataset.player)
     const players = JSON.parse(node.dataset.players)
 
-    this.board = new Board(node, window.sprites, board, projectiles, player, players)
+    this.board = new Board(node, window.tiles, board, projectiles, player, players)
   },
   updated() {
     this.j++

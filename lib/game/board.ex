@@ -4,30 +4,13 @@ defmodule Game.Board do
   """
 
   alias Game.Board.Map, as: BoardMap
-  alias Game.Board.Tile
+  alias Game.Board.Sprites
+  alias Game.Board.Tiles
   alias Game.State
 
-  @sprites_dir "/images/sprites"
+  defdelegate list_sprites, to: Sprites, as: :list
 
-  def list_sprites() do
-    [
-      %{key: "map", file: "#{@sprites_dir}/demo-sprite.png"},
-      %{key: "player", file: "#{@sprites_dir}/player.png"}
-    ]
-  end
-
-  def list_tiles() do
-    %{
-      0 => %Tile{id: 0, sprite: "map", sprite_x: 216, sprite_y: 12},
-      1 => %Tile{id: 1, sprite: "map", sprite_x: 216, sprite_y: 108}
-    }
-  end
-
-  def list_tiles_as_list() do
-    list_tiles() |> Enum.map(fn {_, tile} -> tile end)
-  end
-
-  def find_tile(id), do: Map.get(list_tiles(), id)
+  defdelegate list_tiles, to: Tiles, as: :list
 
   def get() do
     BoardMap.get()
@@ -37,11 +20,11 @@ defmodule Game.Board do
 
   defp get({y, row}) do
     row
-    |> Enum.with_index(fn id, x -> get(id, x, y) end)
+    |> Enum.with_index(fn type, x -> get(type, x, y) end)
   end
 
-  defp get(id, x, y) do
-    find_tile(id) |> Map.merge(%{x: x, y: y})
+  defp get(type, x, y) do
+    Tiles.get(type) |> Map.merge(%{x: x, y: y})
   end
 
   def list_other_players(id) do

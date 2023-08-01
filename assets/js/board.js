@@ -4,18 +4,17 @@ import Projectile from "./board/projectile"
 import Tile from "./board/tile"
 
 export default class Board {
-  constructor(node, sprites, tiles, projectiles, player, players) {
+  constructor(node, tiles, board, projectiles, player, players) {
     this.log = false
 
-    this.tileSize = 32
-    // this.tileSize = 16
+    this.tileSize = 16
 
     this.canvas = node
     this.context = this.canvas.getContext("2d")
 
-    this.sprites = sprites
-
     this.tiles = tiles
+
+    this.board = board
     this.projectiles = projectiles
     this.player = player
     this.players = players
@@ -90,24 +89,23 @@ export default class Board {
   drawMap() {
     if (this.log) console.log("drawMap")
 
-    this.tiles.map(({ x, y, sprite_x, sprite_y }) => {
-      const sprite = this.sprites["map"]
-      const tile = new Tile(sprite, this.tileSize, sprite_x, sprite_y)
+    this.board.map(({ id, size, x, y }) => {
+      const xPos = this.halfWidth - this.player.x + (x * size)
+      const yPos = this.halfHeight - this.player.y + (y * size)
 
-      const xPos = this.halfWidth - this.player.x + (x * this.tileSize)
-      const yPos = this.halfHeight - this.player.y + (y * this.tileSize)
-
-      this.context.drawImage(tile, xPos, yPos, this.tileSize, this.tileSize)
+      this.context.drawImage(this.tiles[id], xPos, yPos, size, size)
     })
   }
 
   drawPlayer() {
     if (this.log) console.log("drawPlayer")
 
+    const tile = this.tiles[9]
+
     const xPos = this.halfWidth - (this.tileSize / 2)
     const yPos = this.halfHeight - (this.tileSize / 2)
 
-    this.context.drawImage(this.sprites["player"], xPos, yPos, this.tileSize, this.tileSize)
+    this.context.drawImage(tile, xPos, yPos, this.tileSize, this.tileSize)
   }
 
   drawPlayers() {
@@ -119,13 +117,15 @@ export default class Board {
   drawOtherPlayer({ x, y }) {
     if (this.log) console.log("drawOtherPlayer")
 
+    const tile = this.tiles[9]
+
     const p_x = this.halfWidth - this.player.x + x
     const p_y = this.halfHeight - this.player.y + y
 
     const xPos = p_x - (this.tileSize / 2)
     const yPos = p_y - (this.tileSize / 2)
 
-    this.context.drawImage(this.sprites["player"], xPos, yPos, this.tileSize, this.tileSize)
+    this.context.drawImage(tile, xPos, yPos, this.tileSize, this.tileSize)
   }
 
   drawProjectiles() {

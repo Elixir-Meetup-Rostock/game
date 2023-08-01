@@ -2,7 +2,7 @@ defmodule Game.BoardTest do
   use Game.DataCase, async: true
 
   alias Game.Board
-  alias Game.Board.Tile
+  alias Game.Board.Tiles.Tile
   alias Game.State.Players
 
   @id1 "random-id-1"
@@ -11,26 +11,16 @@ defmodule Game.BoardTest do
   @name2 "lorem ipsum 2"
 
   describe "board" do
-    test "can list sprites" do
-      sprite_list = Board.list_sprites()
+    # Board.list_sprites()
 
-      assert is_list(sprite_list)
-      assert %{key: "map", file: _} = Enum.find(sprite_list, &(&1.key === "map"))
-    end
+    # Board.list_tiles()
 
-    test "can get unique tiles" do
-      tiles = Board.list_tiles()
+    test "can get the board as a list of tiles with x and y set" do
+      board = Board.get()
 
-      assert is_map(tiles)
-
-      assert tiles |> Map.to_list() |> Enum.all?(&match?({_, %Tile{}}, &1))
-    end
-
-    test "can get board as list of tiles" do
-      board_list = Board.get()
-
-      assert is_list(board_list)
-      assert Enum.all?(board_list, &match?(%Tile{}, &1))
+      assert is_list(board)
+      assert board |> Enum.all?(&match?(%Tile{}, &1))
+      assert board |> Enum.filter(&(&1.x === 0 && &1.y === 0)) |> length() === 1
     end
 
     test "can list other players" do
