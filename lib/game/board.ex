@@ -14,17 +14,13 @@ defmodule Game.Board do
 
   def get() do
     BoardMap.get()
-    |> Enum.with_index(fn row, y -> get({y, row}) end)
-    |> List.flatten()
+    |> Enum.map(&get/1)
   end
 
-  defp get({y, row}) do
-    row
-    |> Enum.with_index(fn type, x -> get(type, x, y) end)
-  end
-
-  defp get(type, x, y) do
-    Tiles.get(type) |> Map.merge(%{x: x, y: y})
+  defp get({{x, y}, type}) do
+    type
+    |> Tiles.get()
+    |> Map.merge(%{x: x, y: y})
   end
 
   def list_other_players(id) do
