@@ -13,7 +13,7 @@ export default class MapEditor {
 		topLayer,
 		activeLayer
 	) {
-		this.log = true;
+		// this.log = true;
 
 		this.tileSize = 16;
 

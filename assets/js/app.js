@@ -120,18 +120,13 @@ hooks.mapEditor = {
 		);
 	},
 	updated() {
+		console.log("updated");
 		const node = this.el;
 
-		// const bottomLayer = JSON.parse(node.dataset.bottom_layer);
-		// const topLayer = JSON.parse(node.dataset.top_layer);
 		const activeLayer = JSON.parse(node.dataset.active_layer);
 
 		const selectedTile = JSON.parse(node.dataset.selected_tile);
 
-		// const availableTiles = JSON.parse(node.dataset.availableTiles);
-
-		// this.mapEditor.setBottomLayer(bottomLayer);
-		// this.mapEditor.setTopLayer(topLayer);
 		this.mapEditor.setActiveLayer(activeLayer);
 		this.mapEditor.setSelectedTile(selectedTile);
 

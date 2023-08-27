@@ -1,12 +1,13 @@
-<div class="relative w-full flex items-center h-screen bg-white z-50">
-  <aside class="relative h-full min-w-fit flex flex-col bg-slate-400 px-10 py-6 text-slate-900">
+<div class="relative w-full flex  min-h-screen bg-white z-50">
+  <aside class="relative min-h-full min-w-fit flex flex-col bg-slate-400 px-10 py-6 text-slate-900">
     <h1 class="text-4xl font-bold mb-4">Map Editor</h1>
 
     <h2>Active Layer</h2>
 
-    <form class="w-full flex" phx-change="switch_layer">
-      <div class="flex items-center">
+    <form class="w-full flex flex-col mb-6" phx-change="switch_layer">
+      <div class="flex items-center mb-1">
         <input
+          class="relative float-left mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
           type="radio"
           id="layer1"
           name="layer"
@@ -16,54 +17,100 @@
       </div>
 
       <div class="flex items-center">
-        <input type="radio" id="layer2" name="layer" value="top" checked={@active_layer == :top} />
+        <input
+          class="relative float-left mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
+          type="radio"
+          id="layer2"
+          name="layer"
+          value="top"
+          checked={@active_layer == :top}
+        />
         <label for="layer2">Top</label>
       </div>
     </form>
 
     <form class="w-full flex flex-col justify-between" phx-change="set_map_size">
-      <div class="relative mb-3" data-te-input-wrapper-init>
+      <div class="relative mb-3">
         <label for="map-width">
-          Map Width
+          Map Width (in tiles)
         </label>
 
         <input
           type="number"
           min="1"
-          class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+          class="bg-white peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
           id="map-width"
+          name="map-width"
           placeholder="10"
+          value={@width}
         />
       </div>
-      <div class="relative mb-3" data-te-input-wrapper-init>
-        <label for="map-width">
-          Map Width
+      <div class="relative mb-3">
+        <label for="map-height">
+          Map Height (in tiles)
         </label>
 
         <input
           type="number"
           min="1"
-          class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-          id="map-width"
+          class="bg-white peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+          id="map-height"
+          name="map-height"
           placeholder="10"
+          value={@height}
         />
       </div>
     </form>
 
-    <form :if={@available_tiles} class="grid grid-cols-3 gap-2" phx-change="set_tile">
+    <form :if={@available_tiles} class="grid grid-cols-3 gap-4" phx-change="set_tile">
       <%= for tile <- @available_tiles do %>
         <div class="flex items-center">
           <input
-            class="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+            class="relative float-left mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
             type="radio"
             id={"tile-" <> tile.name}
             name="tile"
             value={tile.tile}
             checked={tile.tile == @selected_tile}
           />
-          <label for={"tile-" <> tile.name} class="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"><%= tile.name %></label>
+          <%!-- <label
+            for={"tile-" <> tile.name}
+            class="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
+          >
+            <%= tile.name %>
+          </label> --%>
+
+          <label for={"tile-" <> tile.name} class="cursor-pointer">
+            <img
+              class="ml-1"
+              src={get_tile_image(tile)}
+              width={@tile_size * 1.5}
+              height={@tile_size * 1.5}
+            />
+          </label>
         </div>
       <% end %>
+    </form>
+
+    <form phx-change="set_zoom" class="mt-4">
+      <div class="flex justify-between">
+        <label for="zoom">
+          Zoom Level
+        </label>
+        <p id="zoom-value" class="text-right">
+          <%= @zoom * 100 %>%
+        </p>
+      </div>
+      <input
+        id="zoom"
+        name="zoom"
+        type="range"
+        min="0.5"
+        max="2"
+        step="0.25"
+        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        value={@zoom}
+      />
     </form>
 
     <button
@@ -74,13 +121,17 @@
     </button>
   </aside>
 
-  <div class="flex flex-col mx-auto my-auto">
+  <div class="relative p-10 w-fit h-fit flex justify-start items-start">
     <!-- Canvas for drawing the map -->
     <canvas
+      style={
+      "width: " <> to_string(@width * @tile_size * @zoom) <> "px; " <>
+      "height: " <> to_string(@height * @tile_size * @zoom) <> "px; "
+      }
       id="editor-canvas"
-      class="scale-125 bg-slate-600"
-      width={@width}
-      height={@height}
+      class="bg-slate-600"
+      width={@width * @tile_size}
+      height={@height * @tile_size}
       phx-hook="mapEditor"
       phx-update="ignore"
       data-available_tiles={Jason.encode!(@available_tiles)}
