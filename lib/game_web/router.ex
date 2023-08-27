@@ -26,6 +26,8 @@ defmodule GameWeb.Router do
     live "/cursor", CursorLive.Index, :index
 
     live "/movement", MovementLive.Index, :index
+
+    live "/map_editor", MapEditorLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
