@@ -204,9 +204,8 @@ export default class MapEditor {
 			this.parentAPP.pushEvent("map_updated", {
 				bottom_layer: this.bottomLayer,
 				top_layer: this.topLayer,
-				active_layer: this.activeLayer,
 			});
-			this.drawFrame();
+			// this.drawFrame();
 		}
 	};
 }

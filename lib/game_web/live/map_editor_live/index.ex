@@ -11,7 +11,7 @@ defmodule GameWeb.MapEditorLive.Index do
     %{
       tile: :grass,
       name: "Grass",
-      src: "https://opengameart.org/sites/default/files/grass_0.png"
+      src: "https://opengameart.org/sites/default/files/grass_1.png"
     },
     %{
       tile: :water,
@@ -26,7 +26,17 @@ defmodule GameWeb.MapEditorLive.Index do
     %{
       tile: :rock,
       name: "Rock",
-      src: "https://opengameart.org/sites/default/files/rock_0.png"
+      src: "https://opengameart.org/sites/default/files/rock_1.png"
+    },
+    %{
+      tile: :dirt,
+      name: "Dirt",
+      src: "https://opengameart.org/sites/default/files/dirt_0.png"
+    },
+    %{
+      tile: :bush,
+      name: "Bush",
+      src: "https://opengameart.org/sites/default/files/bush_4.png"
     }
   ]
 
@@ -38,42 +48,14 @@ defmodule GameWeb.MapEditorLive.Index do
     |> assign(:zoom, 1)
     |> assign(:tile_size, @tile_size)
     |> assign(:available_tiles, @available_tiles)
-    |> assign(:tiles, {})
     |> assign(:bottom_layer, %{})
     |> assign(:top_layer, %{})
     |> assign(:active_layer, :bottom)
-    |> assign(:selected_tile, @available_tiles |> List.first())
+    |> assign(:selected_tile, @available_tiles |> List.first() |> Map.get(:tile))
     |> reply(:ok)
   end
 
   @impl true
-  def handle_event("update", %{"tiles" => tiles}, socket) do
-    {:noreply, assign(socket, :tiles, tiles)}
-  end
-
-  @impl true
-  def handle_event("update", %{"width" => width, "height" => height}, socket) do
-    socket
-    |> assign(:width, width)
-    |> assign(:height, height)
-    |> reply(:noreply)
-  end
-
-  @impl true
-  def handle_event("update", %{"tile_size" => tile_size}, socket) do
-    {:noreply, assign(socket, :tile_size, tile_size)}
-  end
-
-  @impl true
-  def handle_event("reset", _params, socket) do
-    {:noreply, assign(socket, :tiles, %{})}
-  end
-
-  @impl true
-  def handle_event("change_layer", %{"layer" => layer}, socket) do
-    {:noreply, assign(socket, :active_layer, layer)}
-  end
-
   def handle_event(
         "set_tile",
         %{
@@ -106,15 +88,13 @@ defmodule GameWeb.MapEditorLive.Index do
         "map_updated",
         %{
           "bottom_layer" => bottom_layer,
-          "top_layer" => top_layer,
-          "active_layer" => active_layer
+          "top_layer" => top_layer
         },
         socket
       ) do
     socket
     |> assign(:bottom_layer, bottom_layer)
     |> assign(:top_layer, top_layer)
-    |> assign(:active_layer, active_layer)
     |> reply(:noreply)
   end
 
@@ -189,5 +169,5 @@ defmodule GameWeb.MapEditorLive.Index do
 end
 
 # TODO: nur updates statt ganze layer zum server senden
-# TODO: layer in file abspeichern als json und wieder aufrufen
-# clear button, tile previews sidebar, layer switch, ...
+# clear button
+# TODO: tile previews ohne radio menu --> tile hervorheben wenn ausgewählt (mit border outline oder 10% opacity color overlay)

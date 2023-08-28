@@ -139,7 +139,7 @@
       data-bottom_layer={Jason.encode!(@bottom_layer)}
       data-active_layer={Jason.encode!(@active_layer)}
       data-selected_tile={Jason.encode!(@selected_tile)}
-    >
-    </canvas>
+      data-dimensions={Jason.encode!([@width, @height, @zoom])}
+    />
   </div>
 </div>

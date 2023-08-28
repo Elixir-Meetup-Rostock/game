@@ -120,7 +120,6 @@ hooks.mapEditor = {
 		);
 	},
 	updated() {
-		console.log("updated");
 		const node = this.el;
 
 		const activeLayer = JSON.parse(node.dataset.active_layer);
