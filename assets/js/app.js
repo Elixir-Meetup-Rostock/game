@@ -24,6 +24,9 @@ import topbar from "../vendor/topbar";
 
 import Board from "./board";
 import Sprites from "./sprites";
+import Board from "./board";
+import Sprites from "./sprites";
+import Tile from "./board/tile";
 
 import MapEditor from "./map_editor/editor";
 
@@ -42,7 +45,15 @@ hooks.cursorMove = {
 hooks.gameAssets = {
 	mounted() {
 		const onSpritesLoaded = (sprites) => {
-			window.sprites = sprites;
+			window.tiles = tiles.reduce(
+				(acc, { id, size, sprite, sprite_x, sprite_y }) => {
+					return {
+						...acc,
+						[id]: new Tile(sprites[sprite], size, sprite_x, sprite_y),
+					};
+				},
+				{}
+			);
 
 			this.pushEvent("assets_loaded");
 		};
@@ -57,46 +68,6 @@ hooks.gameAssets = {
 		// console.log(tile)
 		// const tile = new Tile(sprite, this.tileSize, sprite_x, sprite_y)
 		// })
-	},
-};
-
-hooks.gameDraw = {
-	mounted() {
-		this.j = 0;
-
-		const node = this.el;
-		const board = JSON.parse(node.dataset.board);
-		const projectiles = JSON.parse(node.dataset.projectiles);
-		const player = JSON.parse(node.dataset.player);
-		const players = JSON.parse(node.dataset.players);
-
-		this.board = new Board(
-			node,
-			window.sprites,
-			board,
-			projectiles,
-			player,
-			players
-		);
-	},
-	updated() {
-		this.j++;
-		if (this.j % 5 === 0) {
-			this.j = 0;
-			let now = performance.now();
-			this.board.ups = 1 / ((now - (this.upsNow || now)) / 5000);
-			this.upsNow = now;
-		}
-
-		const node = this.el;
-		// const board = JSON.parse(node.dataset.board)
-		const projectiles = JSON.parse(node.dataset.projectiles);
-		const player = JSON.parse(node.dataset.player);
-		const players = JSON.parse(node.dataset.players);
-
-		this.board.setProjectiles(projectiles);
-		this.board.setPlayers(player, players);
-		this.board.drawFrame();
 	},
 };
 
@@ -136,6 +107,47 @@ hooks.mapEditor = {
 let csrfToken = document
 	.querySelector("meta[name='csrf-token']")
 	.getAttribute("content");
+
+hooks.gameDraw = {
+	mounted() {
+		this.j = 0;
+
+		const node = this.el;
+		const board = JSON.parse(node.dataset.board);
+		const projectiles = JSON.parse(node.dataset.projectiles);
+		const player = JSON.parse(node.dataset.player);
+		const players = JSON.parse(node.dataset.players);
+
+		this.board = new Board(
+			node,
+			window.tiles,
+			board,
+			projectiles,
+			player,
+			players
+		);
+	},
+	updated() {
+		this.j++;
+		if (this.j % 5 === 0) {
+			this.j = 0;
+			let now = performance.now();
+			this.board.ups = 1 / ((now - (this.upsNow || now)) / 5000);
+			this.upsNow = now;
+		}
+
+		const node = this.el;
+		// const board = JSON.parse(node.dataset.board)
+		const projectiles = JSON.parse(node.dataset.projectiles);
+		const player = JSON.parse(node.dataset.player);
+		const players = JSON.parse(node.dataset.players);
+
+		this.board.setProjectiles(projectiles);
+		this.board.setPlayers(player, players);
+		this.board.drawFrame();
+	},
+};
+
 let liveSocket = new LiveSocket("/live", Socket, {
 	hooks: hooks,
 	params: { _csrf_token: csrfToken },
