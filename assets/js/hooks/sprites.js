@@ -5,7 +5,7 @@ export default class Sprites {
 
     this.images = {}
 
-    sprites.map(({ key, file }) => {
+    sprites.forEach(({ key, file }) => {
       const img = new Image()
       img.onload = () => {
         if (++loadedImages >= totalImages) { callback(this.images) }
