@@ -34,7 +34,7 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   def mount(_params, _session, socket) do
-    socket |> redirect(to: ~p"/lobby") |> reply(:ok)
+    socket |> redirect(to: ~p"/") |> reply(:ok)
   end
 
   @impl true

@@ -20,9 +20,9 @@ defmodule GameWeb.Router do
   scope "/", GameWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/example", PageController, :home
 
-    live "/lobby", LobbyLive.Index, :index
+    live "/", LobbyLive.Index, :index
     live "/cursor", CursorLive.Index, :index
 
     live "/movement", MovementLive.Index, :index

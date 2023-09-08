@@ -39,7 +39,7 @@ defmodule GameWeb.MovementLiveTest do
 
       assert {:redirect, %{to: path}} = redirect
 
-      assert path === ~p"/lobby"
+      assert path === ~p"/"
     end
   end
 end

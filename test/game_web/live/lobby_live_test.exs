@@ -5,14 +5,14 @@ defmodule GameWeb.LobbyLiveTest do
 
   describe "lobby_live" do
     test "renders the page with a form", %{conn: conn} do
-      {:ok, lv, html} = conn |> live(~p"/lobby")
+      {:ok, lv, html} = conn |> live(~p"/")
 
       assert html =~ "Lobby"
       assert has_element?(lv, "form")
     end
 
-    test "redirect to /cursor when name is set", %{conn: conn} do
-      {:ok, lv, _html} = conn |> live(~p"/lobby")
+    test "redirect to / when name is set", %{conn: conn} do
+      {:ok, lv, _html} = conn |> live(~p"/")
 
       conn =
         lv
