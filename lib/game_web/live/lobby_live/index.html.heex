@@ -10,4 +10,10 @@
       </:actions>
     </.simple_form>
   </div>
+  <section>
+    <h2>Currently playing</h2>
+    <ul>
+      <li :for={player <- @players}><%= player.name %></li>
+    </ul>
+  </section>
 </div>
