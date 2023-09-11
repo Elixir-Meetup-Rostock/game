@@ -8,6 +8,14 @@ This game is an experiment by the [Elixir Meetup Rostock](https://github.com/Eli
 
 We are building a multiplayer browser game with Elixir & LiveView and (on the way) learn as much as possible.
 
+## MVP
+
+* We have a closed map with objects like trees
+* Players from two factions can run around the map
+* Players of opposing teams can hit each other
+* Players can hide behind objects to avoid being hit
+* There is a counter with K/D ratio for the teams
+
 ## Status: Work in progress
 
 - You start in a /lobby where you pick your name and jump into the game.
