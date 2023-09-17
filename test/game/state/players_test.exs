@@ -4,10 +4,8 @@ defmodule Game.State.PlayersTest do
   alias Game.State.Players
   alias Game.State.Players.Player
 
-  @id1 "random-id-1"
-  @name1 "lorem ipsum 1"
-  @id2 "random-id-2"
-  @name2 "lorem ipsum 2"
+  @agent1 :players_test_1
+  @agent2 :players_test_2
 
   describe "players Agent is automatically started" do
     test "has a pid and is running" do
@@ -20,76 +18,87 @@ defmodule Game.State.PlayersTest do
   end
 
   describe "players state" do
-    test "can list players" do
-      Players.add(@id1, %{name: @name1})
-      Players.add(@id2, %{name: @name2})
+    setup do
+      {:ok, _pid} = Players.start(@agent1)
 
-      player_list = Players.list()
+      :ok
+    end
+
+    test "can list players" do
+      Players.add("1", %{name: "one"}, @agent1)
+
+      player_list = Players.list(@agent1)
 
       assert is_list(player_list)
-      assert player_list |> Enum.find(&(&1.id === @id1))
-      assert player_list |> Enum.find(&(&1.id === @id2))
+      assert player_list |> Enum.find(&(&1.id === "1"))
     end
 
     test "add player returns added player" do
-      assert %Player{id: @id1, name: @name1} = Players.add(@id1, %{name: @name1})
+      assert %Player{id: "2", name: "two"} = Players.add("2", %{name: "two"}, @agent1)
     end
 
     test "can set & unset action" do
-      Players.add(@id1, %{name: @name1})
+      Players.add("3", %{name: "three"}, @agent1)
 
-      Players.set_action(@id1, :up, true)
-      assert %Player{actions: %{up: true}} = Players.get(@id1)
+      Players.set_action("3", :up, true, @agent1)
+      assert %Player{actions: %{up: true}} = Players.get("3", @agent1)
 
-      Players.set_action(@id1, :up, false)
-      assert %Player{actions: %{up: false}} = Players.get(@id1)
+      Players.set_action("3", :up, false, @agent1)
+      assert %Player{actions: %{up: false}} = Players.get("3", @agent1)
     end
   end
 
   describe "players tick" do
+    setup do
+      {:ok, _pid} = Players.start(@agent2)
+
+      :ok
+    end
+
     test "update player positions" do
-      Players.add(@id1, %{name: @name1})
-      %{speed: speed} = Players.add(@id2, %{name: @name2})
+      Players.add("1", %{name: "one"}, @agent2)
+      %{speed: speed} = Players.add("2", %{name: "two"}, @agent2)
 
-      Players.set_action(@id2, :down, true)
+      Players.set_action("2", :down, true, @agent2)
+      Players.tick([], @agent2)
 
-      Players.tick([])
-
-      assert %Player{x: 0, y: 0} = Players.get(@id1)
-      assert %Player{x: 0, y: ^speed} = Players.get(@id2)
+      assert %Player{x: 0, y: 0} = Players.get("1", @agent2)
+      assert %Player{x: 0, y: ^speed} = Players.get("2", @agent2)
     end
 
     test "don't move if obstacle is in the way" do
-      Players.add(@id1, %{name: @name1, y: 40})
-      Players.add(@id2, %{name: @name2})
+      Players.add("3", %{name: "three", y: 40}, @agent2)
+      Players.add("4", %{name: "four"}, @agent2)
 
-      Players.set_action(@id2, :down, true)
+      Players.set_action("4", :down, true, @agent2)
+      Players.tick(Players.list(@agent2), @agent2)
 
-      Players.tick(Players.list())
-      assert %Player{x: 0, y: 40} = Players.get(@id1)
-      assert %Player{x: 0, y: 0} = Players.get(@id2)
+      assert %Player{x: 0, y: 40} = Players.get("3", @agent2)
+      assert %Player{x: 0, y: 0} = Players.get("4", @agent2)
     end
 
     test "moving away from obstacle is fine" do
-      Players.add(@id1, %{name: @name1, y: 40})
-      %{speed: speed} = Players.add(@id2, %{name: @name2})
-
-      Players.set_action(@id2, :up, true)
+      Players.add("5", %{name: "five", y: 40}, @agent2)
+      %{speed: speed} = Players.add("6", %{name: "six"}, @agent2)
       speed = speed * -1
-      Players.tick(Players.list())
-      assert %Player{x: 0, y: 40} = Players.get(@id1)
-      assert %Player{x: 0, y: ^speed} = Players.get(@id2)
+
+      Players.set_action("6", :up, true, @agent2)
+      Players.tick(Players.list(@agent2), @agent2)
+
+      assert %Player{x: 0, y: 40} = Players.get("5", @agent2)
+      assert %Player{x: 0, y: ^speed} = Players.get("6", @agent2)
     end
 
     test "can move away when stuck in an object" do
-      Players.add(@id1, %{name: @name1, y: 20})
-      %{speed: speed} = Players.add(@id2, %{name: @name2})
-
-      Players.set_action(@id2, :up, true)
+      Players.add("7", %{name: "seven", y: 20}, @agent2)
+      %{speed: speed} = Players.add("8", %{name: "eight"}, @agent2)
       speed = speed * -1
-      Players.tick(Players.list())
-      assert %Player{x: 0, y: 20} = Players.get(@id1)
-      assert %Player{x: 0, y: ^speed} = Players.get(@id2)
+
+      Players.set_action("8", :up, true, @agent2)
+      Players.tick(Players.list(@agent2), @agent2)
+
+      assert %Player{x: 0, y: 20} = Players.get("7", @agent2)
+      assert %Player{x: 0, y: ^speed} = Players.get("8", @agent2)
     end
   end
 end

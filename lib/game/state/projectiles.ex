@@ -8,18 +8,17 @@ defmodule Game.State.Projectiles do
   alias Ecto.UUID
   alias Game.State.Projectiles.Projectile
 
-  def start do
-    Agent.start_link(fn -> Map.new() end, name: __MODULE__)
+  def start(name \\ __MODULE__) do
+    Agent.start_link(fn -> Map.new() end, name: name)
   end
 
-  def stop, do: Agent.stop(__MODULE__)
+  def stop(name \\ __MODULE__), do: Agent.stop(name)
 
-  def list() do
-    Agent.get(__MODULE__, & &1)
-    |> Map.values()
+  def list(name \\ __MODULE__) do
+    Agent.get(name, & &1) |> Map.values()
   end
 
-  def add(player_id, {x, y}, {xv, yv}) do
+  def add(player_id, {x, y}, {xv, yv}, name \\ __MODULE__) do
     uuid = UUID.generate()
 
     projectile = %Projectile{
@@ -31,19 +30,19 @@ defmodule Game.State.Projectiles do
       y_vector: yv
     }
 
-    Agent.update(__MODULE__, &Map.put(&1, uuid, projectile))
+    Agent.update(name, &Map.put(&1, uuid, projectile))
 
     projectile
   end
 
-  def remove(id) do
-    Agent.update(__MODULE__, &Map.delete(&1, id))
+  def remove(id, name \\ __MODULE__) do
+    Agent.update(name, &Map.delete(&1, id))
 
     :ok
   end
 
-  def tick() do
-    Agent.update(__MODULE__, &tick_projectiles/1)
+  def tick(name \\ __MODULE__) do
+    Agent.update(name, &tick_projectiles/1)
   end
 
   defp tick_projectiles(projectiles) do
