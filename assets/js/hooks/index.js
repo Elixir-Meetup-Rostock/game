@@ -1,3 +1,5 @@
+"use strict";
+
 import Board from "./board"
 import Sprites from "./sprites"
 import Tile from "./board/tile"

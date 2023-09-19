@@ -1,3 +1,5 @@
+"use strict";
+
 export default class Sprites {
   constructor(sprites, callback) {
     let loadedImages = 0

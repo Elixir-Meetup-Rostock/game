@@ -1,3 +1,5 @@
+"use strict";
+
 export default class Projectile {
   constructor(x, y) {
     this.x = x

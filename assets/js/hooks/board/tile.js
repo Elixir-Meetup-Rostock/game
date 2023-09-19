@@ -1,3 +1,5 @@
+"use strict";
+
 export default class Tile {
   constructor(sprite, size) {
     this.sprite = sprite
