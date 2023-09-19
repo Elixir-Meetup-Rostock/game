@@ -1,5 +1,5 @@
 export default class Tile {
-  constructor(sprite, size, x, y) {
+  constructor(sprite, size) {
     this.sprite = sprite
 
     this.canvas = document.createElement("canvas")
@@ -12,7 +12,7 @@ export default class Tile {
     // this.context.restore()
     // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
 
-    this.context.drawImage(sprite, x, y, size, size, 0, 0, size, size)
+    this.context.drawImage(sprite, 0, 0, size, size, 0, 0, size, size)
 
     return this.canvas
   }

@@ -7,9 +7,9 @@ defmodule Game.Board.Tiles do
 
   def list() do
     [
-      %Tile{id: 1, sprite: "map", sprite_x: 216, sprite_y: 12},
-      %Tile{id: 2, sprite: "map", sprite_x: 216, sprite_y: 108},
-      %Tile{id: 9, sprite: "player", sprite_x: 0, sprite_y: 0, size: 395}
+      %Tile{id: 1, sprite: "grass"},
+      %Tile{id: 2, sprite: "rock"},
+      %Tile{id: 9, sprite: "player"}
     ]
   end
 

@@ -16,8 +16,8 @@ export const Hooks = {
     mounted() {
       const onSpritesLoaded = (sprites) => {
         // sprites are loaded. now create tiles (and use the sprites).
-        window.tiles = tiles.reduce((acc, { id, size, sprite, sprite_x, sprite_y }) => {
-          return { ...acc, [id]: new Tile(sprites[sprite], size, sprite_x, sprite_y) }
+        window.tiles = tiles.reduce((acc, { id, size, sprite }) => {
+          return { ...acc, [id]: new Tile(sprites[sprite], size) }
         }, {})
 
         this.pushEvent("assets_loaded")

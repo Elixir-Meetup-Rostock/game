@@ -8,7 +8,7 @@ defmodule Game.Board.SpritesTest do
       sprite_list = Sprites.list()
 
       assert is_list(sprite_list)
-      assert %{key: "map", file: _} = Enum.find(sprite_list, &(&1.key === "map"))
+      assert %{key: "grass", file: _} = Enum.find(sprite_list, &(&1.key === "grass"))
     end
   end
 end
