@@ -11,7 +11,12 @@ defmodule Game.BoardTest do
   @name2 "lorem ipsum 2"
 
   describe "board" do
-    # Board.list_sprites()
+    test "list_sprites/0 returns a list of all used sprites" do
+      sprites = Board.list_sprites()
+
+      assert is_list(sprites)
+      assert sprites |> Enum.all?(&match?(%{file: _, key: _}, &1))
+    end
 
     # Board.list_tiles()
 
