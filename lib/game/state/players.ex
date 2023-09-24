@@ -11,54 +11,53 @@ defmodule Game.State.Players do
 
   @topic_update "players_update"
 
-  def start do
-    Agent.start_link(fn -> Map.new() end, name: __MODULE__)
+  def start(name \\ __MODULE__) do
+    Agent.start_link(fn -> Map.new() end, name: name)
   end
 
-  def stop, do: Agent.stop(__MODULE__)
+  def stop(name \\ __MODULE__), do: Agent.stop(name)
 
-  def list() do
-    Agent.get(__MODULE__, & &1)
-    |> Map.values()
+  def list(name \\ __MODULE__) do
+    Agent.get(name, & &1) |> Map.values()
   end
 
-  def get(id) do
-    Agent.get(__MODULE__, &Map.get(&1, id))
+  def get(id, name \\ __MODULE__) do
+    Agent.get(name, &Map.get(&1, id))
   end
 
-  def add(id, data) do
+  def add(id, data, name \\ __MODULE__) do
     player =
       data
       |> Map.put(:id, id)
       |> then(&struct(Player, &1))
 
-    Agent.update(__MODULE__, &Map.put(&1, id, player))
+    Agent.update(name, &Map.put(&1, id, player))
 
     PubSub.broadcast(Game.PubSub, @topic_update, {:join, id, player})
 
     player
   end
 
-  def remove(id) do
-    Agent.update(__MODULE__, &Map.delete(&1, id))
+  def remove(id, name \\ __MODULE__) do
+    Agent.update(name, &Map.delete(&1, id))
 
     PubSub.broadcast(Game.PubSub, @topic_update, {:leave, id, nil})
 
     :ok
   end
 
-  def set_action(id, action, status) do
-    player = id |> get() |> Player.set_action(action, status)
+  def set_action(id, action, status, name \\ __MODULE__) do
+    player = id |> get(name) |> Player.set_action(action, status)
 
-    Agent.update(__MODULE__, &Map.put(&1, id, player))
+    Agent.update(name, &Map.put(&1, id, player))
   end
 
   @doc """
   Updates all players, handling movement. Takes a list of movement blocking colliders
   """
   @spec tick(list(Engine.game_object())) :: :ok
-  def tick(colliders) do
-    Agent.update(__MODULE__, fn state -> tick_players(state, colliders) end)
+  def tick(colliders, name \\ __MODULE__) do
+    Agent.update(name, fn state -> tick_players(state, colliders) end)
   end
 
   defp tick_players(players, colliders) do
