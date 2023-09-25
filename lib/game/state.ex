@@ -44,6 +44,11 @@ defmodule Game.State do
     Players.list()
   end
 
+  def list_other_players(id) do
+    list_players()
+    |> Enum.reject(&(&1.id === id))
+  end
+
   def get_player(id) do
     Players.get(id)
   end

@@ -1,41 +1,32 @@
 "use strict";
 
-import Projectile from "./board/projectile"
-import Tile from "./board/tile"
+// import Projectile from "./board/projectile"
+// import Tile from "./board/tile"
 
 export default class Board {
-  constructor(node, tiles, board, projectiles, player, players) {
-    this.log = false
-
-    this.tileSize = 16
+  constructor(node, sprites, layers, player) {
+    // this.zoom = 2
 
     this.canvas = node
     this.context = this.canvas.getContext("2d")
 
-    this.tiles = tiles
+    this.sprites = sprites
 
-    this.board = board
-    this.projectiles = projectiles
+    this.layers = layers
     this.player = player
-    this.players = players
 
     this.animationFrameId = undefined
-
-    this.i = 0
-    this.fps = 0
-    this.ups = 0
 
     window.addEventListener("resize", _e => { this.resize() })
     this.resize()
   }
 
-  setProjectiles(projectiles) {
-    this.projectiles = projectiles
+  setLayers(layers) {
+    this.layers = layers
   }
 
-  setPlayers(player, players) {
+  setPlayer(player) {
     this.player = player
-    this.players = players
   }
 
   resize() {
@@ -45,8 +36,8 @@ export default class Board {
     this.halfHeight = this.canvas.height / 2
     this.halfWidth = this.canvas.width / 2
 
-    // this.canvas.width = window.innerWidth * ratio
-    // this.canvas.height = window.innerHeight * ratio
+    // this.canvas.width = window.innerWidth * this.zoom
+    // this.canvas.height = window.innerHeight * this.zoom
     // this.canvas.style.width = `${window.innerWidth}px`
     // this.canvas.style.height = `${window.innerHeight}px`
 
@@ -54,8 +45,6 @@ export default class Board {
   }
 
   clear() {
-    if (this.log) console.log("clear")
-
     this.canvas.width = this.canvas.width // clears the canvas
 
     // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
@@ -63,8 +52,6 @@ export default class Board {
   }
 
   drawFrame() {
-    if (this.log) console.log("drawFrame")
-
     if (this.animationFrameId) {
       window.cancelAnimationFrame(this.animationFrameId)
     }
@@ -75,88 +62,29 @@ export default class Board {
   }
 
   draw() {
-    if (this.log) console.log("draw")
-
     this.clear()
 
-    this.drawMap()
-    this.drawPlayer()
-    this.drawPlayers()
-    this.drawProjectiles()
-    this.drawFps()
+    this.layers.forEach(({ tiles }) => {
+      this.drawLayer(tiles)
+    })
+
+    // TODO: split in foreground and background
+    this.drawPlayer(this.player)
   }
 
-  drawMap() {
-    if (this.log) console.log("drawMap")
+  drawLayer(tiles) {
+    tiles.map(({ x, y, size, sprite }) => {
+      const xPos = this.halfWidth - this.player.x + x
+      const yPos = this.halfHeight - this.player.y + y
 
-    this.board.map(({ id, size, x, y }) => {
-      const xPos = this.halfWidth - this.player.x + (x * size)
-      const yPos = this.halfHeight - this.player.y + (y * size)
-
-      this.context.drawImage(this.tiles[id], xPos, yPos, size, size)
+      this.context.drawImage(this.sprites[sprite], xPos, yPos, size, size)
     })
   }
 
-  drawPlayer() {
-    if (this.log) console.log("drawPlayer")
+  drawPlayer({ size, sprite }) {
+    const xPos = this.halfWidth - (size / 2)
+    const yPos = this.halfHeight - (size / 2)
 
-    const tile = this.tiles[9]
-
-    const xPos = this.halfWidth - (this.tileSize / 2)
-    const yPos = this.halfHeight - (this.tileSize / 2)
-
-    this.context.drawImage(tile, xPos, yPos, this.tileSize, this.tileSize)
-  }
-
-  drawPlayers() {
-    if (this.log) console.log("drawPlayers")
-
-    this.players.map((player) => { this.drawOtherPlayer(player) })
-  }
-
-  drawOtherPlayer({ x, y }) {
-    if (this.log) console.log("drawOtherPlayer")
-
-    const tile = this.tiles[9]
-
-    const p_x = this.halfWidth - this.player.x + x
-    const p_y = this.halfHeight - this.player.y + y
-
-    const xPos = p_x - (this.tileSize / 2)
-    const yPos = p_y - (this.tileSize / 2)
-
-    this.context.drawImage(tile, xPos, yPos, this.tileSize, this.tileSize)
-  }
-
-  drawProjectiles() {
-    if (this.log) console.log("drawProjectiles")
-
-    this.projectiles.map(({ x, y }) => {
-      const p_x = this.halfWidth - this.player.x + x
-      const p_y = this.halfHeight - this.player.y + y
-
-      const projectile = new Projectile(x, y)
-      this.context.drawImage(projectile.canvas, p_x, p_y)
-    })
-  }
-
-  drawFps() {
-    this.i++;
-    if (this.i % 5 === 0) {
-      this.i = 0
-      let now = performance.now()
-      this.fps = 1 / ((now - (this.fpsNow || now)) / 5000)
-      this.fpsNow = now
-    }
-
-    this.context.textBaseline = "top"
-    this.context.font = "20pt monospace"
-    this.context.fillStyle = "#dddddd"
-    this.context.beginPath()
-    this.context.rect(10, 100, 250, 80)
-    this.context.fill()
-    this.context.fillStyle = "black"
-    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 20, 110)
-    this.context.fillText(`Server FPS: ${Math.round(this.ups)}`, 20, 140)
+    this.context.drawImage(this.sprites[sprite], xPos, yPos, size, size)
   }
 }

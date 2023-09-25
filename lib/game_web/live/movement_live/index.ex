@@ -25,11 +25,8 @@ defmodule GameWeb.MovementLive.Index do
     socket
     |> assign(loaded: false)
     |> assign(sprites: Board.list_sprites())
-    |> assign(tiles: Board.list_tiles())
-    |> assign(board: Board.get())
-    |> assign(projectiles: State.list_projectiles())
-    |> assign(player: State.get_player(socket.id))
-    |> assign(players: Board.list_other_players(socket.id))
+    |> assign(layers: Board.get_layers(socket.id))
+    |> assign(player: Board.get_player(socket.id))
     |> reply(:ok)
   end
 
@@ -38,7 +35,7 @@ defmodule GameWeb.MovementLive.Index do
   end
 
   @impl true
-  def handle_event("assets_loaded", _params, socket) do
+  def handle_event("sprites_loaded", _params, socket) do
     socket
     |> assign(loaded: true)
     |> reply(:noreply)
@@ -70,21 +67,20 @@ defmodule GameWeb.MovementLive.Index do
   @impl true
   def handle_info({:join, _id, _player}, socket) do
     socket
-    |> assign(players: Board.list_other_players(socket.id))
+    |> assign(layers: Board.get_layers(socket.id))
     |> reply(:noreply)
   end
 
   def handle_info({:leave, _id, nil}, socket) do
     socket
-    |> assign(players: Board.list_other_players(socket.id))
+    |> assign(layers: Board.get_layers(socket.id))
     |> reply(:noreply)
   end
 
   def handle_info(:tick, socket) do
     socket
-    |> assign(projectiles: State.list_projectiles())
-    |> assign(player: State.get_player(socket.id))
-    |> assign(players: Board.list_other_players(socket.id))
+    |> assign(layers: Board.get_layers(socket.id))
+    |> assign(player: Board.get_player(socket.id))
     |> reply(:noreply)
   end
 

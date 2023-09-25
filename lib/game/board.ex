@@ -1,6 +1,7 @@
 defmodule Game.Board do
   @moduledoc """
-  Holds all information about the board including the map and it's tiles.
+  Holds all information to draw the board.
+  Here a player becomes a drawable tile with a layer, a position and a sprite.
   """
 
   alias Game.Board.Map, as: BoardMap
@@ -10,21 +11,42 @@ defmodule Game.Board do
 
   defdelegate list_sprites, to: Sprites, as: :list
 
-  defdelegate list_tiles, to: Tiles, as: :list
-
-  def get() do
-    BoardMap.get()
-    |> Enum.map(&get/1)
+  def get_layers(id) do
+    [
+      %{level: -2, tiles: BoardMap.get()},
+      %{level: -1, tiles: State.list_other_players(id)},
+      # %{level: 0, tiles: []},
+      %{level: 1, tiles: State.list_projectiles()}
+    ]
+    |> Enum.map(&get_tiles_for_layer/1)
   end
 
-  defp get({{x, y}, type}) do
-    type
-    |> Tiles.get()
-    |> Map.merge(%{x: x, y: y})
+  def get_player(id) do
+    id |> State.get_player() |> get_tile()
   end
 
-  def list_other_players(id) do
-    State.list_players()
-    |> Enum.reject(&(&1.id === id))
+  defp get_tiles_for_layer(layer) do
+    Map.update!(layer, :tiles, &get_tiles/1)
   end
+
+  defp get_tiles(list) do
+    list
+    |> Enum.map(&get_tile/1)
+  end
+
+  defp get_tile({{x, y}, sprite}) do
+    size = 16
+
+    %Tiles.Tile{id: "map_#{x}_#{y}", x: x * size, y: y * size, sprite: sprite}
+  end
+
+  defp get_tile(%State.Players.Player{id: id, x: x, y: y}) do
+    %Tiles.Tile{id: id, x: x, y: y, sprite: "player"}
+  end
+
+  defp get_tile(%State.Projectiles.Projectile{id: id, x: x, y: y}) do
+    %Tiles.Tile{id: id, x: x, y: y, sprite: "projectile"}
+  end
+
+  defp get_tile(_), do: nil
 end
