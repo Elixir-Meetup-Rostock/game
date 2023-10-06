@@ -23,7 +23,6 @@ defmodule GameWeb.Router do
     get "/example", PageController, :home
 
     live "/", LobbyLive.Index, :index
-    live "/cursor", CursorLive.Index, :index
 
     live "/movement", MovementLive.Index, :index
   end

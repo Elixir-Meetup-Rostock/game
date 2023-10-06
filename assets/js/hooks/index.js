@@ -5,15 +5,6 @@ import Sprites from "./sprites"
 // import Tile from "./board/tile"
 
 export const Hooks = {
-  cursorMove: {
-    mounted() {
-      document.addEventListener("mousemove", (e) => {
-        const x = (e.pageX / window.innerWidth) * 100 // in %
-        const y = (e.pageY / window.innerHeight) * 100 // in %
-        this.pushEvent("cursor-move", { x, y })
-      })
-    }
-  },
   gameSprites: {
     mounted() {
       const node = this.el
