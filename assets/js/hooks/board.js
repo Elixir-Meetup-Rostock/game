@@ -85,6 +85,8 @@ export default class Board {
     const xPos = this.halfWidth - (size / 2)
     const yPos = this.halfHeight - (size / 2)
 
-    this.context.drawImage(this.sprites[sprite], xPos, yPos, size, size)
+    const frame = 0
+
+    this.context.drawImage(this.sprites[sprite], size * frame, 0, size, size, xPos, yPos, size, size)
   }
 }

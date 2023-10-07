@@ -7,21 +7,21 @@ defmodule Game.Board.Sprites do
 
   def list() do
     [
-      # %{key: "", file: "#{@dir}/character_idle_blue.png"},
-      # %{key: "", file: "#{@dir}/character_idle_green.png"},
-      # %{key: "", file: "#{@dir}/character_walking_blue.png"},
-      # %{key: "", file: "#{@dir}/character_walking_green.png"},
+      %{key: "player_blue", file: "#{@dir}/character_idle_blue.png", frames: 4},
+      # %{key: "player_green", file: "#{@dir}/character_idle_green.png", frames: 4},
+      # %{key: "", file: "#{@dir}/character_walking_blue.png", frames: 4},
+      # %{key: "", file: "#{@dir}/character_walking_green.png", frames: 4},
       # %{key: "", file: "#{@dir}/demo_tree.png"},
       # %{key: "", file: "#{@dir}/grass_1.png"},
       # %{key: "", file: "#{@dir}/grass_2.png"},
-      # %{key: "", file: "#{@dir}/grass_flowers.png"},
+      %{key: "grass_flowers", file: "#{@dir}/grass_flowers.png"},
       %{key: "grass", file: "#{@dir}/grass.png"},
-      %{key: "player", file: "#{@dir}/player.png"},
-      %{key: "rock", file: "#{@dir}/rock.png"}
+      %{key: "rock", file: "#{@dir}/rock.png"},
       # %{key: "", file: "#{@dir}/tree_stump_left.png"},
       # %{key: "", file: "#{@dir}/tree_stump_right.png"},
       # %{key: "", file: "#{@dir}/water_1.png"},
       # %{key: "", file: "#{@dir}/water_2.png"}
+      %{key: "projectile", file: "#{@dir}/projectile.png"}
     ]
   end
 end

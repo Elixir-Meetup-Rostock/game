@@ -22,7 +22,7 @@ defmodule Game.BoardTest do
     test "get_player/1 returns the current player" do
       State.add_player("1", %{name: "one"})
 
-      assert %{id: "1", sprite: "player"} = Board.get_player("1")
+      assert %{id: "1"} = Board.get_player("1")
     end
   end
 end
