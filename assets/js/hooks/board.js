@@ -5,7 +5,7 @@
 
 export default class Board {
   constructor(node, sprites, layers, player) {
-    // this.zoom = 2
+    this.zoom = 2
 
     this.canvas = node
     this.context = this.canvas.getContext("2d")
@@ -77,7 +77,8 @@ export default class Board {
       const xPos = this.halfWidth - this.player.x + x
       const yPos = this.halfHeight - this.player.y + y
 
-      this.context.drawImage(this.sprites[sprite], xPos, yPos, size, size)
+      // TODO: add this.zoom to the drawing
+      this.context.drawImage(this.sprites[sprite], 0, 0, size, size, xPos, yPos, size, size)
     })
   }
 
@@ -87,6 +88,7 @@ export default class Board {
 
     const frame = 0
 
+    // TODO: add this.zoom to the drawing
     this.context.drawImage(this.sprites[sprite], size * frame, 0, size, size, xPos, yPos, size, size)
   }
 }
