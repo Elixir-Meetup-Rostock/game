@@ -15,7 +15,7 @@ defmodule Game.Board do
     [
       %{level: -2, tiles: BoardMap.get()},
       %{level: -1, tiles: State.list_other_players(id)},
-      # %{level: 0, tiles: []},
+      %{level: 0, tiles: []},
       %{level: 1, tiles: State.list_projectiles()}
     ]
     |> Enum.map(&get_tiles_for_layer/1)

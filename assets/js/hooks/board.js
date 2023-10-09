@@ -64,12 +64,13 @@ export default class Board {
   draw() {
     this.clear()
 
-    this.layers.forEach(({ tiles }) => {
-      this.drawLayer(tiles)
+    this.layers.forEach(({ level, tiles }) => {
+      if (level === 0) {
+        this.drawPlayer(this.player)
+      } else {
+        this.drawLayer(tiles)
+      }
     })
-
-    // TODO: split in foreground and background
-    this.drawPlayer(this.player)
   }
 
   drawLayer(tiles) {
