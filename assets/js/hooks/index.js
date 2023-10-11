@@ -2,7 +2,6 @@
 
 import Board from "./board"
 import Sprites from "./sprites"
-// import Tile from "./board/tile"
 
 export const Hooks = {
   gameSprites: {
@@ -31,7 +30,7 @@ export const Hooks = {
 
       this.board.setLayers(layers)
       this.board.setPlayer(player)
-      this.board.drawFrame()
+      this.board.draw()
     }
   }
 };

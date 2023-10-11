@@ -5,6 +5,8 @@
 
 export default class Board {
   constructor(node, sprites, layers, player) {
+    this.maxFps = 30
+
     this.zoom = 2
 
     this.canvas = node
@@ -19,6 +21,30 @@ export default class Board {
 
     window.addEventListener("resize", _e => { this.resize() })
     this.resize()
+
+    setInterval(this.draw.bind(this), 1000 / this.maxFps)
+
+    this.i = 0
+    this.fps = 0
+  }
+
+  drawFps() {
+    this.i++;
+    if (this.i % 5 === 0) {
+      this.i = 0
+      let now = performance.now()
+      this.fps = 1 / ((now - (this.fpsNow || now)) / 5000)
+      this.fpsNow = now
+    }
+
+    this.context.textBaseline = "top"
+    this.context.font = "10pt monospace"
+    this.context.fillStyle = "#dddddd"
+    this.context.beginPath()
+    this.context.rect(10, 70, 140, 30)
+    this.context.fill()
+    this.context.fillStyle = "black"
+    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 20, 78)
   }
 
   setLayers(layers) {
@@ -41,7 +67,7 @@ export default class Board {
     // this.canvas.style.width = `${window.innerWidth}px`
     // this.canvas.style.height = `${window.innerHeight}px`
 
-    this.drawFrame()
+    this.draw()
   }
 
   clear() {
@@ -51,17 +77,18 @@ export default class Board {
     // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
-  drawFrame() {
+  draw() {
     if (this.animationFrameId) {
       window.cancelAnimationFrame(this.animationFrameId)
     }
 
     this.animationFrameId = window.requestAnimationFrame(() => {
-      this.draw()
+      this.drawFrame()
+      this.drawFps()
     })
   }
 
-  draw() {
+  drawFrame() {
     this.clear()
 
     this.layers.forEach(({ level, tiles }) => {
@@ -74,7 +101,7 @@ export default class Board {
   }
 
   drawLayer(tiles) {
-    tiles.map(({ x, y, size, sprite }) => {
+    tiles.map(({ id, x, y, sprite, size }) => {
       const xPos = this.halfWidth - this.player.x + x
       const yPos = this.halfHeight - this.player.y + y
 
@@ -83,13 +110,12 @@ export default class Board {
     })
   }
 
-  drawPlayer({ size, sprite }) {
+  drawPlayer({ id, sprite, size, frames }) {
     const xPos = this.halfWidth - (size / 2)
     const yPos = this.halfHeight - (size / 2)
 
-    const frame = 0
 
     // TODO: add this.zoom to the drawing
-    this.context.drawImage(this.sprites[sprite], size * frame, 0, size, size, xPos, yPos, size, size)
+    this.context.drawImage(this.sprites[sprite], 0, 0, size, size, xPos, yPos, size, size)
   }
 }
