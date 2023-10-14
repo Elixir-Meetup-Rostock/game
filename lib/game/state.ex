@@ -13,7 +13,12 @@ defmodule Game.State do
   alias Game.State.Obstacles
   alias Phoenix.PubSub
 
-  @tick_speed 16
+  # FPS | tick_speed
+  # 30  | 32
+  # 60  | 16
+
+  # @tick_speed 16
+  @tick_speed 32
   @topic_tick "tick"
 
   def start_link(opts \\ []) do
