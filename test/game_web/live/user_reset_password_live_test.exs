@@ -40,7 +40,7 @@ defmodule GameWeb.UserResetPasswordLiveTest do
         lv
         |> element("#reset_password_form")
         |> render_change(
-          user: %{"password" => "secret12", "confirmation_password" => "secret123456"}
+          user: %{"password" => "secret12", "password_confirmation" => "secret123456"}
         )
 
       assert result =~ "should be at least 12 character"

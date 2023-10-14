@@ -8,11 +8,13 @@
 import Config
 
 config :game,
-  ecto_repos: [Game.Repo]
+  ecto_repos: [Game.Repo],
+  generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
 config :game, GameWeb.Endpoint,
   url: [host: "localhost"],
+  adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
     formats: [html: GameWeb.ErrorHTML, json: GameWeb.ErrorJSON],
     layout: false
@@ -41,7 +43,7 @@ config :esbuild,
 
 # Configure tailwind (the version is required)
 config :tailwind,
-  version: "3.2.7",
+  version: "3.3.2",
   default: [
     args: ~w(
       --config=tailwind.config.js
