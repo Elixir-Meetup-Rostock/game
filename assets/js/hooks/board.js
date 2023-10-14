@@ -5,7 +5,7 @@
 
 export default class Board {
   constructor(node, sprites, layers, player) {
-    this.maxFps = 30
+    this.maxFps = 25
 
     this.zoom = 2
 

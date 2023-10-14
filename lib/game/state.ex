@@ -4,6 +4,12 @@ defmodule Game.State do
 
   Does the game-tick and handles all state e.g. players, map, items.
   Calculates changes and invokes updates (if needed) on each tick.
+  ____________________
+  | FPS | tick_speed |
+  | 25  | 40         |
+  | 30  | 32         |
+  | 60  | 16         |
+  --------------------
   """
 
   use GenServer
@@ -13,12 +19,7 @@ defmodule Game.State do
   alias Game.State.Obstacles
   alias Phoenix.PubSub
 
-  # FPS | tick_speed
-  # 30  | 32
-  # 60  | 16
-
-  # @tick_speed 16
-  @tick_speed 32
+  @tick_speed 40
   @topic_tick "tick"
 
   def start_link(opts \\ []) do
