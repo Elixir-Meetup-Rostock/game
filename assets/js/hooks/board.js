@@ -7,7 +7,7 @@ export default class Board {
   constructor(node, sprites, layers, player) {
     this.maxFps = 25
 
-    this.zoom = 2
+    this.zoom = 3
 
     this.canvas = node
     this.context = this.canvas.getContext("2d")
@@ -40,13 +40,13 @@ export default class Board {
     }
 
     this.context.textBaseline = "top"
-    this.context.font = "10pt monospace"
+    this.context.font = "5pt monospace"
     this.context.fillStyle = "#dddddd"
     this.context.beginPath()
-    this.context.rect(10, 70, 140, 30)
+    this.context.rect(10, 10, 60, 12)
     this.context.fill()
     this.context.fillStyle = "black"
-    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 20, 78)
+    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 12, 12)
   }
 
   setLayers(layers) {
@@ -61,8 +61,8 @@ export default class Board {
     this.canvas.height = window.innerHeight
     this.canvas.width = window.innerWidth
 
-    this.halfHeight = this.canvas.height / 2
-    this.halfWidth = this.canvas.width / 2
+    this.halfHeight = this.canvas.height / (2 * this.zoom)
+    this.halfWidth = this.canvas.width / (2 * this.zoom)
 
     // this.canvas.width = window.innerWidth * this.zoom
     // this.canvas.height = window.innerHeight * this.zoom
@@ -74,6 +74,9 @@ export default class Board {
 
   clear() {
     this.canvas.width = this.canvas.width // clears the canvas
+
+    this.context.imageSmoothingEnabled = false
+    this.context.scale(this.zoom, this.zoom)
 
     // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
     // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
