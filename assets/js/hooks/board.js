@@ -43,10 +43,10 @@ export default class Board {
     this.context.font = "5pt monospace"
     this.context.fillStyle = "#dddddd"
     this.context.beginPath()
-    this.context.rect(10, 10, 60, 12)
+    this.context.rect(-50, -50, 60, 12)
     this.context.fill()
     this.context.fillStyle = "black"
-    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, 12, 12)
+    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, -48, -48)
   }
 
   setLayers(layers) {
@@ -61,14 +61,6 @@ export default class Board {
     this.canvas.height = window.innerHeight
     this.canvas.width = window.innerWidth
 
-    this.halfHeight = this.canvas.height / (2 * this.zoom)
-    this.halfWidth = this.canvas.width / (2 * this.zoom)
-
-    // this.canvas.width = window.innerWidth * this.zoom
-    // this.canvas.height = window.innerHeight * this.zoom
-    // this.canvas.style.width = `${window.innerWidth}px`
-    // this.canvas.style.height = `${window.innerHeight}px`
-
     this.draw()
   }
 
@@ -77,8 +69,8 @@ export default class Board {
 
     this.context.imageSmoothingEnabled = false
     this.context.scale(this.zoom, this.zoom)
+    this.context.translate(this.canvas.width / (2 * this.zoom), this.canvas.height / (2 * this.zoom))
 
-    // this.context.translate(this.canvas.width / 2, this.canvas.height / 2)
     // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
@@ -111,27 +103,25 @@ export default class Board {
 
   drawLayer(tiles) {
     tiles.map(({ id, x, y, sprite, size }) => {
-      const xPos = this.halfWidth - this.player.x + x
-      const yPos = this.halfHeight - this.player.y + y
+      const xPos = -this.player.x + x - (size / 2)
+      const yPos = -this.player.y + y - (size / 2)
 
       if (!this.tiles[id]) {
         this.tiles[id] = new Tile(this.sprites[sprite], size, frames)
       }
 
-      // TODO: add this.zoom to the drawing
       this.context.drawImage(this.tiles[id].canvas, 0, 0, size, size, xPos, yPos, size, size)
     })
   }
 
   drawPlayer({ id, sprite, size, frames }) {
-    const xPos = this.halfWidth - (size / 2)
-    const yPos = this.halfHeight - (size / 2)
+    const xPos = -(size / 2)
+    const yPos = -(size / 2)
 
     if (!this.tiles[id]) {
       this.tiles[id] = new Tile(this.sprites[sprite], size, frames)
     }
 
-    // TODO: add this.zoom to the drawing
     this.context.drawImage(this.tiles[id].canvas, 0, 0, size, size, xPos, yPos, size, size)
   }
 }
