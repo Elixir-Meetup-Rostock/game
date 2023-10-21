@@ -35,9 +35,7 @@ defmodule Game.Board do
   end
 
   defp get_tile({{x, y}, sprite}) do
-    size = 16
-
-    %Tiles.Tile{id: "map_#{x}_#{y}", x: x * size, y: y * size, sprite: sprite}
+    %Tiles.Tile{id: "map_#{x}_#{y}", x: x, y: y, sprite: sprite}
   end
 
   defp get_tile(%State.Players.Player{id: id, x: x, y: y}) do
