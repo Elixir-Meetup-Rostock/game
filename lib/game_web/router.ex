@@ -18,11 +18,12 @@ defmodule GameWeb.Router do
   end
 
   scope "/", GameWeb do
-    pipe_through :browser
+    # pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser]
 
-    get "/example", PageController, :home
-
-    live "/", LobbyLive.Index, :index
+    live "/", HomeLive.Index, :index
+    live "/lobby", LobbyLive.Index, :index
+    live "/sign_up", SignupLive.Index, :index
 
     live "/movement", MovementLive.Index, :index
   end
@@ -56,8 +57,8 @@ defmodule GameWeb.Router do
 
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{GameWeb.UserAuth, :redirect_if_user_is_authenticated}] do
-      live "/users/register", UserRegistrationLive, :new
-      live "/users/log_in", UserLoginLive, :new
+      live "/users/register", UserRegistrationLive.Index, :new
+      live "/users/log_in", UserLoginLive.Index, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
     end

@@ -15,6 +15,7 @@ defmodule Game.State.Players.Player do
     y: 0,
     hp: 100,
     speed: 1,
+    team: nil,
     actions: %{up: false, left: false, right: false, down: false, space: false}
   ]
 
