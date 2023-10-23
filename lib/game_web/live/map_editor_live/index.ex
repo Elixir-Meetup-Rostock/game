@@ -56,13 +56,7 @@ defmodule GameWeb.MapEditorLive.Index do
   end
 
   @impl true
-  def handle_event(
-        "set_tile",
-        %{
-          "tile" => tile
-        },
-        socket
-      ) do
+  def handle_event("set_tile", %{"tile" => tile}, socket) do
     atom_tile =
       tile
       |> String.to_existing_atom()
@@ -72,13 +66,7 @@ defmodule GameWeb.MapEditorLive.Index do
     |> reply(:noreply)
   end
 
-  def handle_event(
-        "switch_layer",
-        %{
-          "layer" => layer
-        },
-        socket
-      ) do
+  def handle_event("switch_layer", %{"layer" => layer}, socket) do
     socket
     |> set_layer(layer)
     |> reply(:noreply)
@@ -86,10 +74,7 @@ defmodule GameWeb.MapEditorLive.Index do
 
   def handle_event(
         "map_updated",
-        %{
-          "bottom_layer" => bottom_layer,
-          "top_layer" => top_layer
-        },
+        %{"bottom_layer" => bottom_layer, "top_layer" => top_layer},
         socket
       ) do
     socket

@@ -1,7 +1,15 @@
 defmodule Game.Board do
   @moduledoc """
-  Holds all information to draw the board.
-  Here a player becomes a drawable tile with a layer, a position and a sprite.
+  Holds all information to draw the current state of the board in the frontend.
+  The board itself is structured in layers. Each Layer has a level (indicating it's z-index) and a list of tiles.
+            _________
+         __/        /
+      __/ /        /
+     / / /        /
+    / / /________/<-- The foreground of the map (hightest level)
+   / /________/<-- The layer with the player
+  /________/<-- The background of the map (lowest level)
+
   """
 
   alias Game.Board.Map, as: BoardMap
