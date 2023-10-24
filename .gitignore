@@ -37,3 +37,7 @@ npm-debug.log
 
 # postgres logfile
 logfile
+
+# direnv files
+.env
+.envrc
