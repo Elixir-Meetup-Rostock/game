@@ -26,9 +26,11 @@ defmodule Game.State.Players do
   end
 
   def add(id, data, name \\ __MODULE__) do
+    {x, y} = Game.State.get_free_spawn()
+
     player =
-      data
-      |> Map.put(:id, id)
+      %{id: id, x: x, y: y}
+      |> Map.merge(data)
       |> then(&struct(Player, &1))
 
     Agent.update(name, &Map.put(&1, id, player))

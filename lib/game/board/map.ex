@@ -11,6 +11,12 @@ defmodule Game.Board.Map do
     |> Map.new()
   end
 
+  def get_obstacles() do
+    load()
+    |> Enum.filter(& &1["obstacle"])
+    |> Enum.map(fn %{"x" => x, "y" => y} -> %{x: x, y: y} end)
+  end
+
   # def set(map) do
   #   body =
   #     get()

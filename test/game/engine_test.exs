@@ -7,7 +7,7 @@ defmodule Game.EngineTest do
   test "can detect collision between two players" do
     game_objects = [
       %Player{id: 1, x: 100, y: 100, name: "frank"},
-      %Player{id: 2, x: 120, y: 120, name: "kurz nach frank"}
+      %Player{id: 2, x: 116, y: 116, name: "kurz nach frank"}
     ]
 
     assert %{{Player, 1} => [{Player, 2}], {Player, 2} => [{Player, 1}]} =
@@ -17,9 +17,9 @@ defmodule Game.EngineTest do
   test "can detect collision between multiple players" do
     game_objects = [
       %Player{id: 1, x: 100, y: 100, name: "frank"},
-      %Player{id: 2, x: 120, y: 120, name: "kurz nach frank"},
-      %Player{id: 3, x: 80, y: 80, name: "kurz vor frank"},
-      %Player{id: 4, x: 120, y: 140, name: "definitely not frank"}
+      %Player{id: 2, x: 116, y: 116, name: "kurz nach frank"},
+      %Player{id: 3, x: 84, y: 84, name: "kurz vor frank"},
+      %Player{id: 4, x: 116, y: 132, name: "definitely not frank"}
     ]
 
     assert %{

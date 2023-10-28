@@ -85,6 +85,10 @@ defmodule Game.State do
     Players.list() ++ Obstacles.list()
   end
 
+  def get_free_spawn() do
+    {32, 32}
+  end
+
   def process_hits() do
     hits = Game.Engine.detect_hits(Projectiles.list(), Players.list())
 

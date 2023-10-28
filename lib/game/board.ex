@@ -55,4 +55,8 @@ defmodule Game.Board do
   end
 
   defp get_tile(_), do: nil
+
+  def get_obstacles() do
+    BoardMap.get_obstacles()
+  end
 end
