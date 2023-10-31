@@ -11,7 +11,7 @@ defmodule Game.State.Obstacles do
 
   @spec list :: list(Game.State.Obstacles.Obstacle.t())
   def list() do
-    Game.Board.get_obstacles()
+    Game.Board.list_obstacles()
     |> Enum.map(&struct(Obstacle, Map.merge(&1, @default)))
   end
 end

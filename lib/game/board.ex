@@ -56,7 +56,11 @@ defmodule Game.Board do
 
   defp get_tile(_), do: nil
 
-  def get_obstacles() do
-    BoardMap.get_obstacles()
+  @spec list_obstacles() :: [map()]
+  defdelegate list_obstacles, to: BoardMap
+
+  def list_spawns() do
+    BoardMap.list_spawns()
+    |> Enum.map(&struct(Tiles.Tile, &1))
   end
 end
