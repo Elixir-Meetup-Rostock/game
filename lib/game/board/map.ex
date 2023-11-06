@@ -11,6 +11,28 @@ defmodule Game.Board.Map do
     |> Map.new()
   end
 
+  @doc """
+  Load all tiles marked with obstacle: true from the map.
+  Somewhat expensive.
+  """
+  @spec list_obstacles() :: list(map())
+  def list_obstacles() do
+    load()
+    |> Enum.filter(& &1["obstacle"])
+    |> Enum.map(fn %{"x" => x, "y" => y} -> %{x: x, y: y} end)
+  end
+
+  @doc """
+  Load all tiles that are legal spawns fromn the map.
+  Somewhat expensive.
+  """
+  @spec list_spawns() :: list(map())
+  def list_spawns() do
+    load()
+    |> Enum.filter(&(!&1["obstacle"]))
+    |> Enum.map(fn %{"x" => x, "y" => y} -> %{x: x, y: y} end)
+  end
+
   # def set(map) do
   #   body =
   #     get()

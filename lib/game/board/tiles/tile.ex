@@ -9,5 +9,14 @@ defmodule Game.Board.Tiles.Tile do
 
   @derive Jason.Encoder
 
-  defstruct [:id, :sprite, x: 0, y: 0, size: @default_size, frames: 0]
+  defstruct [
+    :id,
+    :sprite,
+    x: 0,
+    y: 0,
+    size: @default_size,
+    width: @default_size,
+    height: @default_size,
+    frames: 0
+  ]
 end

@@ -4,10 +4,14 @@ defmodule Game.State.Obstacles do
   """
   alias Game.State.Obstacles.Obstacle
 
+  @default %{
+    width: 16,
+    height: 16
+  }
+
   @spec list :: list(Game.State.Obstacles.Obstacle.t())
   def list() do
-    [
-      %Obstacle{id: "The first Stone", name: "Stone", x: -110, y: 120}
-    ]
+    Game.Board.list_obstacles()
+    |> Enum.map(&struct(Obstacle, Map.merge(&1, @default)))
   end
 end

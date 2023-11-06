@@ -28,6 +28,26 @@ defmodule Game.StateTest do
 
       assert other_players |> Enum.find(&(&1.id === "2"))
     end
+
+    test "can get spawn" do
+      State.add_player("3", %{name: "three", x: 32, y: 32})
+      State.add_player("4", %{name: "four"})
+      assert {_, _} = State.get_free_spawn()
+    end
+
+    test "spawn fallback if board is full" do
+      # fill board
+      spawn_n(25)
+      {x, y} = State.get_free_spawn()
+      assert {x, y} == {32, 32}
+    end
+  end
+
+  defp spawn_n(0), do: :ok
+
+  defp spawn_n(n) do
+    State.add_player("spawned_#{n}", %{name: "spawned_name_#{n}"})
+    spawn_n(n - 1)
   end
 
   #####
