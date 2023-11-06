@@ -1,296 +1,296 @@
 [
-    {
-        "y": 16,
-        "x": 80,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 80,
-        "x": 80,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 32,
-        "x": 32,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 64,
-        "x": 0,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 80,
-        "x": 64,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 80,
-        "x": 16,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 96,
-        "x": 96,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 0,
-        "x": 96,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 16,
-        "x": 32,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 0,
-        "x": 48,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 32,
-        "x": 16,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 48,
-        "x": 0,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 48,
-        "x": 64,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 48,
-        "x": 16,
-        "sprite": "grass_flowers",
-        "obstacle": false
-    },
-    {
-        "y": 0,
-        "x": 32,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 48,
-        "x": 80,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 96,
-        "x": 80,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 32,
-        "x": 48,
-        "sprite": "grass_flowers",
-        "obstacle": false
-    },
-    {
-        "y": 0,
-        "x": 0,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 16,
-        "x": 48,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 0,
-        "x": 80,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 48,
-        "x": 48,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 96,
-        "x": 16,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 96,
-        "x": 48,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 96,
-        "x": 32,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 64,
-        "x": 48,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 96,
-        "x": 0,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 64,
-        "x": 16,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 96,
-        "x": 64,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 48,
-        "x": 32,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 0,
-        "x": 64,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 80,
-        "x": 32,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 16,
-        "x": 96,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 80,
-        "x": 48,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 16,
-        "x": 64,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 0,
-        "x": 16,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 32,
-        "x": 0,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 32,
-        "x": 64,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 80,
-        "x": 96,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 64,
-        "x": 96,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 64,
-        "x": 80,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 16,
-        "x": 16,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 48,
-        "x": 96,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 16,
-        "x": 0,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 64,
-        "x": 32,
-        "sprite": "grass",
-        "obstacle": false
-    },
-    {
-        "y": 80,
-        "x": 0,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 32,
-        "x": 96,
-        "sprite": "rock",
-        "obstacle": true
-    },
-    {
-        "y": 64,
-        "x": 64,
-        "sprite": "grass_flowers",
-        "obstacle": false
-    },
-    {
-        "y": 32,
-        "x": 80,
-        "sprite": "grass",
-        "obstacle": false
-    }
+	{
+		"y": 16,
+		"x": 80,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 80,
+		"x": 80,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 32,
+		"x": 32,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 64,
+		"x": 0,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 80,
+		"x": 64,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 80,
+		"x": 16,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 96,
+		"x": 96,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 0,
+		"x": 96,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 16,
+		"x": 32,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 0,
+		"x": 48,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 32,
+		"x": 16,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 48,
+		"x": 0,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 48,
+		"x": 64,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 48,
+		"x": 16,
+		"sprite": "grass_flowers",
+		"obstacle": false
+	},
+	{
+		"y": 0,
+		"x": 32,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 48,
+		"x": 80,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 96,
+		"x": 80,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 32,
+		"x": 48,
+		"sprite": "grass_flowers",
+		"obstacle": false
+	},
+	{
+		"y": 0,
+		"x": 0,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 16,
+		"x": 48,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 0,
+		"x": 80,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 48,
+		"x": 48,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 96,
+		"x": 16,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 96,
+		"x": 48,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 96,
+		"x": 32,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 64,
+		"x": 48,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 96,
+		"x": 0,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 64,
+		"x": 16,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 96,
+		"x": 64,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 48,
+		"x": 32,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 0,
+		"x": 64,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 80,
+		"x": 32,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 16,
+		"x": 96,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 80,
+		"x": 48,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 16,
+		"x": 64,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 0,
+		"x": 16,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 32,
+		"x": 0,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 32,
+		"x": 64,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 80,
+		"x": 96,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 64,
+		"x": 96,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 64,
+		"x": 80,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 16,
+		"x": 16,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 48,
+		"x": 96,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 16,
+		"x": 0,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 64,
+		"x": 32,
+		"sprite": "grass",
+		"obstacle": false
+	},
+	{
+		"y": 80,
+		"x": 0,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 32,
+		"x": 96,
+		"sprite": "rock",
+		"obstacle": true
+	},
+	{
+		"y": 64,
+		"x": 64,
+		"sprite": "grass_flowers",
+		"obstacle": false
+	},
+	{
+		"y": 32,
+		"x": 80,
+		"sprite": "grass",
+		"obstacle": false
+	}
 ]
