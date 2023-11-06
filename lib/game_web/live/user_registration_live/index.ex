@@ -17,13 +17,7 @@ defmodule GameWeb.UserRegistrationLive.Index do
   end
 
   @impl true
-  def handle_event(
-        "save",
-        %{"email" => email, "username" => username, "password" => password},
-        socket
-      ) do
-    user_params = %{"email" => email, "username" => username, "password" => password}
-
+  def handle_event("save", %{"user" => user_params}, socket) do
     case Accounts.register_user(user_params) do
       {:ok, user} ->
         {:ok, _} =
@@ -33,39 +27,25 @@ defmodule GameWeb.UserRegistrationLive.Index do
           )
 
         changeset = Accounts.change_user_registration(user)
-
-        socket
-        |> redirect(to: "/users/confirm")
-        |> assign_form(changeset)
-        |> reply(:noreply)
+        {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, socket |> assign_form(changeset)}
+        {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
     end
   end
 
-  def handle_event(
-        "validate",
-        %{"email" => email, "username" => username, "password" => password},
-        socket
-      ) do
-    user_params = %{"email" => email, "username" => username, "password" => password}
-
+  def handle_event("validate", %{"user" => user_params}, socket) do
     changeset = Accounts.change_user_registration(%User{}, user_params)
     {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
-    # form = to_form(changeset, as: "user")
+    form = to_form(changeset, as: "user")
 
-    IO.inspect(changeset)
-
-    # if changeset.valid? do
-    #   assign(socket, form: form, check_errors: false)
-    # else
-    #   assign(socket, form: form)
-    # end
-    socket
-    |> assign(form: changeset)
+    if changeset.valid? do
+      assign(socket, form: form, check_errors: false)
+    else
+      assign(socket, form: form)
+    end
   end
 end

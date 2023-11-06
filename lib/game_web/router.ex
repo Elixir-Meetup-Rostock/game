@@ -18,14 +18,20 @@ defmodule GameWeb.Router do
   end
 
   scope "/", GameWeb do
-    # pipe_through [:browser, :require_authenticated_user]
     pipe_through [:browser]
 
-    live "/", HomeLive.Index, :index
-    live "/lobby", LobbyLive.Index, :index
     live "/sign_up", SignupLive.Index, :index
 
     live "/movement", MovementLive.Index, :index
+  end
+
+  scope "/", GameWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live "/", HomeLive.Index, :index
+    # live "/lobby", LobbyLive.Index, :index
+
+    # live "/movement", MovementLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

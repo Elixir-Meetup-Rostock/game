@@ -7,13 +7,15 @@ defmodule GameWeb.HomeLive.Index do
   @topic_update "players_update"
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     Endpoint.subscribe(@topic_update)
 
-    form = to_form(%{"name" => nil}, as: "user")
+    IO.inspect(session)
+
+    # form = to_form(%{"name" => nil}, as: "user")
 
     socket
-    |> assign(form: form)
+    # |> assign(form: form)
     |> assign(players: State.list_players())
     |> reply(:ok)
   end

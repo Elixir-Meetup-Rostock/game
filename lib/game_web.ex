@@ -88,6 +88,7 @@ defmodule GameWeb do
 
       # Core UI components and translation
       import GameWeb.CoreComponents
+      import GameWeb.FormComponents
       import GameWeb.Gettext
 
       # Shortcut for generating JS commands
