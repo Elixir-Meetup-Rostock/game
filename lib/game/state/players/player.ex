@@ -13,6 +13,8 @@ defmodule Game.State.Players.Player do
     :name,
     x: 0,
     y: 0,
+    width: 16,
+    height: 16,
     hp: 100,
     speed: 1,
     actions: %{up: false, left: false, right: false, down: false, space: false}

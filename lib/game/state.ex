@@ -85,6 +85,27 @@ defmodule Game.State do
     Players.list() ++ Obstacles.list()
   end
 
+  def get_free_spawn() do
+    spawns = Game.Board.list_spawns()
+    players = Players.list()
+
+    Enum.find(spawns, &is_free(&1, players))
+    |> case do
+      %{x: x, y: y} ->
+        {x, y}
+
+      _ ->
+        puts_if_not_test("NO FREE SPAWN. Falling back")
+        {32, 32}
+    end
+  end
+
+  defp is_free(spawn, players) do
+    spawn
+    |> Game.Engine.detect_collisions_for_go(players)
+    |> Kernel.==([])
+  end
+
   def process_hits() do
     hits = Game.Engine.detect_hits(Projectiles.list(), Players.list())
 

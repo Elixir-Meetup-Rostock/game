@@ -10,7 +10,9 @@ defmodule Game.State.Obstacles.Obstacle do
     :id,
     :name,
     x: 0,
-    y: 0
+    y: 0,
+    width: 0,
+    height: 0
   ]
 
   @type t :: %__MODULE__{}

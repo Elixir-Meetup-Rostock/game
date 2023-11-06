@@ -13,6 +13,8 @@ defmodule Game.State.Projectiles.Projectile do
     :player_id,
     x: 0,
     y: 0,
+    width: 5,
+    height: 5,
     x_vector: 0,
     y_vector: 0,
     speed: 10,
