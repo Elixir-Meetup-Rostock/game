@@ -5,6 +5,8 @@ defmodule Game.Engine do
   @type game_object :: %{
           x: integer(),
           y: integer(),
+          width: integer(),
+          height: integer(),
           __struct__: atom(),
           id: integer() | String.t()
         }
