@@ -1,0 +1,20 @@
+{
+	"sprites": [
+		{
+			"id": "rock",
+			"src": "<BASE64>",
+			"frames": 4,
+			"width": 16,
+			"height": 16,
+			"obstacle": true
+		}
+	],
+	"map": [
+		{
+			"sprite": "rock",
+			"x": 0,
+			"y": 0,
+			"z": 0
+		}
+	]
+}
