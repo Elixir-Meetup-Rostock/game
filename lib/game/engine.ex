@@ -75,8 +75,7 @@ defmodule Game.Engine do
   """
   @spec detect_collisions_for_go(game_object(), list(game_object())) :: list(game_object())
   def detect_collisions_for_go(go, game_objects) do
-    game_objects
-    |> Enum.reduce([], fn x, acc ->
+    Enum.reduce(game_objects, [], fn x, acc ->
       if collides?(go, x), do: [x | acc], else: acc
     end)
   end
