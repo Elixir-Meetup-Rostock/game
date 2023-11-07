@@ -1,0 +1,76 @@
+{
+  "sprites": [
+    {
+      "id": "grass",
+      "src": "/images/sprites/grass.png"
+    },
+    {
+      "id": "rock",
+      "src": "/images/sprites/rock.png",
+      "obstacle": true
+    }
+  ],
+  "tiles": [
+    {
+      "sprite_id": "rock",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "sprite_id": "rock",
+      "x": 16,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "sprite_id": "rock",
+      "x": 32,
+      "y": 0,
+      "z": 0
+    },
+    {
+      "sprite_id": "rock",
+      "x": 0,
+      "y": 16,
+      "z": 0
+    },
+    {
+      "sprite_id": "grass",
+      "x": 16,
+      "y": 16,
+      "z": 0
+    },
+    {
+      "sprite_id": "rock",
+      "x": 32,
+      "y": 16,
+      "z": 0
+    },
+    {
+      "sprite_id": "rock",
+      "x": 0,
+      "y": 32,
+      "z": 0
+    },
+    {
+      "sprite_id": "rock",
+      "x": 16,
+      "y": 32,
+      "z": 0
+    },
+    {
+      "sprite_id": "rock",
+      "x": 32,
+      "y": 32,
+      "z": 0
+    }
+  ],
+  "spawns": [
+    {
+      "x": 16,
+      "y": 16,
+      "z": 0
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import Tile from "./board/tile"
 
 export default class Board {
   constructor(node, sprites, layers, player) {
+    this.frame = 0
     this.maxFps = 25
 
     this.zoom = 3
@@ -31,7 +32,7 @@ export default class Board {
   }
 
   drawFps() {
-    this.i++;
+    this.i++
     if (this.i % 5 === 0) {
       this.i = 0
       let now = performance.now()
@@ -39,14 +40,7 @@ export default class Board {
       this.fpsNow = now
     }
 
-    this.context.textBaseline = "top"
-    this.context.font = "5pt monospace"
-    this.context.fillStyle = "#dddddd"
-    this.context.beginPath()
-    this.context.rect(-50, -50, 60, 12)
-    this.context.fill()
-    this.context.fillStyle = "black"
-    this.context.fillText(`Client FPS: ${Math.round(this.fps)}`, -48, -48)
+    this.drawLabel(0, -48, `Client FPS: ${Math.round(this.fps)}`)
   }
 
   setLayers(layers) {
@@ -80,7 +74,11 @@ export default class Board {
     }
 
     for (let id in this.tiles) {
-      this.tiles[id].tick()
+      // animate only every second tick
+      this.frame = (this.frame + 1) % 2
+      if (this.frame == 0) {
+        this.tiles[id].tick()
+      }
     }
 
     this.animationFrameId = window.requestAnimationFrame(() => {
@@ -102,29 +100,30 @@ export default class Board {
   }
 
   drawLayer(tiles) {
-    tiles.map(({ id, x, y, sprite, size }) => {
-      const xPos = -this.player.x + x - (size / 2)
-      const yPos = -this.player.y + y - (size / 2)
+    tiles.map(({ id, sprite_id, x, y }) => {
+      const sprite = this.sprites[sprite_id]
+      const xPos = -this.player.x + x - (sprite.width / 2)
+      const yPos = -this.player.y + y - (sprite.height / 2)
 
-      if (!this.tiles[id]) {
-        this.tiles[id] = new Tile(this.sprites[sprite], size, frames)
-      }
-
-      this.context.drawImage(this.tiles[id].canvas, 0, 0, size, size, xPos, yPos, size, size)
+      this.drawTile(id, xPos, yPos, sprite)
     })
   }
 
-  drawPlayer({ id, name, sprite, size, frames }) {
-    const xPos = -(size / 2)
-    const yPos = -(size / 2)
+  drawPlayer({ id, sprite_id, name }) {
+    const sprite = this.sprites[sprite_id]
+    const xPos = -(sprite.width / 2)
+    const yPos = -(sprite.height / 2)
 
+    this.drawTile(id, xPos, yPos, sprite)
+    this.drawLabel(0, (sprite.height / 2) + 1, name)
+  }
+
+  drawTile(id, x, y, { img, width, height, frames }) {
     if (!this.tiles[id]) {
-      this.tiles[id] = new Tile(this.sprites[sprite], size, frames)
+      this.tiles[id] = new Tile(img, width, height, frames)
     }
 
-    this.context.drawImage(this.tiles[id].canvas, 0, 0, size, size, xPos, yPos, size, size)
-
-    this.drawLabel(0, (size / 2) + 1, name)
+    this.context.drawImage(this.tiles[id].canvas, 0, 0, width, height, x, y, width, height)
   }
 
   drawLabel(x, y, text) {

@@ -14,15 +14,17 @@ defmodule Game.State do
 
   use GenServer
 
+  alias Game.Map, as: GameMap
   alias Game.State.Players
   alias Game.State.Projectiles
-  alias Game.State.Obstacles
   alias Phoenix.PubSub
 
   @tick_speed 40
   @topic_tick "tick"
+  @map "default.json"
 
   def start_link(opts \\ []) do
+    GameMap.start()
     Projectiles.start()
     Players.start()
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
@@ -30,6 +32,8 @@ defmodule Game.State do
 
   @impl true
   def init(_opts) do
+    GameMap.load(@map)
+
     :timer.send_interval(@tick_speed, self(), :tick)
 
     {:ok, %{}}
@@ -82,7 +86,7 @@ defmodule Game.State do
   end
 
   def list_obstacles() do
-    Players.list() ++ Obstacles.list()
+    Players.list() ++ GameMap.list_obstacles()
   end
 
   def get_free_spawn() do

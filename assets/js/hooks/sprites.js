@@ -7,15 +7,15 @@ export default class Sprites {
 
     this.images = {}
 
-    sprites.forEach(({ key, file }) => {
+    sprites.forEach(({ id, src, width, height, frames }) => {
       const img = new Image()
       img.onload = () => {
         if (++loadedImages >= totalImages) { callback(this.images) }
       }
-      img.src = file
+      img.src = src
       // img.complete
 
-      this.images[key] = img
+      this.images[id] = { img, width, height, frames }
     })
   }
 }

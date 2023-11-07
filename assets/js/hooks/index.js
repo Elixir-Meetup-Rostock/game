@@ -6,7 +6,7 @@ import Sprites from "./sprites"
 import MapEditor from "./map_editor"
 
 export const Hooks = {
-  gameSprites: {
+  sprites: {
     mounted() {
       const node = this.el
       const sprites = JSON.parse(node.dataset.sprites)
@@ -17,7 +17,7 @@ export const Hooks = {
       })
     }
   },
-  gameDraw: {
+  draw: {
     mounted() {
       const node = this.el
       const layers = JSON.parse(node.dataset.layers)

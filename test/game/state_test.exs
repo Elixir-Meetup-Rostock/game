@@ -49,15 +49,4 @@ defmodule Game.StateTest do
     State.add_player("spawned_#{n}", %{name: "spawned_name_#{n}"})
     spawn_n(n - 1)
   end
-
-  #####
-
-  # setup do
-  #   {:ok, pid} = GenServer.start_link(MyApp.ScoreTableQueue, _init_args = nil)
-  #   {:ok, queue: pid}
-  # end
-
-  # test "pushes value in the queue", %{queue: queue} do
-  #   assert :ok == ScoreTableQueue.push(queue, [1,2,3,4])
-  # end
 end
