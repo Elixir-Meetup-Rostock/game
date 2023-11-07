@@ -12,6 +12,7 @@ defmodule Game.Board.Tiles.Tile do
   defstruct [
     :id,
     :sprite,
+    :name,
     x: 0,
     y: 0,
     size: @default_size,

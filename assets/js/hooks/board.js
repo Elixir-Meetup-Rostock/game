@@ -114,7 +114,7 @@ export default class Board {
     })
   }
 
-  drawPlayer({ id, sprite, size, frames }) {
+  drawPlayer({ id, name, sprite, size, frames }) {
     const xPos = -(size / 2)
     const yPos = -(size / 2)
 
@@ -123,5 +123,24 @@ export default class Board {
     }
 
     this.context.drawImage(this.tiles[id].canvas, 0, 0, size, size, xPos, yPos, size, size)
+
+    this.drawLabel(0, (size / 2) + 1, name)
+  }
+
+  drawLabel(x, y, text) {
+    this.context.font = "4px monospace"
+
+    const padding = 4
+    const boxWidth = this.context.measureText(text).width + padding
+
+    this.context.fillStyle = "rgba(255,255,255,0.5)"
+    this.context.beginPath()
+    this.context.roundRect(x - (boxWidth / 2), y, boxWidth, 6, [8])
+    this.context.fill()
+
+    this.context.fillStyle = "rgba(0,0,0)"
+    this.context.textAlign = "center"
+    this.context.textBaseline = "top"
+    this.context.fillText(text, x, y)
   }
 }

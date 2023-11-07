@@ -46,8 +46,8 @@ defmodule Game.Board do
     %Tiles.Tile{id: "map_#{x}_#{y}", x: x, y: y, sprite: sprite}
   end
 
-  defp get_tile(%State.Players.Player{id: id, x: x, y: y}) do
-    %Tiles.Tile{id: id, x: x, y: y, sprite: "player_blue", frames: 4}
+  defp get_tile(%State.Players.Player{id: id, name: name, x: x, y: y}) do
+    %Tiles.Tile{id: id, name: name, x: x, y: y, sprite: "player_blue", frames: 4}
   end
 
   defp get_tile(%State.Projectiles.Projectile{id: id, x: x, y: y}) do
