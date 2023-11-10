@@ -1,6 +1,5 @@
 "use strict";
 
-// import Projectile from "./board/projectile"
 import Tile from "./board/tile"
 
 export default class Board {

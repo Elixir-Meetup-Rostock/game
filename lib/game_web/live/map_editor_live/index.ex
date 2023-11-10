@@ -5,8 +5,6 @@ defmodule GameWeb.MapEditorLive.Index do
   @default_width 30
   @default_height 30
 
-  # @layers [:bottom, :top]
-
   @available_tiles [
     %{
       tile: :grass,
@@ -125,11 +123,8 @@ defmodule GameWeb.MapEditorLive.Index do
 
   defp assign_if_integer(socket, key, value) do
     case Integer.parse(value) do
-      {:error, _} ->
-        socket
-
-      {new_value, _} ->
-        assign(socket, key, new_value)
+      :error -> socket
+      {new_value, _} -> assign(socket, key, new_value)
     end
   end
 
@@ -142,7 +137,3 @@ defmodule GameWeb.MapEditorLive.Index do
     |> Map.get(:src)
   end
 end
-
-# TODO: nur updates statt ganze layer zum server senden
-# clear button
-# TODO: tile previews ohne radio menu --> tile hervorheben wenn ausgewählt (mit border outline oder 10% opacity color overlay)
