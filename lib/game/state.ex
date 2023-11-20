@@ -64,7 +64,14 @@ defmodule Game.State do
   end
 
   def add_player(id, data) do
-    data = data |> Map.put(:team, get_team_with_fewest_players())
+    spawn_position = get_free_spawn()
+
+    data =
+      data
+      |> Map.put(:team, get_team_with_fewest_players())
+      |> Map.put(:x, spawn_position |> elem(0))
+      |> Map.put(:y, spawn_position |> elem(1))
+
     Players.add(id, data)
   end
 
