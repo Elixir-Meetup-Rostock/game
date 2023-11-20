@@ -8,23 +8,19 @@ defmodule Game.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Telemetry supervisor
       GameWeb.Telemetry,
-      # Start the Ecto repository
       Game.Repo,
-      # Start the PubSub system
+      {DNSCluster, query: Application.get_env(:game, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Game.PubSub},
       GameWeb.Presence,
-
       # Start the State server
       {Game.State, name: Game.State},
-
-      # Start Finch
+      # Start the Finch HTTP client for sending emails
       {Finch, name: Game.Finch},
-      # Start the Endpoint (http/https)
-      GameWeb.Endpoint
       # Start a worker by calling: Game.Worker.start_link(arg)
-      # {Game.Worker, arg}
+      # {Game.Worker, arg},
+      # Start to serve requests, typically the last entry
+      GameWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

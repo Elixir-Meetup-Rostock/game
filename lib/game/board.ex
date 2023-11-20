@@ -1,51 +1,44 @@
 defmodule Game.Board do
   @moduledoc """
-  Holds all information to draw the board.
-  Here a player becomes a drawable tile with a layer, a position and a sprite.
+  Holds all information to draw the current state of the board in the frontend.
+  The board itself is structured in layers. Each Layer has a level (indicating it's z-index) and a list of tiles.
+            _________
+         __/        /
+      __/ /        /
+     / / /        /
+    / / /________/<-- The foreground of the map (hightest level)
+   / /________/<-- The layer with the player
+  /________/<-- The background of the map (lowest level)
+
   """
 
-  alias Game.Board.Map, as: BoardMap
-  alias Game.Board.Sprites
-  alias Game.Board.Tiles
+  alias Game.Map, as: GameMap
   alias Game.State
 
-  defdelegate list_sprites, to: Sprites, as: :list
+  defdelegate list_spawns, to: GameMap, as: :list_spawns
+  defdelegate list_sprites, to: GameMap, as: :list_sprites
 
   def get_layers(id) do
     [
-      %{level: -2, tiles: BoardMap.get()},
-      %{level: -1, tiles: State.list_other_players(id)},
+      %{level: -2, tiles: GameMap.list_tiles()},
+      %{level: -1, tiles: id |> State.list_other_players() |> get_tiles()},
       %{level: 0, tiles: []},
-      %{level: 1, tiles: State.list_projectiles()}
+      %{level: 1, tiles: State.list_projectiles() |> get_tiles()}
     ]
-    |> Enum.map(&get_tiles_for_layer/1)
   end
 
   def get_player(id) do
     id |> State.get_player() |> get_tile()
   end
 
-  defp get_tiles_for_layer(layer) do
-    Map.update!(layer, :tiles, &get_tiles/1)
-  end
+  defp get_tiles(list), do: Enum.map(list, &get_tile/1)
 
-  defp get_tiles(list) do
-    list
-    |> Enum.map(&get_tile/1)
-  end
-
-  defp get_tile({{x, y}, sprite}) do
-    size = 16
-
-    %Tiles.Tile{id: "map_#{x}_#{y}", x: x * size, y: y * size, sprite: sprite}
-  end
-
-  defp get_tile(%State.Players.Player{id: id, x: x, y: y}) do
-    %Tiles.Tile{id: id, x: x, y: y, sprite: "player_blue", frames: 4}
+  defp get_tile(%State.Players.Player{id: id, x: x, y: y, name: name}) do
+    %{id: id, sprite_id: "player_blue", x: x, y: y, name: name}
   end
 
   defp get_tile(%State.Projectiles.Projectile{id: id, x: x, y: y}) do
-    %Tiles.Tile{id: id, x: x, y: y, sprite: "projectile"}
+    %{id: id, sprite_id: "projectile", x: x, y: y}
   end
 
   defp get_tile(_), do: nil

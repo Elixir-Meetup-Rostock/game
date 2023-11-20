@@ -9,7 +9,7 @@ defmodule Game.BoardTest do
       sprites = Board.list_sprites()
 
       assert is_list(sprites)
-      assert sprites |> Enum.all?(&match?(%{file: _, key: _}, &1))
+      assert sprites |> Enum.all?(&match?(%{id: _, src: _}, &1))
     end
 
     test "get_layers/1 returns a list with each level and it's tiles" do

@@ -55,10 +55,11 @@ defmodule GameWeb.UserConfirmationLiveTest do
                "User confirmation link is invalid or it has expired"
 
       # when logged in
-      {:ok, lv, _html} =
+      conn =
         build_conn()
         |> log_in_user(user)
-        |> live(~p"/users/confirm/#{token}")
+
+      {:ok, lv, _html} = live(conn, ~p"/users/confirm/#{token}")
 
       result =
         lv

@@ -9,7 +9,7 @@ defmodule Game.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @doc """

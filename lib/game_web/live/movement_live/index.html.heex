@@ -1,31 +1,22 @@
-<div id="game" class="absolute inset-0" phx-window-keydown="keyDown" phx-window-keyup="keyUp">
-  <div
-    :if={!@loaded}
-    id="game-loading"
-    class="relative text-lg text-center -translate-y-1/2 top-1/2"
-  >
+<div class="absolute inset-0" phx-window-keydown="keyDown" phx-window-keyup="keyUp">
+  <div :if={!@loaded} id="loading" class="relative text-lg text-center -translate-y-1/2 top-1/2">
     LOADING
   </div>
-  <div id="game-sprites" phx-hook="gameSprites" data-sprites={Jason.encode!(@sprites)}></div>
+  <div id="sprites" phx-hook="sprites" data-sprites={Jason.encode!(@sprites)}></div>
   <canvas
     :if={@loaded}
-    id="game-canvas"
+    id="canvas"
     class="w-full h-full"
     phx-update="ignore"
-    phx-hook="gameDraw"
+    phx-hook="draw"
     phx-click="click"
     data-layers={Jason.encode!(@layers)}
     data-player={Jason.encode!(@player)}
   >
   </canvas>
-  <div
-    id="game-hud"
-    class="absolute bottom-0 left-0 right-0 z-50 px-2 py-1 text-white bg-orange-500"
-  >
-    <span id="game-hud-position">
-      <%= if @player do %>
-        <%= @player.x %> / <%= @player.y %>
-      <% end %>
+  <div class="absolute bottom-0 left-0 right-0 z-50 px-2 py-1 text-white bg-orange-500">
+    <span :if={@player}>
+      <%= @player.x %> / <%= @player.y %>
     </span>
   </div>
 </div>

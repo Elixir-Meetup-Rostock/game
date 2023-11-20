@@ -8,7 +8,7 @@ defmodule Game.Repo.Migrations.CreateUsersAuthTables do
       add :email, :citext, null: false
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
 
     create unique_index(:users, [:email])

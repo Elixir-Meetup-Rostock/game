@@ -4,19 +4,27 @@ defmodule Game.State do
 
   Does the game-tick and handles all state e.g. players, map, items.
   Calculates changes and invokes updates (if needed) on each tick.
+  ____________________
+  | FPS | tick_speed |
+  | 25  | 40         |
+  | 30  | 32         |
+  | 60  | 16         |
+  --------------------
   """
 
   use GenServer
 
+  alias Game.Map, as: GameMap
   alias Game.State.Players
   alias Game.State.Projectiles
-  alias Game.State.Obstacles
   alias Phoenix.PubSub
 
-  @tick_speed 16
+  @tick_speed 40
   @topic_tick "tick"
+  @map "default.json"
 
   def start_link(opts \\ []) do
+    GameMap.start()
     Projectiles.start()
     Players.start()
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
@@ -24,6 +32,8 @@ defmodule Game.State do
 
   @impl true
   def init(_opts) do
+    GameMap.load(@map)
+
     :timer.send_interval(@tick_speed, self(), :tick)
 
     {:ok, %{}}
@@ -76,7 +86,28 @@ defmodule Game.State do
   end
 
   def list_obstacles() do
-    Players.list() ++ Obstacles.list()
+    Players.list() ++ GameMap.list_obstacles()
+  end
+
+  def get_free_spawn() do
+    spawns = Game.Board.list_spawns()
+    players = Players.list()
+
+    Enum.find(spawns, &is_free(&1, players))
+    |> case do
+      %{x: x, y: y} ->
+        {x, y}
+
+      _ ->
+        puts_if_not_test("NO FREE SPAWN. Falling back")
+        {32, 32}
+    end
+  end
+
+  defp is_free(spawn, players) do
+    spawn
+    |> Game.Engine.detect_collisions_for_go(players)
+    |> Kernel.==([])
   end
 
   def process_hits() do

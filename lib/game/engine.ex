@@ -5,6 +5,8 @@ defmodule Game.Engine do
   @type game_object :: %{
           x: integer(),
           y: integer(),
+          width: integer(),
+          height: integer(),
           __struct__: atom(),
           id: integer() | String.t()
         }
@@ -75,18 +77,26 @@ defmodule Game.Engine do
   """
   @spec detect_collisions_for_go(game_object(), list(game_object())) :: list(game_object())
   def detect_collisions_for_go(go, game_objects) do
-    game_objects
-    |> Enum.reduce([], fn x, acc ->
+    Enum.reduce(game_objects, [], fn x, acc ->
       if collides?(go, x), do: [x | acc], else: acc
     end)
   end
 
-  @radius 20
   defp collides?(%{__struct__: s, id: id}, %{__struct__: s, id: id}), do: false
 
-  defp collides?(go1, go2) do
-    sqr_dist(go1, go2) < (2 * @radius) ** 2
+  defp collides?(%{x: x1, y: y1, width: w1, height: h1}, %{x: x2, y: y2, width: w2, height: h2}) do
+    c1 = x1 + w1 > x2
+    c2 = x1 < x2 + w2
+    c3 = y1 + h1 > y2
+    c4 = y1 < y2 + h2
+
+    c1 && c2 && c3 && c4
   end
+
+  # @radius 8
+  # defp collides?(go1, go2) do
+  #  sqr_dist(go1, go2) < (2 * @radius) ** 2
+  # end
 
   defp sqr_dist(%{x: x1, y: y1}, %{x: x2, y: y2}) do
     (x1 - x2) ** 2 + (y1 - y2) ** 2
