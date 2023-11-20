@@ -55,39 +55,26 @@
     <.form
       for={@form}
       id="login_form"
-      action={~p"/users/register"}
-      phx-update="ignore"
-      phx-submit="save"
-      phx-change="validate"
-      class="text-gray flex flex-col items-start w-full mt-10"
+      action={~p"/users/log_in?_action=registered"}
+      method="post"
+      phx-trigger-action={@trigger_submit}
+      class="text-gray flex flex-col items-start w-full mt-10 relative"
     >
-      <label for="email" class="text-white mb-2">Email</label>
-      <input
+      <.form_input
         type="email"
-        name="email"
-        id="email"
-        class="w-full px-6 py-5 placeholder:text-gray/75"
+        field={@form[:email]}
+        label="Email"
         placeholder="alchemy_god@email.com"
         required
       />
 
-      <label for="password" class="text-white mb-2 mt-8">Password</label>
-      <input
-        name="password"
+      <.form_input
         type="password"
+        field={@form[:password]}
         label="Password"
         placeholder="Password"
-        class="w-full px-6 py-5 placeholder:text-gray/75 mb-10"
         required
       />
-      <%!-- <p :if={@form.errors && @form.changes} class="text-red-500 text-sm mt-4">
-        Please enter valid credentials
-      </p> --%>
-
-      <%!-- <div class="flex items-center">
-        <input name="remember_me" type="checkbox" class="text-white" />
-        <label for="remember_me" class="text-white mr-2">Remember me</label>
-      </div> --%>
 
       <.link href={~p"/users/reset_password"} class="text-sm font-semibold text-white">
         Forgot your password?
@@ -95,7 +82,7 @@
 
       <button
         phx-disable-with="Signing in..."
-        class="text-white w-96 py-6 bg-blue mx-auto shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75 uppercase"
+        class="mt-10 text-white w-96 py-6 bg-blue mx-auto shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75 uppercase"
       >
         Sign in
       </button>

@@ -33,8 +33,12 @@ defmodule Game.Board do
 
   defp get_tiles(list), do: Enum.map(list, &get_tile/1)
 
-  defp get_tile(%State.Players.Player{id: id, x: x, y: y, name: name}) do
+  defp get_tile(%State.Players.Player{id: id, x: x, y: y, name: name, team: :blue}) do
     %{id: id, sprite_id: "player_blue", x: x, y: y, name: name}
+  end
+
+  defp get_tile(%State.Players.Player{id: id, x: x, y: y, name: name, team: :green}) do
+    %{id: id, sprite_id: "player_green", x: x, y: y, name: name}
   end
 
   defp get_tile(%State.Projectiles.Projectile{id: id, x: x, y: y}) do

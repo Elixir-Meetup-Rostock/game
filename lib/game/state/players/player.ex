@@ -23,6 +23,10 @@ defmodule Game.State.Players.Player do
 
   @type t :: %__MODULE__{}
 
+  def set_team(%__MODULE__{} = player, team) do
+    put_in(player, [:team], team)
+  end
+
   def set_action(%__MODULE__{} = player, action, state)
       when action in [:up, :left, :right, :down, :space] do
     put_in(player, [Access.key!(:actions), Access.key!(action)], state)

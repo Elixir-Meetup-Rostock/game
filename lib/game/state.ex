@@ -64,6 +64,7 @@ defmodule Game.State do
   end
 
   def add_player(id, data) do
+    data = data |> Map.put(:team, get_team_with_fewest_players())
     Players.add(id, data)
   end
 
@@ -108,6 +109,30 @@ defmodule Game.State do
     spawn
     |> Game.Engine.detect_collisions_for_go(players)
     |> Kernel.==([])
+  end
+
+  def list_teams() do
+    Players.list()
+    # always add blue and green
+    |> Enum.map(& &1.team)
+    |> Enum.concat([:blue, :green])
+    |> Enum.uniq()
+  end
+
+  defp get_team_with_fewest_players() do
+    teams = list_teams()
+
+    teams
+    |> Enum.map(fn team -> {team, count_players(team)} end)
+    |> Enum.sort_by(fn {_, count} -> count end)
+    |> List.first()
+    |> elem(0)
+  end
+
+  defp count_players(team) do
+    Players.list()
+    |> Enum.filter(fn player -> player.team == team end)
+    |> Enum.count()
   end
 
   def process_hits() do

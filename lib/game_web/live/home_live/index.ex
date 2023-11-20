@@ -1,6 +1,7 @@
 defmodule GameWeb.HomeLive.Index do
   use GameWeb, :live_view
 
+  alias Game.Accounts
   alias Game.State
   alias GameWeb.Endpoint
 
@@ -10,13 +11,9 @@ defmodule GameWeb.HomeLive.Index do
   def mount(_params, session, socket) do
     Endpoint.subscribe(@topic_update)
 
-    IO.inspect(session)
-
-    # form = to_form(%{"name" => nil}, as: "user")
-
     socket
-    # |> assign(form: form)
     |> assign(players: State.list_players())
+    |> assign(me: Accounts.get_user_by_session_token(session["user_token"]))
     |> reply(:ok)
   end
 
