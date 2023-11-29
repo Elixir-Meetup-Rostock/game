@@ -22,8 +22,6 @@ defmodule GameWeb.Router do
 
     live "/sign_up", SignupLive.Index, :index
 
-    live "/movement", MovementLive.Index, :index
-
     live "/map_editor", MapEditorLive.Index, :index
   end
 
@@ -31,9 +29,12 @@ defmodule GameWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live "/", HomeLive.Index, :index
-    # live "/lobby", LobbyLive.Index, :index
+  end
 
-    # live "/movement", MovementLive.Index, :index
+  scope "/", GameWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live "/movement", MovementLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
