@@ -17,10 +17,15 @@ defmodule Game.State.Players.Player do
     height: 16,
     hp: 100,
     speed: 1,
+    team: nil,
     actions: %{up: false, left: false, right: false, down: false, space: false}
   ]
 
   @type t :: %__MODULE__{}
+
+  def set_team(%__MODULE__{} = player, team) do
+    put_in(player, [:team], team)
+  end
 
   def set_action(%__MODULE__{} = player, action, state)
       when action in [:up, :left, :right, :down, :space] do

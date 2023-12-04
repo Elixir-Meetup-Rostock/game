@@ -3,3 +3,14 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+body > div {
+	min-height: 100vh;
+	min-width: 100vw;
+	max-width: 100vw;
+}
+
+@font-face {
+	font-family: "PressStart2P";
+	src: url("../fonts/PressStart2P-Regular.ttf");
+}

@@ -1,4 +1,5 @@
 defmodule GameWeb.MovementLive.Index do
+  alias Game.Accounts
   use GameWeb, :live_view
 
   alias Game.Board
@@ -11,10 +12,19 @@ defmodule GameWeb.MovementLive.Index do
   @topic_tick "tick"
 
   @impl true
-  def mount(%{"user" => %{"name" => name}}, _session, socket) do
+  def mount(_params, session, socket) do
     if connected?(socket) do
-      data = %{name: name}
+      connecting_user = Accounts.get_user_by_session_token(session["user_token"])
+
+      data = %{
+        name: connecting_user.username
+      }
+
       Presence.track(self(), @topic_presence, socket.id, data)
+
+      # TODO: remove player if they leave the game or connect from another tab
+      # if connecting_user do
+      # end
 
       State.add_player(socket.id, data)
 

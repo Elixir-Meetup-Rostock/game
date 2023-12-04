@@ -21,7 +21,7 @@ export default class Board {
 
     this.animationFrameId = undefined
 
-    window.addEventListener("resize", _e => { this.resize() })
+    window.addEventListener("resize", (_e) => { this.resize() })
     this.resize()
 
     setInterval(this.draw.bind(this), 1000 / this.maxFps)

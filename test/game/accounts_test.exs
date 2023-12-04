@@ -97,21 +97,23 @@ defmodule Game.AccountsTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:password, :username, :email]
     end
 
     test "allows fields to be set" do
       email = unique_user_email()
+      username = unique_user_name()
       password = valid_user_password()
 
       changeset =
         Accounts.change_user_registration(
           %User{},
-          valid_user_attributes(email: email, password: password)
+          valid_user_attributes(email: email, username: username, password: password)
         )
 
       assert changeset.valid?
       assert get_change(changeset, :email) == email
+      assert get_change(changeset, :username) == username
       assert get_change(changeset, :password) == password
       assert is_nil(get_change(changeset, :hashed_password))
     end

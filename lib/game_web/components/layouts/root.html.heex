@@ -4,15 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
-      <%= assigns[:page_title] || "Game" %>
+    <.live_title suffix=" · WAREX">
+      <%= assigns[:page_title] || "WAREX Game" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <body class="antialiased bg-white">
-    <ul class="relative z-10 flex items-center justify-end gap-4 px-4 sm:px-6 lg:px-8">
+  <body class="antialiased bg-white font-PressStart2P min-h-screen w-screen h-full flex items-center justify-center">
+    <%!-- <ul class="relative z-10 flex items-center justify-end gap-4 px-4 sm:px-6 lg:px-8">
       <li>
         <.link
           href={~p"/"}
@@ -60,7 +60,7 @@
           </.link>
         </li>
       <% end %>
-    </ul>
+    </ul> --%>
     <%= @inner_content %>
   </body>
 </html>
