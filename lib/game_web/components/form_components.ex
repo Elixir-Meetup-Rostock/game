@@ -3,7 +3,7 @@ defmodule GameWeb.FormComponents do
   # alias Phoenix.LiveView.JS
   # import GameWeb.Gettext
 
-  import GameWeb.CoreComponents, only: [label: 1, error: 1, translate_error: 1]
+  import GameWeb.CoreComponents, only: [error: 1, translate_error: 1]
 
   attr :id, :any, default: nil
   attr :name, :any
@@ -41,7 +41,7 @@ defmodule GameWeb.FormComponents do
 
   def form_input(assigns) do
     ~H"""
-    <div class="w-full flex flex-col items-start" phx-feedback-for={@name}>
+    <div class="flex flex-col items-start w-full" phx-feedback-for={@name}>
       <.form_label for={@id}><%= @label %></.form_label>
       <input
         type={@type}
@@ -68,7 +68,7 @@ defmodule GameWeb.FormComponents do
 
   def form_label(assigns) do
     ~H"""
-    <label for={@for} class="text-white mb-2 mt-6">
+    <label for={@for} class="mt-6 mb-2 text-white">
       <%= render_slot(@inner_block) %>
     </label>
     """

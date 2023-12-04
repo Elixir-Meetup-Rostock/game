@@ -40,10 +40,6 @@ defmodule GameWeb.MovementLive.Index do
     |> reply(:ok)
   end
 
-  def mount(_params, _session, socket) do
-    socket |> redirect(to: ~p"/") |> reply(:ok)
-  end
-
   @impl true
   def handle_event("sprites_loaded", _params, socket) do
     socket
