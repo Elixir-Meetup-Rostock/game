@@ -1,0 +1,17 @@
+Postgres cluster warex-db created
+  Username:    postgres
+  Password:    xjik3pYORBrCyzQ
+  Hostname:    warex-db.internal
+  Flycast:     fdaa:3:64c1:0:1::3
+  Proxy port:  5432
+  Postgres port:  5433
+  Connection string: postgres://postgres:xjik3pYORBrCyzQ@warex-db.flycast:5432
+
+Save your credentials in a secure place -- you won't be able to see them again!
+
+Provisioning ips for warex
+  Dedicated ipv6: 2a09:8280:1::5b:acf5
+  Shared ipv4: 66.241.125.58
+  Add a dedicated ipv4 with: fly ips allocate-v4
+
+Running warex release_command: /app/bin/migrate
