@@ -145,11 +145,39 @@ defmodule Game.State do
   def process_hits() do
     hits = Game.Engine.detect_hits(Projectiles.list(), Players.list())
 
-    for {_hitter, hits} <- hits do
+    for {hitter, hits} <- hits do
       case hits do
-        [] -> nil
-        hits -> hits |> Enum.each(&puts_if_not_test("hit on " <> inspect(&1)))
+        [] ->
+          nil
+
+        hits ->
+          hits |> Enum.each(&maybe_damage_player(hitter, &1))
+          #  Enum.each(&puts_if_not_test("hit on " <> inspect(&1)))
       end
+    end
+  end
+
+  defp maybe_damage_player({_projectile, _id}, player) do
+    # IO.inspect(projectile)
+    # IO.inspect(player)
+
+    # case projectile.player_id == player.id do
+    #   true ->
+    #     nil
+
+    #   false ->
+    damage_player(player.id, 100)
+    # end
+  end
+
+  def damage_player(id, amount) do
+    player = get_player(id)
+    new_hp = player.hp - amount
+
+    if new_hp <= 0 do
+      remove_player(id)
+    else
+      Players.update(id, %{hp: new_hp})
     end
   end
 

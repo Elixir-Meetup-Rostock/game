@@ -85,9 +85,26 @@ defmodule GameWeb.MovementLive.Index do
 
   def handle_info(:tick, socket) do
     socket
+    |> is_alive?()
+    |> maybe_do_tick(socket)
+    |> reply(:noreply)
+  end
+
+  defp is_alive?(socket) do
+    Board.get_player(socket.id) != nil
+  end
+
+  defp maybe_do_tick(true, socket) do
+    socket
     |> assign(layers: Board.get_layers(socket.id))
     |> assign(player: Board.get_player(socket.id))
-    |> reply(:noreply)
+  end
+
+  defp maybe_do_tick(false, socket) do
+    IO.inspect("Player died")
+
+    socket
+    |> redirect(to: "/")
   end
 
   defp get_key_action("ArrowUp"), do: :up

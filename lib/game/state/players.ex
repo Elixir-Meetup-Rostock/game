@@ -40,6 +40,17 @@ defmodule Game.State.Players do
     player
   end
 
+  def update(id, data, name \\ __MODULE__) do
+    Agent.update(
+      name,
+      fn state ->
+        Map.update!(state, id, fn player ->
+          Map.merge(player, data)
+        end)
+      end
+    )
+  end
+
   def remove(id, name \\ __MODULE__) do
     Agent.update(name, &Map.delete(&1, id))
 
