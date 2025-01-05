@@ -1,5 +1,5 @@
 defmodule GameWeb.UserSettingsLiveTest do
-  use GameWeb.ConnCase
+  use GameWeb.ConnCase, async: true
 
   alias Game.Accounts
   import Phoenix.LiveViewTest

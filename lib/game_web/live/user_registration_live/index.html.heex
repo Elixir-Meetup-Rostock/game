@@ -1,11 +1,11 @@
-<div class="w-full grid grid-cols-3 mx-auto bg-gray text-white text-center p-6">
+<div class="grid w-full grid-cols-3 p-6 mx-auto text-center text-white bg-gray">
   <div class="flex flex-col justify-between">
-    <img src="/images/character_walking_blue.png" class="mx-auto mt-20 w-64 h-64 " alt="" />
+    <img src="/images/character_walking_blue.png" class="w-64 h-64 mx-auto mt-20 " alt="" />
     <div class="flex flex-col items-start text-start">
       <p>
         Follow the<br /> development<br /> of WAREX:
       </p>
-      <div class="flex text-white my-3">
+      <div class="flex my-3 text-white">
         <.link
           href="https://github.com/Elixir-Meetup-Rostock/game"
           target="_blank"
@@ -48,8 +48,8 @@
     </div>
   </div>
 
-  <div class="flex flex-col justify-center items-center h-full">
-    <h1 class="text-7xl mb-6">WAREX</h1>
+  <div class="flex flex-col items-center justify-center h-full">
+    <h1 class="mb-6 text-7xl">WAREX</h1>
     <p class="mb-4">Welcome to the battle of Elixaal!</p>
     <p>Master the art of Arrows and Swords in our
       new mass multiplayer combat game.</p>
@@ -62,7 +62,7 @@
       phx-submit="save"
       phx-change="validate"
       phx-trigger-action={@trigger_submit}
-      class="text-gray flex flex-col items-start w-full mt-10 relative"
+      class="relative flex flex-col items-start w-full mt-10 text-gray"
     >
       <.form_input
         type="email"
@@ -87,30 +87,30 @@
         placeholder="Password"
         required
       />
-      <%!-- <p :if={@form.errors && @form.changes} class="text-red-500 text-sm mt-4">
+      <%!-- <p :if={@form.errors && @form.changes} class="mt-4 text-sm text-red-500">
         Please enter valid credentials
       </p> --%>
 
       <button
         phx-disable-with="Signing in..."
-        class="mt-10 text-white w-96 py-6 bg-blue mx-auto shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75 uppercase"
+        class="py-6 mx-auto mt-10 text-white uppercase w-96 bg-blue shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75"
       >
         Register
       </button>
 
-      <p class="mt-10 text-white mx-auto">
+      <p class="mx-auto mt-10 text-white">
         Have an account?
-        <.link href={~p"/users/log_in"} class="text-green-vibrant underline">
-          Sign In
+        <.link navigate={~p"/users/log_in"} class="underline text-green-vibrant">
+          Log in
         </.link>
       </p>
     </.form>
   </div>
   <div class="flex flex-col justify-between">
-    <img src="/images/character_walking_green.png" class="mx-auto mt-20 w-64 h-64 " alt="" />
+    <img src="/images/character_walking_green.png" class="w-64 h-64 mx-auto mt-20 " alt="" />
     <.link
       phx-disable-with="Signing in..."
-      class="text-white w-fit ml-auto px-8 py-6 bg-blue-light shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75 uppercase"
+      class="px-8 py-6 ml-auto text-white uppercase w-fit bg-blue-light shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75"
     >
       Play as guest
     </.link>

@@ -1,5 +1,5 @@
 defmodule GameWeb.UserConfirmationInstructionsLiveTest do
-  use GameWeb.ConnCase
+  use GameWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
   import Game.AccountsFixtures

@@ -42,7 +42,7 @@ defmodule GameWeb.FormComponents do
   def form_input(assigns) do
     ~H"""
     <div class="flex flex-col items-start w-full" phx-feedback-for={@name}>
-      <.form_label for={@id}><%= @label %></.form_label>
+      <.form_label for={@id}>{@label}</.form_label>
       <input
         type={@type}
         name={@name}
@@ -55,7 +55,7 @@ defmodule GameWeb.FormComponents do
         ]}
         {@rest}
       />
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <.error :for={msg <- @errors}>{msg}</.error>
     </div>
     """
   end
@@ -69,7 +69,7 @@ defmodule GameWeb.FormComponents do
   def form_label(assigns) do
     ~H"""
     <label for={@for} class="mt-6 mb-2 text-white">
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </label>
     """
   end

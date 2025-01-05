@@ -42,8 +42,9 @@ defmodule GameWeb do
         formats: [:html, :json],
         layouts: [html: GameWeb.Layouts]
 
+      use Gettext, backend: GameWeb.Gettext
+
       import Plug.Conn
-      import GameWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -81,15 +82,17 @@ defmodule GameWeb do
 
   defp html_helpers do
     quote do
+      # Translation
+      use Gettext, backend: GameWeb.Gettext
+
       # HTML escaping functionality
       import Phoenix.HTML
 
-      import Extension.Phoenix.Socket
+      import Reply
 
-      # Core UI components and translation
+      # Core UI components
       import GameWeb.CoreComponents
       import GameWeb.FormComponents
-      import GameWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
@@ -109,7 +112,7 @@ defmodule GameWeb do
   end
 
   @doc """
-  When used, dispatch to the appropriate controller/view/etc.
+  When used, dispatch to the appropriate controller/live_view/etc.
   """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])

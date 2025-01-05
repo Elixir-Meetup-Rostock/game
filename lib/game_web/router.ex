@@ -18,9 +18,9 @@ defmodule GameWeb.Router do
   end
 
   scope "/", GameWeb do
-    pipe_through [:browser]
+    pipe_through :browser
 
-    live "/sign_up", SignupLive.Index, :index
+    get "/example", PageController, :home
 
     live "/map_editor", MapEditorLive.Index, :index
   end
@@ -29,10 +29,6 @@ defmodule GameWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live "/", HomeLive.Index, :index
-  end
-
-  scope "/", GameWeb do
-    pipe_through [:browser, :require_authenticated_user]
 
     live "/movement", MovementLive.Index, :index
   end

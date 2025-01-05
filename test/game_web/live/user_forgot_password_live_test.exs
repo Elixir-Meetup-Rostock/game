@@ -1,5 +1,5 @@
 defmodule GameWeb.UserForgotPasswordLiveTest do
-  use GameWeb.ConnCase
+  use GameWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
   import Game.AccountsFixtures

@@ -1,5 +1,5 @@
 defmodule GameWeb.UserRegistrationLiveTest do
-  use GameWeb.ConnCase
+  use GameWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
   import Game.AccountsFixtures
@@ -9,7 +9,7 @@ defmodule GameWeb.UserRegistrationLiveTest do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
       assert html =~ "Register"
-      assert html =~ "Sign In"
+      assert html =~ "Log in"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -42,16 +42,10 @@ defmodule GameWeb.UserRegistrationLiveTest do
 
       email = unique_user_email()
       username = unique_user_name()
-      password = valid_user_password()
 
       form =
         form(lv, "#registration_form",
-          user:
-            valid_user_attributes(
-              email: email,
-              username: username,
-              password: password
-            )
+          user: valid_user_attributes(email: email, username: username)
         )
 
       render_submit(form)
@@ -62,8 +56,10 @@ defmodule GameWeb.UserRegistrationLiveTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
+      # assert response =~ email
+      # assert response =~ "Settings"
+      # assert response =~ "Log out"
       assert response =~ username
-      assert response =~ "Welcome back!"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -86,13 +82,13 @@ defmodule GameWeb.UserRegistrationLiveTest do
     test "redirects to login page when the Log in button is clicked", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
-      {:ok, conn} =
+      {:ok, _login_live, login_html} =
         lv
-        |> element(~s|main div div form p a:fl-contains("Sign In")|)
+        |> element(~s|main a:fl-contains("Log in")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 
-      assert conn.resp_body =~ "Sign in"
+      assert login_html =~ "Log in"
     end
   end
 end

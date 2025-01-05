@@ -1,66 +1,66 @@
-<div class="relative w-full h-screen flex flex-col mx-auto bg-gray text-white text-center p-6">
+<div class="relative flex flex-col w-full h-screen p-6 mx-auto text-center text-white bg-gray">
   <%!-- navbar --%>
   <div class="w-full h-10 bg-white"></div>
-  <div class=" mx-auto grid content-center grid-cols-3 w-fit gap-0 mt-10">
-    <img src="/images/character_walking_blue.png" class="mx-auto w-64 h-64 " alt="" />
-    <div class="flex flex-col justify-center items-center h-full">
-      <h1 class="text-7xl mb-6">WAREX</h1>
+  <div class="grid content-center grid-cols-3 gap-0 mx-auto mt-10  w-fit">
+    <img src="/images/character_walking_blue.png" class="w-64 h-64 mx-auto " alt="" />
+    <div class="flex flex-col items-center justify-center h-full">
+      <h1 class="mb-6 text-7xl">WAREX</h1>
       <div class="flex items-center">
         <p class="">Welcome back!</p>
-        <p class="bg-gray-light relative p-2 ml-2">
-          <%= @me.username %>
+        <p class="relative p-2 ml-2 bg-gray-light">
+          {@me.username}
         </p>
       </div>
     </div>
-    <img src="/images/character_walking_green.png" class="mx-auto w-64 h-64 " alt="" />
+    <img src="/images/character_walking_green.png" class="w-64 h-64 mx-auto " alt="" />
   </div>
   <p class="mt-10">Choose your gamemode</p>
-  <div class="w-fit grid grid-cols-2 gap-x-10 mt-10 mx-auto">
+  <div class="grid grid-cols-2 mx-auto mt-10 w-fit gap-x-10">
     <div class="flex flex-col">
       <div class="relative">
-        <div class="absolute top-0 left-0 right-0 bottom-0 z-10 pointer-events-none flex justify-center items-center bg-black/60">
+        <div class="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center pointer-events-none bg-black/60">
           <p class="uppercase -rotate-[25deg] text-xl">coming soon</p>
         </div>
         <img src="/images/map_preview.webp" class="w-72 h-72" />
-        <div class="absolute flex justify-center items-center bottom-0 left-0 right-0 bg-black/50">
-          <p class="py-6 px-2 text-xl">FFA</p>
+        <div class="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-black/50">
+          <p class="px-2 py-6 text-xl">FFA</p>
         </div>
       </div>
       <p class="mt-4">0 Players<br /> active</p>
     </div>
 
     <div class="flex flex-col group ">
-      <.link href="/movement" class="relative hover:cursor-pointer overflow-hidden w-72 h-72">
+      <.link href="/movement" class="relative overflow-hidden hover:cursor-pointer w-72 h-72">
         <img
           src="/images/map_preview.webp"
-          class="w-72 h-72 group-hover:scale-110 transition-all duration-500 ease-in-out"
+          class="transition-all duration-500 ease-in-out w-72 h-72 group-hover:scale-110"
         />
-        <div class="absolute flex justify-center items-center bottom-0 left-0 right-0 bg-black/50">
-          <p class="py-6 px-2 text-xl group-hover:py-8 group-hover: transition-all duration-150 ease-in-out">
+        <div class="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-black/50">
+          <p class="px-2 py-6 text-xl transition-all duration-150 ease-in-out group-hover:py-8 group-hover:">
             Teams
           </p>
         </div>
       </.link>
-      <p class="mt-4"><%= @player_count %> Players<br />active</p>
+      <p class="mt-4">{@player_count} Players<br />active</p>
     </div>
   </div>
   <%!--
-  <div class="flex flex-col justify-between absolute bottom-0 left-0 right-0 p-6">
+  <div class="absolute bottom-0 left-0 right-0 flex flex-col justify-between p-6">
     <.link
       phx-disable-with="Signing in..."
-      class="text-white w-fit ml-auto px-8 py-6 bg-blue-light shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75 uppercase"
+      class="px-8 py-6 ml-auto text-white uppercase w-fit bg-blue-light shadow-hard shadow-black hover:bg-blue/75 hover:shadow-black/75"
     >
       Play as guest
     </.link>
   </div> --%>
 
-  <div class="w-full flex flex-col items-start justify-start absolute bottom-0 left-0 p-6">
+  <div class="absolute bottom-0 left-0 flex flex-col items-start justify-start w-full p-6">
     <div class="flex flex-col items-start text-start">
       <p>
         Elixir Meetup Rostock
       </p>
     </div>
-    <div class="flex text-white my-3">
+    <div class="flex my-3 text-white">
       <.link
         href="https://github.com/Elixir-Meetup-Rostock/game"
         target="_blank"

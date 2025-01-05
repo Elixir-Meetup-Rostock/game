@@ -1,5 +1,5 @@
 defmodule GameWeb.UserLoginLiveTest do
-  use GameWeb.ConnCase
+  use GameWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
   import Game.AccountsFixtures
@@ -8,8 +8,8 @@ defmodule GameWeb.UserLoginLiveTest do
     test "renders log in page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/log_in")
 
-      assert html =~ "Sign in"
-      assert html =~ "Sign Up"
+      assert html =~ "Log in"
+      assert html =~ "Sign up"
       assert html =~ "Forgot your password?"
     end
 
@@ -61,13 +61,13 @@ defmodule GameWeb.UserLoginLiveTest do
     test "redirects to registration page when the Register button is clicked", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/log_in")
 
-      {:ok, conn} =
+      {:ok, _login_live, login_html} =
         lv
-        |> element(~s|main a:fl-contains("Sign Up")|)
+        |> element(~s|main a:fl-contains("Sign up")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert conn.resp_body =~ "Register"
+      assert login_html =~ "Register"
     end
 
     test "redirects to forgot password page when the Forgot Password button is clicked", %{

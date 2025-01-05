@@ -32,28 +32,36 @@ defmodule Game.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dns_cluster, "~> 0.1.1"},
       {:ecto_sql, "~> 3.10"},
-      {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
-      {:ex_doc, "~> 0.30.3", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false},
+      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:finch, "~> 0.13"},
       {:floki, ">= 0.30.0", only: :test},
-      {:gettext, "~> 0.20"},
+      {:gettext, "~> 0.26"},
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.1.1",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1},
       {:jason, "~> 1.2"},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:phoenix_ecto, "~> 4.4"},
-      {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_dashboard, "~> 0.8.2"},
+      {:phoenix_ecto, "~> 4.5"},
+      {:phoenix_html, "~> 4.1"},
+      {:phoenix_live_dashboard, "~> 0.8.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.20.1"},
-      {:phoenix, "~> 1.7.9"},
-      {:plug_cowboy, "~> 2.5"},
+      {:phoenix_live_view, "~> 1.0.0"},
+      {:phoenix, "~> 1.7.18"},
       {:postgrex, ">= 0.0.0"},
-      {:swoosh, "~> 1.3"},
-      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
-      {:telemetry_metrics, "~> 0.6"},
+      {:reply, "~> 1.0"},
+      {:swoosh, "~> 1.5"},
+      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"}
     ]
   end
@@ -71,8 +79,12 @@ defmodule Game.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.build": ["tailwind game", "esbuild game"],
+      "assets.deploy": [
+        "tailwind game --minify",
+        "esbuild game --minify",
+        "phx.digest"
+      ]
     ]
   end
 end
